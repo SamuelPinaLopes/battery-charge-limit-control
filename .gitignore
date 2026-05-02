@@ -1,4 +1,5 @@
-*.log 
+*.log
 *.env
 *.service
-test-*.py 
+test-*.py
+knowledge/

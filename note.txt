@@ -1,0 +1,59 @@
+The Problem to Solve
+You have three separate scenarios where your charge limit might reset:
+
+Make sure your program will find the correct battery name inside /sys/class/power_supply/;
+
+Cold boot (power off → power on);
+
+Reboot (kernel reloads all drivers);
+
+Resume from hibernation (restoring from disk);
+
+Each requires a different "hook" in the system. Your program needs to know when these events happen.
+
+
+
+
+
+
+c++ filesystem library
+What you want	        Code
+    Check if exists	        fs::exists(path)
+    Is it a directory?	    fs::is_directory(path)
+    Get filename	        path.filename()
+    Get parent folder	    path.parent_path()
+    Get extension	        path.extension()
+    List directory	        for (auto& item : fs::directory_iterator(path))
+    Create directory	    fs::create_directory(path)
+    Delete file	            fs::remove(path)
+
+
+
+traditional approuch for looping through iterators
+#include <iostream>
+#include <filesystem>
+namespace fs = std::filesystem;
+
+int main() {
+    fs::path directoryPath = ".";  // Current directory
+    
+    // STEP 1: Create the iterator
+    fs::directory_iterator it(directoryPath);
+    // Now 'it' is like a bookmark pointing to the FIRST item in the directory
+    
+    // STEP 2: Get the first item
+    fs::directory_entry entry1 = *it;  // *it gets whatever 'it' is pointing to
+    std::cout << entry1.path().filename() << std::endl;
+    
+    // STEP 3: Move to the second item
+    ++it;  // Move the bookmark forward
+    fs::directory_entry entry2 = *it;
+    std::cout << entry2.path().filename() << std::endl;
+    
+    // STEP 4: Move to the third item
+    ++it;
+    fs::directory_entry entry3 = *it;
+    std::cout << entry3.path().filename() << std::endl;
+    
+    return 0;
+}
