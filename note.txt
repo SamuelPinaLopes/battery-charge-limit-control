@@ -66,3 +66,7 @@ case.
 
 # Single command compilation and run
 alias test='g++ program.cpp -o test && ./test'
+
+day: 3/ 5 / 2026 at morning/afternoon
+# how to know what type is it?
+use: typeid( variable ).name()

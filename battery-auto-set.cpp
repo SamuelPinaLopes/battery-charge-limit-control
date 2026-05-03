@@ -1,14 +1,13 @@
 #include <iostream>
 #include <filesystem>
 #include <vector>
-#include <iterator>
 
 
 using namespace std;
 
 
-vector<filesystem::path> get_directories(filesystem::path defaultPath) { // default path to look
-    vector<filesystem::path> all; // array of all directories inside default path
+vector<string> get_directories(filesystem::path defaultPath) { // default path to look
+    vector<string> all; // array of all directories inside default path
 
     filesystem::directory_iterator it(defaultPath); // starting the DIRECTORY_iterator and giving its start point
     filesystem::directory_iterator end;// ending the DIRECTORY_iterator and it has nothing, end == '' so you don't have to pass nothing.
@@ -17,25 +16,25 @@ vector<filesystem::path> get_directories(filesystem::path defaultPath) { // defa
         filesystem::directory_entry entry = *it; // entry is like a variable that recives the value that it is pointing
 
         if (entry.is_directory()) { // if is really a directory
-            all.push_back(entry.path().filename()); // adding all directories inside array to return
+            all.push_back(entry.path().filename().string()); // adding all directories inside array to return
         }
     }
 
-    return all;
+    return all; // returning the folders found inside power_supply
 }
 
 
-string power_supply_info("/sys/class/power_supply/");
+string power_supply("/sys/class/power_supply/");
 
 
 int main() {
 
-    vector<filesystem::path> directories(get_directories(power_supply_info)); // creating a vector with return of directories function
+    vector<string> directories(get_directories(power_supply)); // creating a vector with return of directories function
 
-    vector<filesystem::path>::iterator it; // iterator for indexing elements of directories array
+    vector<string>::iterator it; // iterator for indexing elements of directories array
 
-    for (it = directories.begin(); it != directories.end(); ++it) { // loop through
-        cout << "directory: " << *it << endl;
+    for (it = directories.begin(); it != directories.end(); ++it) { // loop through each folder inside the poewr_supply directory
+        cout << "directory: " << *it << "  type of: " << typeid(*it).name() << endl;
     }
 
     return 0;
