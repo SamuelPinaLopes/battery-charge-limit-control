@@ -3,3 +3,4 @@
 *.service
 test-*.py
 knowledge/
+test*

@@ -15,7 +15,7 @@ Each requires a different "hook" in the system. Your program needs to know when 
 
 
 
-
+day: 2/5/2026
 c++ filesystem library
 What you want	        Code
     Check if exists	        fs::exists(path)
@@ -57,3 +57,12 @@ int main() {
     
     return 0;
 }
+
+day: 3/5/2026
+until here i have made the part what search for directory's name,
+and now i have to make it choose the correct one, like for each
+case.
+
+
+# Single command compilation and run
+alias test='g++ program.cpp -o test && ./test'
