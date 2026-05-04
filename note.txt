@@ -70,3 +70,67 @@ alias test='g++ program.cpp -o test && ./test'
 day: 3/ 5 / 2026 at morning/afternoon
 # how to know what type is it?
 use: typeid( variable ).name()
+
+# how to copy the current path to a new tab in terminal?
+pwd | wl-copy
+
+# how to check characters inside a string:
+#include <string>
+#include <vector>
+
+int main() {
+    std::string filename = "file.txt";
+    
+    // Check if starts with "file"
+    if (filename.compare(0, 4, "file") == 0) {
+        std::cout << "Starts with 'file'" << std::endl;
+    }
+    // compare(pos, count, string)
+    // pos = starting position (0 = beginning)
+    // count = how many chars to compare (4 = "file")
+    // string = what to compare with
+    
+    return 0;
+}
+
+but within a for loop and using an iterator:
+#include <iostream>
+#include <vector>
+#include <string>
+
+int main() {
+    std::vector<std::string> filenames = {"file1.txt", "file2.txt", "image.jpg"};
+    
+    // Create iterator
+    std::vector<std::string>::iterator it = filenames.begin();
+    std::vector<std::string>::iterator end = filenames.end();
+    
+    for (; it != end; ++it) {
+        // *it is the string at current position
+        std::string currentFile = *it;  // Dereference to get the string
+        
+        // Now you can use string methods!
+        if (currentFile.compare(0, 4, "file") == 0) {
+            std::cout << currentFile << " starts with 'file'" << std::endl;
+        }
+        
+        // Or directly without copying:
+        if ((*it).length() > 10) {
+            std::cout << *it << " is long" << std::endl;
+        }
+        
+        // Or use arrow operator (more common):
+        if (it->find(".txt") != std::string::npos) {
+            std::cout << it->c_str() << " is a text file" << std::endl;
+        }
+    }
+    
+    return 0;
+}
+
+Compare syntax and parameters
+str.compare(start_position, length, "string_to_compare")
+//           ^              ^        ^
+//           |              |        +-- What to compare against
+//           |              +-- How many characters to check
+//           +-- Where to start (0 = beginning)

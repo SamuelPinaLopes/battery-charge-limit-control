@@ -34,7 +34,11 @@ int main() {
     vector<string>::iterator it; // iterator for indexing elements of directories array
 
     for (it = directories.begin(); it != directories.end(); ++it) { // loop through each folder inside the poewr_supply directory
-        cout << "directory: " << *it << "  type of: " << typeid(*it).name() << endl;
+        
+        if ((*it).compare(0, 2, "BA") == 0) { // know the correct folder, add another cases, for other laptops, pc, etc.
+            cout << "all things right!\nbecause: " << *it << endl; // if it is the correct folder
+        }
+    
     }
 
     return 0;
