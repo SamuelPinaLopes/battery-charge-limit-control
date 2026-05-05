@@ -134,3 +134,104 @@ str.compare(start_position, length, "string_to_compare")
 //           |              |        +-- What to compare against
 //           |              +-- How many characters to check
 //           +-- Where to start (0 = beginning)
+
+
+
+day: 4/5/2026
+how to rename a file already tracked?
+
+This is the recommended approach—it renames the file and stages the
+change in one command:
+git mv old_filename.cpp new_filename.cpp
+
+how to create codes to import?
+first understand that:
+.h file = Declaration (what exists, but not how it works)
+
+.cpp file = Definition/Implementation (the actual code)
+
+Examples:
+
+Header file Calculator.h
+#ifndef CALCULATOR_H  // Header guard - prevents multiple includes
+#define CALCULATOR_H
+
+// Function declarations (no body!)
+int add(int a, int b);
+int subtract(int a, int b);
+int multiply(int a, int b);
+double divide(double a, double b);
+
+#endif
+
+
+
+cpp file Calculator.cpp 
+#include "calculator.h"  // Include your own header
+
+// Function definitions (with bodies!)
+int add(int a, int b) {
+    return a + b;
+}
+
+int subtract(int a, int b) {
+    return a - b;
+}
+
+int multiply(int a, int b) {
+    return a * b;
+}
+
+double divide(double a, double b) {
+    if (b != 0) {
+        return a / b;
+    }
+    return 0;
+}
+
+
+cpp file main.cpp
+#include <iostream>
+#include "calculator.h"  // Include your header
+
+int main() {
+    int result = add(5, 3);
+    std::cout << "5 + 3 = " << result << std::endl;
+    
+    std::cout << "10 - 4 = " << subtract(10, 4) << std::endl;
+    
+    return 0;
+}
+
+
+
+finally to compile use:
+g++ main.cpp calculator.cpp -o program && ./program
+
+
+
+what goes inside of a header file?
+Header Guards Explained
+The #ifndef, #define, #endif pattern prevents the header from being included multiple times: cpp
+#ifndef CALCULATOR_H  // If CALCULATOR_H is NOT defined...
+#define CALCULATOR_H  // ...then define it
+
+// Your declarations here
+
+#endif  // End of the guard
+
+
+
+Alternative (modern): You can use #pragma once instead (simpler, works on most compilers): cpp
+#pragma once  // Does the same thing as header guards
+
+// Your declarations here
+
+
+
+# how to declare global variables?
+The Golden Rule IS:
+Declare in header (with extern), define in ONE .cpp file.
+
+Or better yet, avoid global variables when possible! Use local variables, class members, or
+pass parameters instead. Global variables make code harder to debug and understand.
