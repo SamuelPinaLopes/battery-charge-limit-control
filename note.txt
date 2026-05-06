@@ -338,3 +338,24 @@ how to set a default eidtor:
 use this git command: git config --global core.editor "your choice"
 
 
+HOW TO OPEN FILES AS FSTREAM?
+Basic Syntax
+#include <fstream>
+std::fstream file("path/to/file", std::ios::in | std::ios::out);
+
+
+The Modes You Combine
+Mode	            What it does
+std::ios::in	    Read from file
+std::ios::out	    Write to file
+std::ios::app	    Append to end
+std::ios::trunc	    Delete existing content when opening
+std::ios::binary	Binary mode (no text conversion)
+
+
+Common Combinations
+What you want	             Mode flags
+Read and write              (file must exist)	std::ios::in | std::ios::out
+Read and write              (create if doesn't exist)	std::ios::in | std::ios::out | std::ios::trunc
+Read and append to end	    std::ios::in | std::ios::app
+Write only (like ofstream)	std::ios::out

@@ -7,7 +7,12 @@ int main() {
 
     if (is_set()) {
         // set the battery limit
-        std::cout << " is already setup! " << std::endl;
+        if (write_limit()) {
+            cout << "battery limit set";
+        } else {
+            cout << "battery limit isn't set yet";
+        }
+
     } else {
         // set the configurations
         setup();
