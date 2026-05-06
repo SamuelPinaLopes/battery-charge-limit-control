@@ -15,6 +15,8 @@ Each requires a different "hook" in the system. Your program needs to know when 
 
 
 
+
+
 day: 2/5/2026
 c++ filesystem library
 What you want	        Code
@@ -235,3 +237,104 @@ Declare in header (with extern), define in ONE .cpp file.
 
 Or better yet, avoid global variables when possible! Use local variables, class members, or
 pass parameters instead. Global variables make code harder to debug and understand.
+
+
+day: 05/05/2026
+HOW TO KNOW IF IT WAS HIBERNATING?
+
+The Tell-Tale Message!
+You can check for this exact string in the kernel ring buffer using dmesg:
+
+The Solution: Systemd Service with After=hibernate.target
+Instead of your program checking every second, you let systemd notify your program when hibernation happens.
+
+How It Works?
+You create a small systemd service that is configured to start after the system resumes from hibernation
+
+This service runs a script or program that re-applies your battery threshold
+
+Systemd automatically triggers it at the right moment
+
+
+
+Systemd has special targets that activate during power state changes:
+|        Target              |          When it activates       |
+|____________________________|__________________________________|
+|    suspend.target	         |    When entering sleep
+|    resume.target	         |    After waking from sleep
+|    hibernate.target	     |    When entering hibernation
+|    hibernate-resume.target |    After waking from hibernation
+
+
+
+day: 6/05/2026
+How to write inside /sys/class/power_supply/BAT0/charge_control_end_threshold in terminal use:
+Use tee with sudo (Recommended)
+command:
+echo "80" | sudo tee /sys/class/power_supply/BAT0/charge_control_end_threshold
+
+
+
+
+HOW TO CREATE A DIRECTORY WITH FILESYSTEM LIBRARY?
+return Value (Important)
+create_directory returns a bool:
+
+true → Directory was created (didn't exist before)
+false → Directory already existed
+
+
+
+Create Parent Directories Too
+Use create_directories (plural) to create the whole path:
+
+cpp
+// This fails if "/tmp/a/b/" doesn't exist
+fs::create_directory("/tmp/a/b/c");
+
+// This creates all missing parent directories
+fs::create_directories("/tmp/a/b/c");  // ✅ Works
+
+
+HOW TO CREATE A FILE!
+Creating a File
+You create files using file streams, not std::filesystem:
+
+cpp
+#include <fstream>
+
+std::ofstream out("/tmp/myfile.txt");
+out << "data";
+out.close();
+
+
+Why The Difference
+std::filesystem = managing the filesystem (create/remove/move directories and files)
+std::ofstream = writing data to files
+
+
+To create an empty file, you can also use:
+cpp
+std::ofstream("/tmp/myfile.txt").close();
+
+
+Summary
+Task	                      Library to use
+Create a directory	          std::filesystem::create_directory()
+Create a file	              std::ofstream
+Check if a file exists	      std::filesystem::exists()
+Delete a file	              std::filesystem::remove()
+Get file size	              std::filesystem::file_size()
+
+
+GIT DESCRIPTIONS:
+how to create one:
+run git commit. it will open the default editor set before in git config --global core.editor "editor of your choice".
+the first line on it will be the message, usually is short and straight to the point.
+you have many forms to do this, you can also send a but of -m messages like: git commit -m "message 1" -m "message 2" -m "message 3", each -m means paragraph for git, etc.
+
+
+how to set a default eidtor:
+use this git command: git config --global core.editor "your choice"
+
+

@@ -2,10 +2,12 @@
 #include <filesystem>
 #include <vector>
 #include "workdirectory.h"
+#include <fstream>
 
 using namespace std;
 
 string power_supply("/sys/class/power_supply/");
+filesystem::path config_file = "/etc/BatterYLimiT/setup.conf";
 
 vector<string> get_directories(filesystem::path defaultPath) { // search for folders
     vector<string> all; // array of all directories inside default path
@@ -24,7 +26,8 @@ vector<string> get_directories(filesystem::path defaultPath) { // search for fol
     return all; // returning the folders found inside power_supply
 }
 
-string correct_folder() { // finds the correct one and return the path to it
+string correct_folder() { // chooses the correct folder and return the path to it
+
     vector<string> directories(get_directories(power_supply)); // creating a vector with returned folders from power path
 
     for (vector<string>::iterator it = directories.begin(); it != directories.end(); ++it) { // loop throught each folder inside power supply
@@ -37,3 +40,48 @@ string correct_folder() { // finds the correct one and return the path to it
     
     return "error, no wanted folders found";
 }
+
+bool is_set() { // checks if this laptop is already set
+
+    if (filesystem::exists(config_file)) { // checking if it exists
+        return true; // if yes, is already set
+    } else {
+        return false; // if no, set it
+    }
+
+}
+
+void setup() {
+    // path for settings
+    filesystem::path directory = "/etc/BatterYLimiT";
+
+    // check if this directory doesn't exist
+    if (!filesystem::exists(directory)) {
+        // creating the directory
+        filesystem::create_directory(directory);
+    }
+
+    // check if this file doesn't exist
+    if (!filesystem::exists(config_file)) {
+        // creating the file
+        ofstream config(config_file);
+        
+        // putting data on it
+        config << "already_setup=1\n"
+               << "work_directory=/sys/class/power_supply/BAT0\n"
+               << "default_limit=80";
+
+        // closing the file
+        config.close();
+    
+    }
+    
+    // creates .service file for cold boot
+
+    // creates .servicde file for hibernation
+
+}
+
+
+
+
