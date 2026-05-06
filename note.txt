@@ -392,3 +392,8 @@ pclose(pipe);
 
 
 
+    IMPORTANT: note, every time you run this program you must run
+    the run file as root when testing it, don't forget that the folder
+    you're in /sys/class/power_supply/BAT0/charge_control_end_threshold
+    is a root acces folder, you need to run this as sudo to apply the
+    value inside charge_control_end_threshold!
