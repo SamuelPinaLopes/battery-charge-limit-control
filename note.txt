@@ -359,3 +359,36 @@ Read and write              (file must exist)	std::ios::in | std::ios::out
 Read and write              (create if doesn't exist)	std::ios::in | std::ios::out | std::ios::trunc
 Read and append to end	    std::ios::in | std::ios::app
 Write only (like ofstream)	std::ios::out
+
+
+
+HOW TO USE PYTHON INSIDE C++?
+Easiest Way: Use system() or popen()
+
+
+Method 1: system() - Simplest
+cpp
+#include <cstdlib>
+
+system("python3 script.py");
+
+
+Method 2: Capture Python Output
+cpp
+#include <cstdio>
+#include <array>
+#include <string>
+
+std::array<char, 128> buffer;
+std::string result;
+
+FILE* pipe = popen("python3 script.py", "r");
+while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
+    result += buffer.data();
+}
+pclose(pipe);
+
+
+
+
+

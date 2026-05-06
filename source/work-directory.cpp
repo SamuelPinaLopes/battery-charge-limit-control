@@ -3,11 +3,20 @@
 #include <vector>
 #include "workdirectory.h"
 #include <fstream>
+#include <cstdio>
+#include <array>
+
+
 
 using namespace std;
 
+
+
 string power_supply("/sys/class/power_supply/");
 filesystem::path config_file = "/etc/BatterYLimiT/setup.conf";
+string threshold("/charge_control_end_threshold");
+
+
 
 vector<string> get_directories(filesystem::path defaultPath) { // search for folders
     vector<string> all; // array of all directories inside default path
@@ -84,19 +93,53 @@ void setup() { // setup all configs
 
 bool write_limit() { // to write the limit you want
     // open the file to change limit
-    fstream config(correct_folder() + "/charge_control_end_threshold", ios::in | ios::out);
+    fstream config(correct_folder() + threshold, ios::in | ios::out);
+    
     // charge threshold
     string number;
+    
     // reading from file
     config >> number;
-    // checking the charge threshold
-    if (number == "80") {
-        cout << "is ready, with the default value" << endl;
-        return true;
-    }
     
-    return false;
+    // checking the charge threshold
+    if (number != "80") {
+
+
+
+        /* run python (gets the default value)*/
+        array<char, 128> buffer;
+        string result;
+
+        FILE* pipe = popen("python source/read-configs.py --threshold", "r");
+        while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
+            result += buffer.data();
+        }
+        pclose(pipe);
+
+
+
+        // writting the default charge threshold on threshold file
+        config << result;
+
+
+        // close the file
+        config.close();
+
+        // i have changed the value to default, because it isn't
+        return true;
+    
+    } else {
+        // close the file
+        config.close();
+
+        // i didn't change anything because had the default value
+        return false;
+    
+    }
+
 
 }
+
+
 
 

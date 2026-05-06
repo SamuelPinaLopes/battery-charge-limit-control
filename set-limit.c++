@@ -5,10 +5,10 @@ using namespace std;
 
 int main() {
 
-    if (is_set()) {
+    if (is_set()) { // if the program's folders are setup
         // set the battery limit
         if (write_limit()) {
-            cout << "battery limit set";
+            cout << "battery limit set to default 80%";
         } else {
             cout << "battery limit isn't set yet";
         }
