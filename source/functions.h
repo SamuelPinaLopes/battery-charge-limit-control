@@ -6,8 +6,9 @@
 
 std::vector<std::string> get_directories(std::filesystem::path defaultPath);
 std::string correct_folder();
+std::string get_values(std::string arg);
 bool is_set();
 void setup();
-bool write_limit();
+void write_limit();
 
 #endif

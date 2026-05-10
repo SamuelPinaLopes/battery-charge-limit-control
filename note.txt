@@ -397,3 +397,74 @@ pclose(pipe);
     you're in /sys/class/power_supply/BAT0/charge_control_end_threshold
     is a root acces folder, you need to run this as sudo to apply the
     value inside charge_control_end_threshold!
+
+
+
+day: 8/5/2026
+the service should be like this:
+[Unit]
+Description=My service for both cold boot and hibernate resume
+After=multi-user.target hibernate.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/my-program
+
+[Install]
+WantedBy=multi-user.target hibernate.target
+
+
+HOW TO CONVERT fstream INTO string?
+#include <fstream>
+#include <sstream>
+
+std::ifstream file("example.txt");
+std::string content = std::string(std::istreambuf_iterator<char>(file), {});
+
+
+ARGUMENTS TO CPP
+// argc = argument count (number of parameters)
+// argv = argument values (array of strings)
+
+Example:
+#include <iostream>
+
+int main(int argc, char* argv[]) {
+    // argc = argument count (number of parameters)
+    // argv = argument values (array of strings)
+    
+    return 0;
+}
+
+
+oh my god 
+char command[256];
+std::string arg = "some_value";
+snprintf(command, sizeof(command), "python source/read-configs.py %s", arg.c_str());
+FILE* pipe = popen(command, "r");
+
+
+day: 9/5/2026
+
+THE CODE WASN'T WORKING!!!!!!! FOR SOOOO LONG 
+this was the mistake:
+Seu get_values() está retornando:
+"80\n\n"
+
+ou algo parecido.
+
+O arquivo do sysfs espera apenas:
+80
+
+ou:
+80\n
+
+Mas você está enviando múltiplas quebras de linha.
+Por que isso acontece?
+
+Porque Python normalmente imprime com print():
+print(80)
+E print() já adiciona \n.
+Depois o C++ provavelmente captura isso incluindo o newline.
+
+Talvez até existam dois print() ou espaços extras.

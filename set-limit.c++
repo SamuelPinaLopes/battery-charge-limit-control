@@ -1,21 +1,21 @@
 #include <iostream>
-#include "source/workdirectory.h"
+#include "source/functions.h"
 
 using namespace std;
 
 int main() {
 
-    if (is_set()) { // if the program's folders are setup
-        // set the battery limit
-        if (write_limit()) {
-            cout << "battery limit set to default 80%";
-        } else {
-            cout << "battery limit isn't set yet";
-        }
+    // check if program's folders are setup
+    if (is_set()) {
+        // set limit 
+        write_limit();
 
     } else {
-        // set the configurations
+        // set configurations
         setup();
+
+        // set limit
+        write_limit();
     
     }
 
