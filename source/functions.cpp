@@ -15,8 +15,7 @@ string power_supply("/sys/class/power_supply/");
 string threshold_file("/charge_control_end_threshold");
 filesystem::path settings_directory("/etc/BatterYLimiT");
 filesystem::path config_file = "/etc/BatterYLimiT/setup.conf";
-filesystem::path service_directory("/home/samuel/.config/systemd/user/battery-limit");
-string service_file("/home/samuel/.config/systemd/user/battery-limit/set-limit.service");
+string service_file("/etc/systemd/system/set-limit.service");
 string executable_file("/usr/local/bin/set-limit");
 
 vector<string> get_directories(filesystem::path defaultPath) { // search for folders
@@ -98,13 +97,6 @@ void setup() { // setup all configs
     }
 
     
-    // creates .service directory
-    if (!filesystem::exists(service_directory)) {
-        // create directory
-        filesystem::create_directory(service_directory);
-
-    }
-    
     // creates .service file for both cold boot and hibernation states
     if (!filesystem::exists(service_file)) {
         //create file
@@ -114,7 +106,7 @@ void setup() { // setup all configs
                 << "Description=Sets battery charge limit automatically when starting laptop and when resuming from hibernation.\n"
                 << "After=multi-user.target hibernate.target\n\n"
                 << "[Service]\n"
-                << "ExecStart=/usr/bin/g++ /usr/local/bin/set-limit\n"
+                << "ExecStart=/usr/local/bin/set-limit\n"
                 << "RemainAfterExit=no\n"
                 << "Restart=on-failure\n"
                 << "TimeoutStartSec=30\n"
