@@ -70,7 +70,7 @@ void setup() { // setup all configs
     have three main directories such as: 
         - executable folder = /usr/local/bin/set-limit
         - configuration folder = /etc/BatterYLimiT/setup.conf
-        - service folder = /home/samuel/.config/systemd/user/battery-limit/set-limit.service
+        - service folder = /etc/systemd/system/set-limit.service
     */
 
     // check if this directory doesn't exist and file
@@ -103,14 +103,10 @@ void setup() { // setup all configs
         ofstream service(service_file);
 
         service << "[Unit]\n"
-                << "Description=Sets battery charge limit automatically when starting laptop and when resuming from hibernation.\n"
+                << "Description=Sets battery charge limit\n"
                 << "After=multi-user.target hibernate.target\n\n"
                 << "[Service]\n"
-                << "ExecStart=/usr/local/bin/set-limit\n"
-                << "RemainAfterExit=no\n"
-                << "Restart=on-failure\n"
-                << "TimeoutStartSec=30\n"
-                << "Type=oneshot\n\n"
+                << "ExecStart=/usr/local/bin/set-limit\n\n"
                 << "[Install]\n"
                 << "WantedBy=multi-user.target hibernate.target";
 
@@ -152,7 +148,7 @@ string get_values(string arg) { // get values inside files with python
     
     string result, line;
     
-    line = "python source/read-configs.py " + arg;
+    line = "/usr/bin/python /home/samuel/coding/battery-limit/source/read-configs.py " + arg;
     
     FILE* pipe = popen(line.c_str(), "r");
     
