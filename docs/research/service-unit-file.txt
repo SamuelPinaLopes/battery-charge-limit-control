@@ -1,0 +1,79 @@
+[Unit] – General Metadata & Dependencies
+This section defines the unit’s purpose, ordering, and relationships with other units.
+
+Common directive	Purpose
+Description=	Human-readable description (shown in systemctl status).
+Documentation=	Links to man pages or URLs.
+After=	Start this service after certain units (no hard dependency).
+Before=	Start this service before certain units.
+Requires=	Hard dependency – if the required unit fails, this service fails too.
+Wants=	Soft dependency – tries to start the other unit but doesn’t enforce success.
+Conflicts=	Cannot run at the same time as listed units.
+
+Example:
+ini
+[Unit]
+Description=My custom daemon
+After=network.target
+Wants=syslog.target
+
+
+
+
+[Service] – How to Run the Service
+This section defines execution commands, process type, environment, restart behavior, and is required for service units.
+
+Common directive	Purpose
+Type=	Process type: simple (default), forking (daemon forks), oneshot (short task), notify (sends readiness signal), dbus.
+ExecStart=	Full command to start the service.
+ExecStop=	Command to stop gracefully (optional).
+ExecReload=	Command to reload configuration.
+Restart=	When to restart: no, on-failure, always, on-abort.
+RestartSec=	Delay before restart (e.g., 5s).
+User= / Group=	Run service as a specific user/group (security).
+WorkingDirectory=	Directory where the service runs.
+Environment= / EnvironmentFile=	Set environment variables.
+
+Example (simple service):
+ini
+[Service]
+Type=simple
+User=myuser
+ExecStart=/usr/bin/python3 /home/myuser/app.py
+Restart=on-failure
+RestartSec=10
+Example (oneshot – runs once during boot):
+
+ini
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/setup.sh
+RemainAfterExit=yes   # Treat as active after success
+
+
+
+
+
+Install] – How to Enable the Service
+This section is used only by systemctl enable / disable – it tells systemd which target/wants directories to link into.
+
+Common directive	Purpose
+WantedBy=	Most common – creates a symlink in *.wants/ directory of the given target.
+RequiredBy=	Hard dependency – creates symlink in *.requires/.
+Alias=	Additional names for the unit.
+Also=	Install other units when this one is enabled.
+
+Example:
+ini
+[Install]
+WantedBy=multi-user.target
+Enabling the service:
+
+bash
+systemctl enable my.service
+creates:
+
+text
+/etc/systemd/system/multi-user.target.wants/my.service → /etc/systemd/system/my.service
+This means: when multi-user.target is started (normal boot into text mode), this service will be started.
+

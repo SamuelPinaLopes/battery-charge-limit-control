@@ -1,0 +1,27 @@
+sysfs virtual filesystem / Why does /sys/ exist?
+
+This folder is a new way to get information and set things.
+
+/sys/ folder provides us information about the hardware of the device,
+and also it let us (with sudo permission) set different values for it.
+
+It has the driver configuration for each thing or our pc well explained
+in tree.
+
+/sys/ is your control panel and dashboard for hardware – it gives you:
+
+Information about every device, bus, driver, and power state
+
+Control to change how hardware behaves while the system is running
+
+THINK OF IT LIKE THIS:
+Unlike /proc/ (which is mostly reporting what's happening), /sys/ is intentionally bidirectional:
+
+Read = get status/info
+
+Write = change behavior
+
+That's why tools like powertop, tuned, laptop-mode-tools, and udev all depend on /sys/ – they both query hardware and tune it on the fly.
+
+So yes: /sys/ = hardware information + hardware control – no reboot needed.
+

@@ -1,0 +1,26 @@
+
+has two types of parameters:
+1. Function Parameters: Passing data into a function when you call it.
+
+2. Command-Line Parameters: Passing data into your entire program when you run it from the terminal/command prompt.
+
+
+
+To do this, C++ uses two special ingredients built right into the main starting point of your program (the main function):
+
+argc (Argument Count): An integer that counts how many pieces of information you typed into the command line. It always counts at least 1, because the computer considers the name of your program itself to be the first argument.
+
+argv (Argument Vector): A list (array) of the actual text you typed.
+
+
+
+Example:
+   ./my_program photo.jpg high_quality
+
+parameter index         what it holds              description
+argv[0]                 ./my_program               the name of the program itself
+
+argv[1]                 photo.jpg                  the first actual piece of data you passed
+
+argv[2]                 high_quality               the second piece of data you passed
+

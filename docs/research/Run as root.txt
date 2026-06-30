@@ -1,0 +1,10 @@
+Methods to run it as a root:
+- systemd service
+- @reboot cron
+- init.d script
+- tmpfiles.d
+
+But, the more professional one and easier/better is to use systemd service.
+FOR running a command as root at boot without a password prompt, systemd
+service is the best AND standard way on Arch Linux.
+

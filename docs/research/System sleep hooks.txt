@@ -1,0 +1,48 @@
+System sleep hooks
+(hooks - gancho)
+
+When the laptop sleeps or resume, you'll need a different approach for it,
+when that happens, systemd looks for a different script that runs in sleep
+mode.
+
+Where does systemd look for scripts that run on suspend/resume?
+Systemd looks for suspend/resume scripts primarily in the 
+/usr/lib/systemd/system-sleep/ directory. You can also use 
+/lib/systemd/system-sleep/, which on most modern systems is
+a symbolic link to the former.
+
+Importand!
+The system-sleep Directory
+Directory Path	What It Is
+   /usr/lib/systemd/system-sleep/  ---   The primary location for packaging scripts .
+   /lib/systemd/system-sleep/	   ---   Usually a symlink to /usr/lib/...; scripts placed here work as well .
+-> Best Practice	               ---   void conflicts on system updates by using /etc/systemd/system-sleep/ instead.
+
+But, you shouldn't use usr/lib/systemd/system-sleep and 
+lib/systemd/system-sleep because it will cause conflicts 
+when updating the system.
+
+WHY?
+Directory	                            Purpose	                                    Safe for custom scripts?
+-                                       -                                           -
+/usr/lib/systemd/system-sleep/	        Package-managed (systemd's own files)	    ❌ NO - will conflict
+/etc/systemd/system-sleep/	            System administrator custom scripts	        ✅ YES - completely safe
+
+
+
+
+
+
+
+
+
+
+
+The Hierarchy Principle
+This follows the standard Unix configuration pattern:
+
+Directory	Managed by	When to use
+/usr/lib/	Package manager	Defaults, vendor files
+/etc/	System admin	Customizations, overrides
+/run/	Runtime	Temporary, volatile
+/home/	User	Personal configurations

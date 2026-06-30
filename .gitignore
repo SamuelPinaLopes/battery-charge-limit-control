@@ -1,6 +1,5 @@
 *.log
 *.env
-*.service
-test-*.py
-knowledge/
+learned/
 test*
+.vscode*

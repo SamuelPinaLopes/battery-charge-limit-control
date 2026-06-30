@@ -1,0 +1,108 @@
+Method 1: Using git commit without -m (Recommended)
+Just run:
+
+bash
+git commit
+This opens your default text editor (likely Vim, Nano, or VS Code). Then you write:
+
+text
+Fix battery charge limit reset after hibernation
+
+Added a systemd sleep hook that restores the 80% charge limit
+when waking from hibernation. Previously the limit would revert
+to 100% on resume.
+
+Tested on ThinkPad X1 Carbon.
+Save and close the editor. Git reads whatever you wrote as the commit message.
+
+Method 2: Using multiple -m flags
+bash
+git commit -m "Fix battery charge limit reset after hibernation" -m "Added a systemd sleep hook that restores the 80% charge limit when waking from hibernation. Previously the limit would revert to 100% on resume." -m "Tested on ThinkPad X1 Carbon."
+Each -m becomes a new paragraph. Git automatically adds blank lines between them.
+
+Method 3: Using a file
+bash
+# Write your message in a file first
+echo "Fix battery charge limit" > msg.txt
+echo "" >> msg.txt
+echo "Full description here..." >> msg.txt
+
+# Then commit using that file
+git commit -F msg.txt
+What If Your Editor Is Confusing?
+If Git opens Vim and you don't know how to exit:
+
+Press i to enter insert mode
+
+Type your message (summary line, blank line, description)
+
+Press Esc to exit insert mode
+
+Type :wq and press Enter to save and quit
+
+To change your default editor to something easier:
+
+bash
+# Use Nano (simpler)
+git config --global core.editor "nano"
+
+# Or VS Code
+git config --global core.editor "code --wait"
+View Your Description Later
+To see the full message including description:
+
+bash
+# See the last commit (full message)
+git log -1
+
+# Or see a cleaner view
+git log -1 --pretty=full
+
+# Or see subject and body separately
+git log -1 --pretty=format:"%s%n%b"
+The Key Point
+The first line (subject) and everything after a blank line (body/description) are both stored in Git. The -m flag just makes the blank lines automatic between each -m.
+
+
+
+
+
+
+
+HOW TO CREATE GIT DESCRIPTIONS?
+You get BOTH — the subject AND the description
+When you run git commit (without -m), the editor opens with a blank file. You write:
+text
+This is the subject line (like what you'd put in -m)
+
+This is the description. You can write multiple paragraphs here.
+Add as much detail as you want.
+
+
+How Git interprets what you write:
+What you write	What Git calls it
+First line	Subject (same as -m "message")
+Blank line	Separator
+
+Everything after that	Description / body
+So yes, you still have a "message"
+The subject line IS your normal -m message. The description is extra below it.
+Example
+You write in editor:
+text
+Fix battery charge limit
+
+Added auto-detection for BAT0 and BAT1. Script now runs at boot via systemd.
+This is exactly the same as:
+
+
+bash
+git commit -m "Fix battery charge limit" -m "Added auto-detection for BAT0 and BAT1. Script now runs at boot via systemd."
+Bottom line
+git commit (editor) = git commit -m "subject" + description in the same command
+
+
+
+HOW TO SET A DEFAULT EDITOR FOR GIT COMMIT?
+git config --global core.editor "editor of your choice"
+

@@ -1,0 +1,29 @@
+Creating a File
+You create files using file streams, not std::filesystem:
+
+cpp
+#include <fstream>
+
+std::ofstream out("/tmp/myfile.txt");
+out << "data";
+out.close();
+
+
+Why The Difference
+std::filesystem = managing the filesystem (create/remove/move directories and files)
+std::ofstream = writing data to files
+
+
+To create an empty file, you can also use:
+cpp
+std::ofstream("/tmp/myfile.txt").close();
+
+
+Summary
+Task	                      Library to use
+Create a directory	        std::filesystem::create_directory()
+Create a file	              std::ofstream
+Check if a file exists	    std::filesystem::exists()
+Delete a file	              std::filesystem::remove()
+Get file size	              std::filesystem::file_size()
+
