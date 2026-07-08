@@ -1,18 +1,17 @@
 - create a command to update and pass parameters to the main program;
     updates
-    - able to search for updates;
-    - update program and itself;
+    - able to search for updates; started
+    - update program and itself; started
     
     program's settings
-    - change program's settings;
-    - show current settings;
-    - load settings;
-    - save settings as preset;
-    - use default settings;
-    - generate default settins;
-    - show path to settings;
+    - show current settings; started
+    - load settings; started
+    - save settings as preset; started
+    - use default settings/config; started
+    - generate default configuration file; started
+    - show all paths in use; started
 
-    possible actions
+    possible actions or extra actions
     - change current battery charge limit;
     - use old battery charge limit;
     - check battery current level;
