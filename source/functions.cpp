@@ -175,3 +175,12 @@ void update_config_state() {
     }
 
 }
+
+bool search_updates() {cout << "fetching for updates..."; return 0;}
+void apply_updates() {cout << "applying updates...";}
+void show_settings() {cout << "show current settings.";}
+void load_settings() {cout << "load settings preset.";}
+void save_settings_preset() {cout << "save settings as new preset, enter preset name: ";}
+void set_default_settings() {cout << "restore settings to default configuration";}
+void gen_default_config() {cout << "generate default configuration in...";}
+void show_paths() {cout << "these are all paths in use...";}

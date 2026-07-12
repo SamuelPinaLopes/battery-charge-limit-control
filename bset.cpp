@@ -3,18 +3,11 @@
 
 using namespace std;
 
-bool search_updates();
-void apply_updates();
-void show_settings();
-void load_settings();
-void save_settings_preset();
-void set_default_settings();
-void gen_default_config();
-void show_paths();
-
 int main(int argc, char* argv[]) {
 
-    for (int index = 1; index < argc; index++) {
+    for (int index = 0; index < argc; index++) {
+        cout << argv[index] << "    " << endl;
+        
         if (argv[index] == "-u" or argv[index] == "--update") {
             apply_updates();
         
