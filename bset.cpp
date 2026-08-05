@@ -7,30 +7,37 @@
 using namespace std;
 
 bool check_words(char* word_passed, string expected, bool single=false) { // when you're passing a group of characters, make sure that you'll pass it as *, kinda array of characters    
-
+    // loop through each character position
     int index = 0;
 
-    while (true) {
-        // check each character
-        if (strlen(word_passed) == expected.length() and word_passed[index] == expected[index]) {
-            cout << "character: " << word_passed << " word passed" << endl << "character: " << expected[index] << " expected";
+    // if the size are the same
+    if (strlen(word_passed) == expected.length()) {
+
+        while (true) {
+
+            // check each character
+            if (word_passed[index] == expected[index]) {
+                cout << "character: " << word_passed[index] << " word passed" << "\n\n" << "character: " << expected[index] << " expected" << endl;
+            } else {
+                // the words aren't the same
+                return false;
+            }
+            // when it ends
+            if (word_passed[index] == '\0') {
+                return true;
+            }
+            // incrementing characters position
+            index++;
     
         }
-        
-        if (word_passed[index] == '\0') {
-            return false;
-        }
 
-        // incrementing characters position
-        index++;
-
+    } else {
+        return false;
     }
 
-    return true;
 }
 
 int main(int argc, char* argv[]) {
-
     // variables
     int index_array_parameter = 0;
 
@@ -46,12 +53,6 @@ int main(int argc, char* argv[]) {
         index_array_parameter++;
 
     }
-
-    
-    
-
-
-
 
     // for (int indexarray = 0; indexarray < argc; indexarray++) {
     //     // word to check
