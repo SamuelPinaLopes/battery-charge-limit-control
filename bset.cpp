@@ -2,7 +2,7 @@
 #include <string>
 #include <cstring>
 
-#include "source/functions.h"
+#include "source/main_functions.h"
 #include "source/battery_set_functions.h"
 
 using namespace std;
@@ -13,15 +13,52 @@ int main(int argc, char* argv[]) {
 
     // get each word/parameter
     while (argv[index_array_parameter] != NULL) {
-        // compare each character
-        if (    check_words(argv[index_array_parameter], "--help")      == true 
-            or  check_words(argv[index_array_parameter], "-h", true)    == true) { // if you put one parameters one, you'll have to put in all
+        //                        general help 
+        if ( // if you put one parameters name, you'll have to put for all
+            check_words(argv[index_array_parameter], "--help") == true or
+            check_words(argv[index_array_parameter], "-h", true) == true
+        ) {
             // shows the help
-            cout << "yes it worked :O" << endl;
-        } else {
-            cout << "something is wrong my gentleman :|";
+            cout << "yes it worked :O\n for general help" << endl;
         }
-
+        
+        //                      program's settings
+        // show current settings
+        if (
+            check_words(argv[index_array_parameter], "--current-settings") or
+            check_words(argv[index_array_parameter], "-cs", true)
+        ) {
+            cout << "yes it worked :O\n for program's settings, show current settings you're on";
+        }
+        // load settings from file
+        if (
+            check_words(argv[index_array_parameter], "--load-settings") or
+            check_words(argv[index_array_parameter], "-ls")
+        ) {
+            cout << "yes it worked :O\n for program's settings, load settings from file.";
+        }
+        // save settings as preset / on a file
+        if (
+            check_words(argv[index_array_parameter], "--save-preset") or
+            check_words(argv[index_array_parameter], "-sp")
+        ) {
+            cout << "yes it worked :O\n for program's settings, save current settings as preset";
+        }
+        // use default settings
+        if (
+            check_words(argv[index_array_parameter], "--default") or
+            check_words(argv[index_array_parameter], "-d")
+        ) {
+            cout << "yes it worked :O\n for program's settings, use default settings";
+        }
+        // show all program's file path in use
+        if (
+            check_words(argv[index_array_parameter], "--show-paths") or
+            check_words(argv[index_array_parameter], "-SP")
+        ) {
+            cout << "yes it worked :O\n for program's settings, show all folders and files in use";
+        }
+    
         // incrementing argv index
         index_array_parameter++;
 

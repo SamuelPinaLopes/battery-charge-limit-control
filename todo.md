@@ -8,7 +8,6 @@
     - load settings; started
     - save settings as preset; started
     - use default settings/config; started
-    - generate default configuration file; started
     - show all paths in use; started
 
     possible actions or extra actions
