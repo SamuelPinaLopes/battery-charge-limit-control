@@ -2,7 +2,6 @@
 #include <string>
 #include <cstring>
 
-#include "source/main_functions.h"
 #include "source/battery_set_functions.h"
 
 using namespace std;
@@ -13,7 +12,7 @@ int main(int argc, char* argv[]) {
 
     // get each word/parameter
     while (argv[index_array_parameter] != NULL) {
-        //                        general help 
+        //                        general help
         if ( // if you put one parameters name, you'll have to put for all
             check_words(argv[index_array_parameter], "--help") == true or
             check_words(argv[index_array_parameter], "-h", true) == true
@@ -21,7 +20,7 @@ int main(int argc, char* argv[]) {
             // shows the help
             cout << "yes it worked :O\n for general help" << endl;
         }
-        
+
         //                      program's settings
         // show current settings
         if (
@@ -58,7 +57,7 @@ int main(int argc, char* argv[]) {
         ) {
             cout << "yes it worked :O\n for program's settings, show all folders and files in use";
         }
-    
+
         // incrementing argv index
         index_array_parameter++;
 

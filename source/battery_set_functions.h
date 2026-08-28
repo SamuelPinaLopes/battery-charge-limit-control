@@ -1,6 +1,7 @@
 #ifndef BATTERY_SET_FUNCTIONS_H
 #define BATTERY_SET_FUNCTIONS_H
 
+#include <iostream>
 #include <string>
 #include <cstring>
 
@@ -12,6 +13,6 @@ void show_settings();
 void load_settings();
 void save_settings_preset();
 void set_default_settings();
-void show_paths();  
+void show_paths();
 
 #endif

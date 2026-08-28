@@ -33,8 +33,6 @@ bool check_words(char* word_passed, string expected, bool single_character=false
 
 }
 
-
-
 bool search_updates() {cout << "fetching for updates..."; return 0;}
 void apply_updates() {cout << "applying updates...";}
 void show_settings() {cout << "show current settings.";}
