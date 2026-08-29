@@ -1,10 +1,13 @@
+#include <cstddef>
+#include <ios>
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <fstream>
 
 using namespace std;
 
-bool check_words(char* word_passed, string expected, bool single_character=false) { // when you're passing a group of characters, make sure that you'll pass it as *, kinda array of characters    
+bool check_words(char* word_passed, string expected, bool single_character=false) { // when you're passing a group of characters, make sure that you'll pass it as *, kinda array of characters
     // loop through each character position
     int index = 0;
 
@@ -24,7 +27,7 @@ bool check_words(char* word_passed, string expected, bool single_character=false
             }
             // incrementing characters position
             index++;
-    
+
         }
 
     } else {
@@ -33,10 +36,34 @@ bool check_words(char* word_passed, string expected, bool single_character=false
 
 }
 
-bool search_updates() {cout << "fetching for updates..."; return 0;}
-void apply_updates() {cout << "applying updates...";}
-void show_settings() {cout << "show current settings.";}
-void load_settings() {cout << "load settings preset.";}
+void show_settings() {
+    ifstream read_settings("/etc/BatterYLimiT/setup.conf");
+    string lines;
+
+    cout << "show current settings.";
+    /*
+     *
+     * open the settings file;
+     * read each line until finding what you want;
+     * show it;
+     * close the file
+     *
+     */
+
+    if (read_settings.is_open() == true) {
+        while (getline(read_settings, lines)) {
+            cout << lines << " ";
+        }
+
+    read_settings.close();
+
+    } else {
+        cout << "didn't open";
+    }
+
+}
+
+void load_settings() {cout << "load settings as preset.";}
 void save_settings_preset() {cout << "save settings as new preset, enter preset name: ";}
 void set_default_settings() {cout << "restore settings to default configuration";}
 void show_paths() {cout << "these are all paths in use...";}
