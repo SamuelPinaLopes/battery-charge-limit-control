@@ -27,35 +27,35 @@ int main(int argc, char* argv[]) {
             check_words(argv[index_array_parameter], "--current-settings") or
             check_words(argv[index_array_parameter], "-cs", true)
         ) {
-            cout << "yes it worked :O\n for program's settings, show current settings you're on";
+            show_settings();
         }
         // load settings from file
         if (
             check_words(argv[index_array_parameter], "--load-settings") or
             check_words(argv[index_array_parameter], "-ls")
         ) {
-            cout << "yes it worked :O\n for program's settings, load settings from file.";
+            load_settings();
         }
         // save settings as preset / on a file
         if (
             check_words(argv[index_array_parameter], "--save-preset") or
             check_words(argv[index_array_parameter], "-sp")
         ) {
-            cout << "yes it worked :O\n for program's settings, save current settings as preset";
+            save_settings_preset();
         }
         // use default settings
         if (
             check_words(argv[index_array_parameter], "--default") or
             check_words(argv[index_array_parameter], "-d")
         ) {
-            cout << "yes it worked :O\n for program's settings, use default settings";
+            set_default_settings();
         }
-        // show all program's file path in use
+        // show all paths in use
         if (
             check_words(argv[index_array_parameter], "--show-paths") or
             check_words(argv[index_array_parameter], "-SP")
         ) {
-            cout << "yes it worked :O\n for program's settings, show all folders and files in use";
+            show_paths();
         }
 
         // incrementing argv index
