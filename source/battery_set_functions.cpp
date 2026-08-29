@@ -1,6 +1,7 @@
 #include <cstddef>
 #include <ios>
 #include <iostream>
+#include <ostream>
 #include <string>
 #include <cstring>
 #include <fstream>
@@ -37,10 +38,10 @@ bool check_words(char* word_passed, string expected, bool single_character=false
 }
 
 void show_settings() {
-    ifstream read_settings("/etc/BatterYLimiT/setup.conf");
+    ifstream read_settings("/etc/BatterYLimiT/config.conf");
     string lines;
 
-    cout << "show current settings.";
+    cout << "show current settings." << endl;
     /*
      *
      * open the settings file;
@@ -52,7 +53,7 @@ void show_settings() {
 
     if (read_settings.is_open() == true) {
         while (getline(read_settings, lines)) {
-            cout << lines << " ";
+            cout << lines << endl;
         }
 
     read_settings.close();

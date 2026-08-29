@@ -7,8 +7,6 @@
 
 bool check_words(char* word_passed, std::string expected, bool single_character=false);
 
-bool search_updates();
-void apply_updates();
 void show_settings();
 void load_settings();
 void save_settings_preset();
