@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
         //                      program's settings
         // show current settings
         if (
-            check_words(argv[index_array_parameter], "--current-settings") or
+            check_words(argv[index_array_parameter], "--show-settings") or
             check_words(argv[index_array_parameter], "-cs", true)
         ) {
             show_settings();
