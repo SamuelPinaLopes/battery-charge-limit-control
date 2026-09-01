@@ -1,5 +1,4 @@
-#include <cstddef>
-#include <ios>
+//#include <cstddef>
 #include <iostream>
 #include <ostream>
 #include <string>
@@ -37,29 +36,30 @@ bool check_words(char* word_passed, string expected, bool single_character=false
 
 }
 
-void show_settings() {
+bool show_settings() {
     ifstream read_settings("/etc/BatterYLimiT/config.conf");
     string lines;
-
-    cout << "show current settings." << endl;
-    /*
-     *
-     * open the settings file;
+    /* open the settings file;
      * read each line until finding what you want;
      * show it;
-     * close the file
-     *
-     */
+     * close the file */
 
+    // openning file with settings on it
+    // check if the file is open
     if (read_settings.is_open() == true) {
+        cout << "Current Settings:\n\n";
+        // loop through each line to get the lines with getline method
         while (getline(read_settings, lines)) {
+            // print that line
             cout << lines << endl;
         }
-
-    read_settings.close();
-
+        // close the file
+        read_settings.close();
+        // did fine
+        return true;
     } else {
-        cout << "didn't open";
+        // something went wront
+        return false;
     }
 
 }

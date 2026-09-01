@@ -7,7 +7,7 @@
 
 bool check_words(char* word_passed, std::string expected, bool single_character=false);
 
-void show_settings();
+bool show_settings();
 void load_settings();
 void save_settings_preset();
 void set_default_settings();

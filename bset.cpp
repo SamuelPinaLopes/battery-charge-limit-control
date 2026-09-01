@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ostream>
 #include <string>
 #include <cstring>
 
@@ -27,8 +28,11 @@ int main(int argc, char* argv[]) {
             check_words(argv[index_array_parameter], "--show-settings") or
             check_words(argv[index_array_parameter], "-cs", true)
         ) {
-            show_settings();
+            if (show_settings() == false) {
+                cout << "\nSomething went wrong showing user settings..." << endl;
+            }
         }
+
         // load settings from file
         if (
             check_words(argv[index_array_parameter], "--load-settings") or
