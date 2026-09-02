@@ -1,6 +1,7 @@
 //#include <cstddef>
+#include <cstddef>
 #include <iostream>
-#include <ostream>
+#include <filesystem>
 #include <string>
 #include <cstring>
 #include <fstream>
@@ -65,12 +66,10 @@ bool show_settings() {
 }
 
 bool load_settings(int arg_count, char* parameters[]) {
-    cout << "load settings as file." << endl;
-
     // syntax: --load-settings  [path/to/file]  [parameter "flag"]
 
-    /* rececive a path to the file to load;
-     * check if file exists;
+    /* rececive a path to the file to load; done
+     * check if file exists; done
      * open that file;
      * check if is this programs config file;
      * open config file;
@@ -78,18 +77,16 @@ bool load_settings(int arg_count, char* parameters[]) {
      * if also show parameter was pass:
      *  show each line being rewritten;
      * else:
-     *  show done when it's done;
+     *  show "done" when it finishes;
      * close those files; */
 
-    cout << "program's parameter passed: " << parameters[1] << "\n\n";
-
-    // show parameter from program's parameter
-    cout << "parameter of the programs parameter: => " << parameters[2] << endl;
-
-    // what's inside argv argument
-    cout << "this is what is inside argv:\n\n";
-    for (int index = 0; index <= arg_count; index++) {
-        cout << parameters[index] << "\n";
+    if (parameters[2] != NULL && filesystem::exists(parameters[2])) {
+        // programs parameter in use
+        cout << "program's parameter passed: " << parameters[1] << "\n\n";
+        // show parameter from program's parameter
+        cout << "path to file => " << parameters[2] << endl;
+        // file exists?
+        cout << "this file exists!\n";
     }
 
     return true;
