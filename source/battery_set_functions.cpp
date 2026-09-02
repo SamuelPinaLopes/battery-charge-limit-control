@@ -81,7 +81,16 @@ bool load_settings(int arg_count, char* parameters[]) {
      *  show done when it's done;
      * close those files; */
 
-    cout << parameters[2];
+    cout << "program's parameter passed: " << parameters[1] << "\n\n";
+
+    // show parameter from program's parameter
+    cout << "parameter of the programs parameter: => " << parameters[2] << endl;
+
+    // what's inside argv argument
+    cout << "this is what is inside argv:\n\n";
+    for (int index = 0; index <= arg_count; index++) {
+        cout << parameters[index] << "\n";
+    }
 
     return true;
 
