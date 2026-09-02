@@ -64,7 +64,29 @@ bool show_settings() {
 
 }
 
-void load_settings() {cout << "load settings as preset.";}
+bool load_settings(int arg_count, char* parameters[]) {
+    cout << "load settings as file." << endl;
+
+    // syntax: --load-settings  [path/to/file]  [parameter "flag"]
+
+    /* rececive a path to the file to load;
+     * check if file exists;
+     * open that file;
+     * check if is this programs config file;
+     * open config file;
+     * rewrite everything inside config file from file;
+     * if also show parameter was pass:
+     *  show each line being rewritten;
+     * else:
+     *  show done when it's done;
+     * close those files; */
+
+    cout << parameters[2];
+
+    return true;
+
+}
+
 void save_settings_preset() {cout << "save settings as new preset, enter preset name: ";}
 void set_default_settings() {cout << "restore settings to default configuration";}
 void show_paths() {cout << "these are all paths in use...";}
