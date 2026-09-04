@@ -1,5 +1,3 @@
-//#include <cstddef>
-#include <cstddef>
 #include <iostream>
 #include <filesystem>
 #include <string>
@@ -80,13 +78,15 @@ bool load_settings(int arg_count, char* parameters[]) {
      *  show "done" when it finishes;
      * close those files; */
 
-    if (parameters[2] != NULL && filesystem::exists(parameters[2])) {
+    if (arg_count > 2 && filesystem::exists(parameters[2])) {
         // programs parameter in use
         cout << "program's parameter passed: " << parameters[1] << "\n\n";
         // show parameter from program's parameter
         cout << "path to file => " << parameters[2] << endl;
         // file exists?
         cout << "this file exists!\n";
+
+
     }
 
     return true;
