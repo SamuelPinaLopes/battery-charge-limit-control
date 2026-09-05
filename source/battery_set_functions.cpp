@@ -72,7 +72,7 @@ bool load_settings(int arg_count, char* parameters[]) {
      * check if file exists; done
      * open that file; done
      * open config file;
-     * rewrite everything inside config file from file;
+     * rewrite config file from config preset;
      * if also show parameter was pass:
      *  show each line being rewritten;
      * else:
