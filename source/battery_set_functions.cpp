@@ -1,3 +1,4 @@
+#include "battery_set_functions.h"
 #include <ios>
 #include <iostream>
 #include <filesystem>
@@ -70,7 +71,6 @@ bool load_settings(int arg_count, char* parameters[]) {
     /* rececive a path to the file to load; done
      * check if file exists; done
      * open that file; done
-     * check if is this programs config file;
      * open config file;
      * rewrite everything inside config file from file;
      * if also show parameter was pass:
@@ -104,3 +104,4 @@ bool load_settings(int arg_count, char* parameters[]) {
 void save_settings_preset() {cout << "save settings as new preset, enter preset name: ";}
 void set_default_settings() {cout << "restore settings to default configuration";}
 void show_paths() {cout << "these are all paths in use...";}
+void set_limit(int value) {cout << "setup the charge threshold to: " << value << endl;}

@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
         // show current settings
         if (
             check_words(argv[1], "--show-settings") or
-            check_words(argv[1], "-cs", true)
+            check_words(argv[1], "-ss", true)
         ) {
             if (show_settings() == false) {
                 cout << "\nSomething went wrong showing user settings..." << endl;
@@ -63,6 +63,14 @@ int main(int argc, char* argv[]) {
             check_words(argv[1], "-SP")
         ) {
             show_paths();
+        }
+
+        // set a new charge limit for the current time
+        if  (
+            check_words(argv[1], "--set") or
+            check_words(argv[1], "-S")
+        ) {
+            set_limit();
         }
 
     }
