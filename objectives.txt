@@ -1,0 +1,30 @@
+how is this going to work?
+
+main objective:
+ - write a charge limit for my laptop;
+more thigns to do:
+ - able to change that default charging value; ok
+ - set a charge limit for current time; 
+ - show information about battery from this program;
+ - be able to use it as a command line tool;
+
+
+how it should work?
+
+laptop boots or just came from hibernation, systemd file calls the program:
+   main program writes the limit in the threshold_charge_limit file; (this will always write the value found in configuration file; can also receive a new limit passed as parameter)
+      find the limit to write in a config file;
+
+   command line program that can call that other program to set a new charge limit passed by parameter;
+      show current settings;
+      use default settings;
+      change settings;
+        change charge limit;
+      save current setting as preset;
+      select a preset to use;
+      show all presets avaliable;
+      set a current charge limit;
+
+
+all paths in use:
+/sys/class/power_supply/BAT0/charge_control_end_threshold, /usr/local/bin/set-limit, /etc/systemd/system/set-limit.service, /etc/BatterYLimiT/setup.conf, /etc/BatterYLimiT/config.conf, /etc/BatterYLimiT/presets
