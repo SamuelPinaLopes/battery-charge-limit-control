@@ -4,11 +4,13 @@
     - update program and itself; started
     
     program's settings
-    - show current settings; started
+    - show current settings; done
     - load settings; started
     - save settings as preset; started
     - use default settings/config; started
     - show all paths in use; started
+    - set a charge limit right now; started
+    - show all presets;
 
     possible actions or extra actions
     - change current battery charge limit;
@@ -19,13 +21,9 @@
     - check max voltage;
     - check original voltage;
     - check original charge limit;
-    - see all used folders in action;
     - activate the program (creating and activating systemctl service);
 
 
 - check first if systemd file is working;
 
 - create the user config through the command that talks with main program;
-
-- check if the user has created any config file or use the default settings;
-
