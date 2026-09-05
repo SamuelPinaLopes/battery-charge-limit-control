@@ -1,3 +1,4 @@
+#include <ios>
 #include <iostream>
 #include <filesystem>
 #include <string>
@@ -68,7 +69,7 @@ bool load_settings(int arg_count, char* parameters[]) {
 
     /* rececive a path to the file to load; done
      * check if file exists; done
-     * open that file;
+     * open that file; done
      * check if is this programs config file;
      * open config file;
      * rewrite everything inside config file from file;
@@ -85,7 +86,14 @@ bool load_settings(int arg_count, char* parameters[]) {
         cout << "path to file => " << parameters[2] << endl;
         // file exists?
         cout << "this file exists!\n";
+        // opening the file
+        fstream user_config(parameters[2], ios::in | ios::out);
 
+        if (user_config.is_open()) {
+            cout << "I could open the file!";
+        }
+
+        user_config.close();
 
     }
 
