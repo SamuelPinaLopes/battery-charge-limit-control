@@ -1,6 +1,8 @@
 #include "battery_set_functions.h"
+#include <fstream>
 #include <iostream>
 #include <string>
+#include <filesystem>
 
 using namespace std;
 
@@ -62,16 +64,25 @@ bool show_settings() {
 }
 
 void save_settings_preset() {
-    /*
+    /* ask for the preset name;
+     * check if it has an extension, if not add it;
+     * ask the system to copy as root;
      * copy program's config to presets folder;
-     * rename config inside presets folder;
-     * show the process or just done when it ends;
-     */
+     * show if it worked or not; */
 
-    string variable = "/etc/BatterYLimiT/config.conf";
+    string preset_name;
 
-    cout << "save settings as new preset, enter preset name: ";
+    cout << "enter preset name: ";
+    cin >> preset_name;
+
+    if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", "/etc/BatterYLimiT/presets/" + preset_name)) {
+        cout << "file copied successfully!" << endl;
+    } else {
+        cout << "error!" << endl;
+    }
+
 }
+
 void set_default_settings() {cout << "restore settings to default configuration";}
 void set_limit(int value) {cout << "setup the charge threshold to: " << value << endl;}
 void define_limit() {cout << "define charge limit" << endl;}

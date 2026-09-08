@@ -9,8 +9,8 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
+    // get each parameter
     if (argc > 1) {
-        // get each parameter
         //                        general help
         if ( // if you put one parameters name, you'll have to put for all
             check_words(argv[1], "--help") == true or
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
         // save settings as preset on file
         if (
-            check_words(argv[1], "--save-settings-preset") or
+            check_words(argv[1], "--save-settings") or
             check_words(argv[1], "-sp")
         ) {
             save_settings_preset();
