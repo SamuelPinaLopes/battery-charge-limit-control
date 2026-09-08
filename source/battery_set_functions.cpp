@@ -1,14 +1,10 @@
 #include "battery_set_functions.h"
-#include <ios>
 #include <iostream>
-#include <filesystem>
 #include <string>
-#include <cstring>
-#include <fstream>
 
 using namespace std;
 
-bool check_words(char* word_passed, string expected, bool single_character=false) { // when you're passing a group of characters, make sure that you'll pass it as *, kinda array of characters
+bool check_words(char* word_passed, string expected, bool single_character) { // when you're passing a group of characters, make sure that you'll pass it as *, kinda array of characters
     // loop through each character position
     int index = 0;
 
@@ -65,43 +61,20 @@ bool show_settings() {
 
 }
 
-bool load_settings(int arg_count, char* parameters[]) {
-    // syntax: --load-settings  [path/to/file]  [parameter "flag"]
+void save_settings_preset() {
+    /*
+     * copy program's config to presets folder;
+     * rename config inside presets folder;
+     * show the process or just done when it ends;
+     */
 
-    /* rececive a path to the file to load; done
-     * check if file exists; done
-     * open that file; done
-     * open config file;
-     * rewrite config file from config preset;
-     * if also show parameter was pass:
-     *  show each line being rewritten;
-     * else:
-     *  show "done" when it finishes;
-     * close those files; */
+    string variable = "/etc/BatterYLimiT/config.conf";
 
-    if (arg_count > 2 && filesystem::exists(parameters[2])) {
-        // programs parameter in use
-        cout << "program's parameter passed: " << parameters[1] << "\n\n";
-        // show parameter from program's parameter
-        cout << "path to file => " << parameters[2] << endl;
-        // file exists?
-        cout << "this file exists!\n";
-        // opening the file
-        fstream user_config(parameters[2], ios::in | ios::out);
-
-        if (user_config.is_open()) {
-            cout << "I could open the file!";
-        }
-
-        user_config.close();
-
-    }
-
-    return true;
-
+    cout << "save settings as new preset, enter preset name: ";
 }
-
-void save_settings_preset() {cout << "save settings as new preset, enter preset name: ";}
 void set_default_settings() {cout << "restore settings to default configuration";}
-void show_paths() {cout << "these are all paths in use...";}
 void set_limit(int value) {cout << "setup the charge threshold to: " << value << endl;}
+void define_limit() {cout << "define charge limit" << endl;}
+void rename_preset(string preset) {cout << "renaming preset: " << preset << endl;}
+void show_presets() {cout << "presets list:" << endl;}
+void use_preset(int index, string name) {cout << "preset choosen: " << name << endl;}

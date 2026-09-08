@@ -31,16 +31,6 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        // load settings from file
-        if (
-            check_words(argv[1], "--load-settings") or
-            check_words(argv[1], "-ls")
-        ) {
-            if (load_settings(argc, argv) == false) {
-                cout << "\nSomething went wrong loading user custom settings from file..." << endl;
-            }
-        }
-
         // save settings as preset on file
         if (
             check_words(argv[1], "--save-settings-preset") or
@@ -55,14 +45,6 @@ int main(int argc, char* argv[]) {
             check_words(argv[1], "-d")
         ) {
             set_default_settings();
-        }
-
-        // show all paths in use
-        if (
-            check_words(argv[1], "--show-paths") or
-            check_words(argv[1], "-SP")
-        ) {
-            show_paths();
         }
 
         // set a new charge limit for the current time
