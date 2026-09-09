@@ -71,12 +71,18 @@ void save_settings_preset() {
      * show if it worked or not; */
 
     string preset_name;
-
+    // entering preset name
     cout << "enter preset name: ";
     cin >> preset_name;
 
-    if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", "/etc/BatterYLimiT/presets/" + preset_name)) {
-        cout << "file copied successfully!" << endl;
+
+    filesystem::path p = filesystem::current_path(); // gives you the path from where the program is running
+
+    cout << "this is the path: " << p << endl;
+
+
+    if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", string(p) + "/presets/" + preset_name)) {
+        cout << "this is the path for files: " << string(p) + "/presets/" << preset_name << endl;
     } else {
         cout << "error!" << endl;
     }
