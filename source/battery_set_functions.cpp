@@ -74,18 +74,20 @@ void save_settings_preset() {
     // entering preset name
     cout << "enter preset name: ";
     cin >> preset_name;
-
+    // checking if file has an extension
+    if (preset_name.substr(preset_name.length() - 4, 4) == ".txt" or preset_name.substr(preset_name.length() - 4, 4) == ".conf") {
+        cout << "this is the good result of the substr: " << preset_name.substr(preset_name.length() - 4, 4) << endl;
+    } else {
+        cout << "this is the bad result of the sub str: " << preset_name.substr(preset_name.length() - 4, 4) << endl;
+    }
 
     filesystem::path p = filesystem::current_path(); // gives you the path from where the program is running
 
-    cout << "this is the path: " << p << endl;
-
-
-    if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", string(p) + "/presets/" + preset_name)) {
-        cout << "this is the path for files: " << string(p) + "/presets/" << preset_name << endl;
-    } else {
-        cout << "error!" << endl;
-    }
+    // if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", string(p) + "/preset/" + preset_name)) {
+    //     cout << "this is the path for files: " << string(p) + "/presets/" << preset_name << endl;
+    // } else {
+    //     cout << "error!" << endl;
+    // }
 
 }
 
