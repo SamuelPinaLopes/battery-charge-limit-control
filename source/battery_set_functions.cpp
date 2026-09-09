@@ -66,6 +66,7 @@ bool show_settings() {
 void save_settings_preset() {
     /* ask for the preset name;
      * check if it has an extension, if not add it;
+     * check if another file does not have the same name;
      * ask the system to copy as root;
      * copy program's config to presets folder;
      * show if it worked or not; */
@@ -75,19 +76,17 @@ void save_settings_preset() {
     cout << "enter preset name: ";
     cin >> preset_name;
     // checking if file has an extension
-    if (preset_name.substr(preset_name.length() - 4, 4) == ".txt" or preset_name.substr(preset_name.length() - 4, 4) == ".conf") {
-        cout << "this is the good result of the substr: " << preset_name.substr(preset_name.length() - 4, 4) << endl;
-    } else {
-        cout << "this is the bad result of the sub str: " << preset_name.substr(preset_name.length() - 4, 4) << endl;
+    if (preset_name.substr(preset_name.length() - 4, 4) != ".txt" or preset_name.substr(preset_name.length() - 4, 4) != ".conf") {
+        // adding valid extension
+        preset_name = preset_name + ".conf";
     }
 
     filesystem::path p = filesystem::current_path(); // gives you the path from where the program is running
-
-    // if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", string(p) + "/preset/" + preset_name)) {
-    //     cout << "this is the path for files: " << string(p) + "/presets/" << preset_name << endl;
-    // } else {
-    //     cout << "error!" << endl;
-    // }
+    if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", string(p) + "/preset/" + preset_name)) {
+        cout << "this is the path to the preset created: " << string(p) + "/presets/" << preset_name << endl;
+    } else {
+        cout << "error!" << endl;
+    }
 
 }
 
