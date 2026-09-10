@@ -1,8 +1,10 @@
-#include "battery_set_functions.h"
-#include <fstream>
 #include <iostream>
+#include "battery_set_functions.h"
+#include <ostream>
 #include <string>
+#include <fstream>
 #include <filesystem>
+#include <vector>
 
 using namespace std;
 
@@ -72,21 +74,35 @@ void save_settings_preset() {
      * show if it worked or not; */
 
     string preset_name;
+    filesystem::path p = filesystem::current_path(); // gives you the path from where the program is running
+    string path(string(p) + "/preset/");
+    vector<string> files;
+
     // entering preset name
     cout << "enter preset name: ";
     cin >> preset_name;
+
     // checking if file has an extension
     if (preset_name.substr(preset_name.length() - 4, 4) != ".txt" or preset_name.substr(preset_name.length() - 4, 4) != ".conf") {
         // adding valid extension
         preset_name = preset_name + ".conf";
     }
 
-    filesystem::path p = filesystem::current_path(); // gives you the path from where the program is running
-    if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", string(p) + "/preset/" + preset_name)) {
-        cout << "this is the path to the preset created: " << string(p) + "/presets/" << preset_name << endl;
-    } else {
-        cout << "error!" << endl;
+    // check if the name repeats
+    for (auto const& entry : filesystem::directory_iterator(path)) {
+        files.push_back(string(entry.path()));
     }
+
+    for (int index = 0; index < files.size(); index++) {
+        cout << "this is the file in preset's folder: " << files[index] << endl;
+    }
+    cout << "this is the path to new file: " << path + preset_name << endl;
+
+    // if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", path + preset_name)) {
+    //     cout << "this is the path to the preset created: " << path << preset_name << endl;
+    // } else {
+    //     cout << "error!" << endl;
+    // }
 
 }
 
