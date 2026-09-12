@@ -4,7 +4,6 @@
 #include <string>
 #include <fstream>
 #include <filesystem>
-#include <vector>
 
 using namespace std;
 
@@ -66,9 +65,9 @@ bool show_settings() {
 }
 
 void save_settings_preset() {
-    /* ask for the preset name;
-     * check if it has an extension, if not add it;
-     * check if another file does not have the same name;
+    /* ask for the preset name; done
+     * check if it has an extension, if not add it; done
+     * check if another file does not have the same name; working
      * ask the system to copy as root;
      * copy program's config to presets folder;
      * show if it worked or not; */
@@ -76,33 +75,38 @@ void save_settings_preset() {
     string preset_name;
     filesystem::path p = filesystem::current_path(); // gives you the path from where the program is running
     string path(string(p) + "/preset/");
-    vector<string> files;
 
-    // entering preset name
+    /* entering preset name */
     cout << "enter preset name: ";
     cin >> preset_name;
 
-    // checking if file has an extension
-    if (preset_name.substr(preset_name.length() - 4, 4) != ".txt" or preset_name.substr(preset_name.length() - 4, 4) != ".conf") {
-        // adding valid extension
+    /* checking if file has an extension */
+    // if word has size to have an extension
+    if (preset_name.length() >= 5) {
+        // if word doesn't have extension, add it
+        if (preset_name.substr(preset_name.length() - 5, 5) != ".conf") {
+            preset_name = preset_name + ".conf";
+        }
+    } else {
+        // adding extension if is too short to have one
         preset_name = preset_name + ".conf";
     }
 
-    // check if the name repeats
+    /* check if the name repeats */
+    // for each full path inside directory
     for (auto const& entry : filesystem::directory_iterator(path)) {
-        files.push_back(string(entry.path()));
-    }
+        // if name is different
+        if ((path + preset_name) != entry.path()) {
+            // copying settings from config.conf to preset folder
+            if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", path + preset_name)) {
+                cout << "this is the path to preset created: " << path << preset_name << endl;
+            } else {
+                cout << "error!" << endl;
+            }
 
-    for (int index = 0; index < files.size(); index++) {
-        cout << "this is the file in preset's folder: " << files[index] << endl;
-    }
-    cout << "this is the path to new file: " << path + preset_name << endl;
+        }
 
-    // if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", path + preset_name)) {
-    //     cout << "this is the path to the preset created: " << path << preset_name << endl;
-    // } else {
-    //     cout << "error!" << endl;
-    // }
+    }
 
 }
 
