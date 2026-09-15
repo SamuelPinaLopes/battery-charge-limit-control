@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <filesystem>
+#include <cstdio>
 
 using namespace std;
 
@@ -67,12 +68,14 @@ bool show_settings() {
 void save_settings_preset() {
     /* ask for the preset name; done
      * check if it has an extension, if not add it; done
-     * check if another file does not have the same name; working
+     * check if another file does not have the same name (if has same name, replace that file with this new one); done
      * ask the system to copy as root;
      * copy program's config to presets folder;
      * show if it worked or not; */
 
     string preset_name;
+    string config_file("/etc/BatterYLimiT/config.conf");
+
     filesystem::path p = filesystem::current_path(); // gives you the path from where the program is running
     string path(string(p) + "/preset/");
 
@@ -80,32 +83,33 @@ void save_settings_preset() {
     cout << "enter preset name: ";
     cin >> preset_name;
 
-    /* checking if file has an extension */
-    // if word has size to have an extension
+    /* checking if preset name has an extension */
+    // if word has a size to have an extension
     if (preset_name.length() >= 5) {
         // if word doesn't have extension, add it
         if (preset_name.substr(preset_name.length() - 5, 5) != ".conf") {
             preset_name = preset_name + ".conf";
         }
+    // adding extension if is too short to have one
     } else {
-        // adding extension if is too short to have one
         preset_name = preset_name + ".conf";
     }
 
-    /* check if the name repeats */
-    // for each full path inside directory
+    /* check if the name is already in use in preset folder */
+    // for each file inside preset directory
     for (auto const& entry : filesystem::directory_iterator(path)) {
-        // if name is different
-        if ((path + preset_name) != entry.path()) {
-            // copying settings from config.conf to preset folder
-            if (filesystem::copy_file("/etc/BatterYLimiT/config.conf", path + preset_name)) {
-                cout << "this is the path to preset created: " << path << preset_name << endl;
-            } else {
-                cout << "error!" << endl;
-            }
-
+        // if preset name is already in use
+        if ((path + preset_name) == entry.path()) {
+            // removing that file
+            remove(entry.path().c_str());
         }
+    }
 
+    /* creating new preset from config file */
+    if (filesystem::copy_file(config_file, path + preset_name)) {
+        cout << "preset created!" << endl;
+    } else {
+        cout << "error creating new preset!" << endl;
     }
 
 }
