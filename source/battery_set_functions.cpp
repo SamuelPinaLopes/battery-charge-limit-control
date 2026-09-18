@@ -1,10 +1,8 @@
 #include <iostream>
 #include "battery_set_functions.h"
-#include <ostream>
 #include <string>
 #include <fstream>
 #include <filesystem>
-#include <cstdio>
 
 using namespace std;
 
@@ -69,15 +67,13 @@ void save_settings_preset() {
     /* ask for the preset name; done
      * check if it has an extension, if not add it; done
      * check if another file does not have the same name (if has same name, replace that file with this new one); done
-     * ask the system to copy as root;
-     * copy program's config to presets folder;
-     * show if it worked or not; */
+     * copy program's config to presets folder; done (important to run as sudo)
+     * show if it worked or not; done
+     */
 
     string preset_name;
     string config_file("/etc/BatterYLimiT/config.conf");
-
-    filesystem::path p = filesystem::current_path(); // gives you the path from where the program is running
-    string path(string(p) + "/preset/");
+    filesystem::path path = "/etc/BatterYLimiT/presets/"; // gives you the path from where the program is running
 
     /* entering preset name */
     cout << "enter preset name: ";
@@ -99,14 +95,14 @@ void save_settings_preset() {
     // for each file inside preset directory
     for (auto const& entry : filesystem::directory_iterator(path)) {
         // if preset name is already in use
-        if ((path + preset_name) == entry.path()) {
+        if ((path.string() + preset_name) == entry.path()) {
             // removing that file
             remove(entry.path().c_str());
         }
     }
 
     /* creating new preset from config file */
-    if (filesystem::copy_file(config_file, path + preset_name)) {
+    if (filesystem::copy_file(config_file, path.string() + preset_name)) {
         cout << "preset created!" << endl;
     } else {
         cout << "error creating new preset!" << endl;
@@ -120,3 +116,49 @@ void define_limit() {cout << "define charge limit" << endl;}
 void rename_preset(string preset) {cout << "renaming preset: " << preset << endl;}
 void show_presets() {cout << "presets list:" << endl;}
 void use_preset(int index, string name) {cout << "preset choosen: " << name << endl;}
+
+
+
+
+/*
+ #include <iostream>
+ #include <filesystem>
+ #include <cstdlib>
+ #include <string>
+
+ namespace fs = std::filesystem;
+
+ bool copy_to_system_directory(const fs::path& source, const fs::path& system_destination) {
+     std::error_code ec;
+
+     // Step 1: Copy file to /tmp using std::filesystem
+     fs::path temp_path = fs::temp_directory_path() / source.filename();
+
+     fs::copy_file(source, temp_path, fs::copy_options::overwrite_existing, ec); // important to learn more about filesystem options thing, I didn't know you have specific option for copying files and overwrite exiting was one of them.
+     if (ec) {
+         std::cerr << "Failed to copy to temp directory: " << ec.message() << "\n";
+         return false;
+     }
+
+     // Step 2: Move the file from /tmp to the system folder using root privileges
+     // Command built: pkexec mv /tmp/your_file.conf /etc/your_file.conf
+     std::string command = "pkexec mv " + temp_path.string() + " " + system_destination.string();
+
+     int result = std::system(command.c_str());
+
+     return (result == 0);
+ }
+
+ int main() {
+     fs::path my_file = "app.conf";
+     fs::path target = "/etc/app.conf";
+
+     if (copy_to_system_directory(my_file, target)) {
+         std::cout << "Successfully copied file to system path!\n";
+     } else {
+         std::cerr << "Operation failed or canceled by user.\n";
+     }
+
+     return 0;
+ }
+ */
