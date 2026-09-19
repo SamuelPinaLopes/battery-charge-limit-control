@@ -110,7 +110,10 @@ void save_settings_preset() {
 
 }
 
-void set_default_settings() {cout << "restore settings to default configuration";}
+void set_default_settings() {
+    cout << "restore settings to default configuration";
+}
+
 void set_limit(int value) {cout << "setup the charge threshold to: " << value << endl;}
 void define_limit() {cout << "define charge limit" << endl;}
 void rename_preset(string preset) {cout << "renaming preset: " << preset << endl;}

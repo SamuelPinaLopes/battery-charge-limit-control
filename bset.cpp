@@ -33,8 +33,8 @@ int main(int argc, char* argv[]) {
 
         // save settings as preset on file
         if (
-            check_words(argv[1], "--save-settings") or
-            check_words(argv[1], "-sp")
+            check_words(argv[1], "--create-preset") or
+            check_words(argv[1], "-cp")
         ) {
             save_settings_preset();
         }
