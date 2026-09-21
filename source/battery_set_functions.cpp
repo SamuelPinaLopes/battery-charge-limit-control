@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 #include "battery_set_functions.h"
 #include <string>
@@ -111,7 +112,30 @@ void save_settings_preset() {
 }
 
 void set_default_settings() {
-    cout << "restore settings to default configuration";
+    /*
+     * loads the config from config file into .runtime.conf file that "worker program" will read;
+     *      open config file; done
+     *      get battery charge battery value;
+     *      open .runtime.conf file;
+     *      write the value inside config file;
+     *      close those files; done
+     *
+     * tell systemd to reload "worker program";
+     *      reload your program/worker program with systemd in background;
+     *
+     * show return value;
+     */
+
+    string line;
+    ifstream config_file("/etc/BatterYLimiT/config.conf");
+    // ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
+
+    while (getline(config_file, line)) {
+        cout << line << endl;
+    }
+
+    config_file.close();
+
 }
 
 void set_limit(int value) {cout << "setup the charge threshold to: " << value << endl;}
