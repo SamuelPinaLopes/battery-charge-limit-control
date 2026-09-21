@@ -116,7 +116,7 @@ void set_default_settings() {
      *      open config file; done
      *      get battery charge battery value; done
      *      open .runtime.conf file; done
-     *      write the value inside config file;
+     *      write the value inside config file; done
      *      close those files; done
      *
      * tell systemd to reload "worker program";
@@ -125,12 +125,13 @@ void set_default_settings() {
      * show return value;
      */
 
-    string line;
+    string line, charge_limit_value;
     ifstream config_file("/etc/BatterYLimiT/config.conf");
 
     while (getline(config_file, line)) {
         if (line.length() > 2) {
             cout << line.substr(line.length() - 2, 2) << " <=== this is battery charge limit value." << endl;
+            charge_limit_value = line.substr(line.length() - 2, 2);
         }
     }
 
@@ -140,7 +141,7 @@ void set_default_settings() {
 
     ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
 
-    runtime << "something for tests" << "\n";
+    runtime << charge_limit_value << "\n";
 
     runtime.close();
 
