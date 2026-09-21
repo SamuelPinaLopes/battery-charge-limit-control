@@ -120,7 +120,7 @@ void set_default_settings() {
      *      close those files; done
      *
      * tell systemd to reload "worker program";
-     *      reload your program/worker program with systemd in background;
+     *      reload your "worker program" with systemd in background; done
      *
      * show return value;
      */
@@ -145,7 +145,6 @@ void set_default_settings() {
 
     runtime.close();
 
-
     ifstream runtime2("/etc/BatterYLimiT/.runtime.conf");
 
     while (getline(runtime2, line)) {
@@ -153,6 +152,8 @@ void set_default_settings() {
     }
 
     runtime2.close();
+
+    // system("systemctl restart setlimit.service");
 
 }
 
