@@ -1,7 +1,7 @@
 how is this going to work?
 
 main objective:
- - write a charge limit for my laptop;
+ - write a charge limit for my laptop battery;
 more thigns to do:
  - able to change that default charging value; ok
  - set a charge limit for current time; 
@@ -13,7 +13,7 @@ how it should work?
 
 laptop boots or just came from hibernation, systemd file calls the program:
    main program writes the limit in the threshold_charge_limit file; (this will always write the value found in configuration file; can also receive a new limit passed as parameter)
-      find the limit to write in a config file;
+      find limit to write in .runtime.conf file;
 
    command line program that can call that other program to set a new charge limit passed by parameter;
       show current settings;
