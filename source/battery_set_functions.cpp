@@ -73,7 +73,7 @@ void save_settings_preset() {
 
     string preset_name;
     string config_file("/etc/BatterYLimiT/config.conf");
-    filesystem::path path = "/etc/BatterYLimiT/presets/"; // gives you the path from where the program is running
+    filesystem::path path = "/etc/BatterYLimiT/presets/";
 
     /* entering preset name */
     cout << "enter preset name: ";
@@ -121,39 +121,23 @@ void set_default_settings() {
      *
      * tell systemd to reload "worker program";
      *      reload your "worker program" with systemd in background; done
-     *
-     * show return value;
      */
-
     string line, charge_limit_value;
-    ifstream config_file("/etc/BatterYLimiT/config.conf");
+    ifstream config_file("/etc/BatterYLimiT/.default.conf");
 
     while (getline(config_file, line)) {
         if (line.length() > 2) {
-            cout << line.substr(line.length() - 2, 2) << " <=== this is battery charge limit value." << endl;
             charge_limit_value = line.substr(line.length() - 2, 2);
         }
     }
 
     config_file.close();
 
-    cout << "===============================" << endl;
-
     ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
-
-    runtime << charge_limit_value << "\n";
-
+    runtime << charge_limit_value;
     runtime.close();
 
-    ifstream runtime2("/etc/BatterYLimiT/.runtime.conf");
-
-    while (getline(runtime2, line)) {
-        cout << line << endl;
-    }
-
-    runtime2.close();
-
-    // system("systemctl restart setlimit.service");
+    system("systemctl restart setlimit.service");
 
 }
 
@@ -162,9 +146,6 @@ void define_limit() {cout << "define charge limit" << endl;}
 void rename_preset(string preset) {cout << "renaming preset: " << preset << endl;}
 void show_presets() {cout << "presets list:" << endl;}
 void use_preset(int index, string name) {cout << "preset choosen: " << name << endl;}
-
-
-
 
 /*
  #include <iostream>

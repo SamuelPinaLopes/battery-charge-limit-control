@@ -41,13 +41,13 @@ int main(int argc, char* argv[]) {
 
         // use default settings
         if (
-            check_words(argv[1], "--default") or
-            check_words(argv[1], "-d")
+            check_words(argv[1], "--default-settings") or
+            check_words(argv[1], "-ds")
         ) {
             set_default_settings();
         }
 
-        // set a new charge limit for the current time
+        // set a new charge limit on current time
         if  (
             check_words(argv[1], "--set") or
             check_words(argv[1], "-S")
