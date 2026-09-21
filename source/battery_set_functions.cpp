@@ -1,4 +1,3 @@
-#include <cstdio>
 #include <iostream>
 #include "battery_set_functions.h"
 #include <string>
@@ -116,7 +115,7 @@ void set_default_settings() {
      * loads the config from config file into .runtime.conf file that "worker program" will read;
      *      open config file; done
      *      get battery charge battery value; done
-     *      open .runtime.conf file;
+     *      open .runtime.conf file; done
      *      write the value inside config file;
      *      close those files; done
      *
@@ -128,7 +127,6 @@ void set_default_settings() {
 
     string line;
     ifstream config_file("/etc/BatterYLimiT/config.conf");
-    // ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
 
     while (getline(config_file, line)) {
         if (line.length() > 2) {
@@ -137,6 +135,23 @@ void set_default_settings() {
     }
 
     config_file.close();
+
+    cout << "===============================" << endl;
+
+    ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
+
+    runtime << "something for tests" << "\n";
+
+    runtime.close();
+
+
+    ifstream runtime2("/etc/BatterYLimiT/.runtime.conf");
+
+    while (getline(runtime2, line)) {
+        cout << line << endl;
+    }
+
+    runtime2.close();
 
 }
 
