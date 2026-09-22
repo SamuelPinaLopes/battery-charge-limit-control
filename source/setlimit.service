@@ -3,7 +3,7 @@ Description=Service to define battery charge limit.
 
 [Service]
 Type=oneshot
-ExecStart=                        /usr/bin/setlimit
+ExecStart=/usr/bin/setlimit
 Restart=on-failure
 RestartSec=5
 

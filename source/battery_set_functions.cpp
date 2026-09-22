@@ -145,8 +145,8 @@ void set_limit() {
     /*
      * ask for the value; done
      * copy value from .runtime file; done
-     * write the new limit inside .runtime;
-     * apply the value with "worker program";
+     * write the new limit inside .runtime; done
+     * apply the value with "worker program"; done
      * rewrite the old value to .runtime file;
      * show the value applied;
      */
@@ -167,6 +167,8 @@ void set_limit() {
     ofstream runtimefile2(runtime);
     runtimefile2 << value;
     runtimefile2.close();
+
+    system("systemctl restart setlimit.service");
 
 }
 
