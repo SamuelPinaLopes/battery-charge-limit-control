@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
         // set a new charge limit on current time
         if  (
             check_words(argv[1], "--set") or
-            check_words(argv[1], "-S")
+            check_words(argv[1], "-s")
         ) {
             set_limit();
         }

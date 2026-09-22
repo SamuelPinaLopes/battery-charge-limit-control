@@ -164,6 +164,10 @@ void set_limit() {
     cout << "copying value from .runtime file: " << line << endl;
     runtimefile.close();
 
+    ofstream runtimefile2(runtime);
+    runtimefile2 << value;
+    runtimefile2.close();
+
 }
 
 void define_limit() {cout << "define charge limit" << endl;}
