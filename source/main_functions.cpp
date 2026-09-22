@@ -2,7 +2,7 @@
 #include <filesystem>
 
 // path to battery charge threshold
-std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_thresholdtxt");
+std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold");
 // path to runtime file, file containing limit for charge threshold
 std::filesystem::path runtime("/etc/BatterYLimiT/.runtime.conf");
 
