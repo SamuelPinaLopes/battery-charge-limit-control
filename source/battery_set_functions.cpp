@@ -141,7 +141,23 @@ void set_default_settings() {
 
 }
 
-void set_limit(int value) {cout << "setup the charge threshold to: " << value << endl;}
+void set_limit() {
+    /*
+     * ask for the value; done
+     * copy value from .runtime file;
+     * write the new limit inside .runtime;
+     * apply the value with "worker program";
+     * rewrite the old value to .runtime file;
+     * show the value applied;
+     */
+
+    int value;
+
+    cout << "new charge limit: ";
+    cin >> value;
+
+}
+
 void define_limit() {cout << "define charge limit" << endl;}
 void rename_preset(string preset) {cout << "renaming preset: " << preset << endl;}
 void show_presets() {cout << "presets list:" << endl;}

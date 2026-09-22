@@ -1,8 +1,4 @@
 #include <iostream>
-#include <ostream>
-#include <string>
-// #include <cstring>
-
 #include "source/battery_set_functions.h"
 
 using namespace std;
