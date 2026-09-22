@@ -22,9 +22,7 @@ int main(int argc, char* argv[]) {
             check_words(argv[1], "--show-settings") or
             check_words(argv[1], "-ss", true)
         ) {
-            if (show_settings() == false) {
-                cout << "\nSomething went wrong showing user settings..." << endl;
-            }
+            show_settings();
         }
 
         // save settings as preset on file

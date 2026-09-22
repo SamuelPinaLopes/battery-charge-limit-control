@@ -35,15 +35,16 @@ bool check_words(char* word_passed, string expected, bool single_character) { //
 
 }
 
-bool show_settings() {
-    ifstream read_settings("/etc/BatterYLimiT/config.conf");
-    string lines;
-    /* open the settings file;
+void show_settings() {
+    /*
+     * open the settings file;
      * read each line until finding what you want;
      * show it;
-     * close the file */
-
+     * close the file
+     */
     // openning file with settings on it
+    ifstream read_settings("/etc/BatterYLimiT/config.conf");
+    string lines;
     // check if the file is open
     if (read_settings.is_open() == true) {
         cout << "Current Settings:\n\n";
@@ -55,12 +56,7 @@ bool show_settings() {
         // close the file
         read_settings.close();
         // did fine
-        return true;
-    } else {
-        // something went wront
-        return false;
     }
-
 }
 
 void save_settings_preset() {
@@ -180,9 +176,9 @@ void set_limit() {
 
 }
 
-void define_limit() {cout << "define charge limit" << endl;}
-void rename_preset(string preset) {cout << "renaming preset: " << preset << endl;}
 void show_presets() {cout << "presets list:" << endl;}
+void define_limit() {cout << "define charge limit to current setting/preset" << endl;}
+void rename_preset(string preset) {cout << "renaming preset: " << preset << endl;}
 void use_preset(int index, string name) {cout << "preset choosen: " << name << endl;}
 
 /*
