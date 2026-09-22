@@ -144,7 +144,7 @@ void set_default_settings() {
 void set_limit() {
     /*
      * ask for the value; done
-     * copy value from .runtime file;
+     * copy value from .runtime file; done
      * write the new limit inside .runtime;
      * apply the value with "worker program";
      * rewrite the old value to .runtime file;
@@ -155,6 +155,14 @@ void set_limit() {
 
     cout << "new charge limit: ";
     cin >> value;
+
+    // path to runtime file, file containing limit for charge threshold
+    std::filesystem::path runtime("/etc/BatterYLimiT/.runtime.conf");
+    string line;
+    ifstream runtimefile(runtime);
+    getline(runtimefile, line);
+    cout << "copying value from .runtime file: " << line << endl;
+    runtimefile.close();
 
 }
 
