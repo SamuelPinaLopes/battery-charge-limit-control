@@ -148,32 +148,35 @@ void set_limit() {
      * write the new limit inside .runtime; done
      * apply the value with "worker program"; done
      * rewrite the old value to .runtime file; done
-     * show the value applied;
+     * show the value applied; done
      */
-
+    // asking limit value
     int value;
-
     cout << "new charge limit: ";
     cin >> value;
-
     // path to runtime file, file containing limit for charge threshold
     std::filesystem::path runtime("/etc/BatterYLimiT/.runtime.conf");
     string line;
+    // opens .runtime file
     ifstream runtimefile(runtime);
+    // gets settings limit there
     getline(runtimefile, line);
-    cout << "copying value from .runtime file: " << line << endl;
     runtimefile.close();
-
+    // writes the current limit wanted
     ofstream runtimefile2(runtime);
     runtimefile2 << value;
     runtimefile2.close();
-
+    // apply that limit to threshold file
     system("systemctl restart setlimit.service");
-
+    // rewrite settings limit back to file
     ofstream runtimefile3(runtime);
     runtimefile3 << line;
     runtimefile.close();
-
+    // shows new battery charge limit applied
+    ifstream currentlimit("/sys/class/power_supply/BAT0/charge_control_end_threshold");
+    getline(currentlimit, line);
+    cout << "current charge limit: " << line << endl;
+    currentlimit.close();
 
 }
 
