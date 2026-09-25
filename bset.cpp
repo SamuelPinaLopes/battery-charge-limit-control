@@ -69,11 +69,11 @@ int main(int argc, char* argv[]) {
     } else {
         /* apply limit through settings */
         /*
-         * open config file;
-         * get the name of the settings to use;
-         * close config file;
-         * open settings file to use;
-         * get the charge limit;
+         * open config file; done
+         * get the name of the settings to use; done
+         * close config file; done
+         * open settings file to use; done
+         * get the charge limit; done
          * close settings file;
          * open .runtime.conf
          * write the value from settings file;
@@ -83,15 +83,30 @@ int main(int argc, char* argv[]) {
 
         ifstream configuration("/etc/BatterYLimiT/config.conf");
         string line;
-        string limit;
+        string settings_path;
 
         // get each line
         while (getline(configuration, line)) {
             // check if the first character matches the size of "settings"
             if (line.substr(0, 7) == "setting") {
-                // get its value
-                limit = line.substr(8, line.length()-1);
-                cout << "preset name: " << limit << endl;
+                // get its name path
+                settings_path = line.substr(8, line.length()-1);
+
+                // open settings file
+                ifstream setting(settings_path);
+
+                // get value
+                getline(setting, line);
+
+                // get charge limit
+                if (line.substr(line.length()-2, line.length()-1) != "") {
+                    // charge limit value
+                    cout << line.substr(line.length()-2, line.length()-1) << "%" << endl;
+                }
+
+                // close file
+                setting.close();
+
             }
         }
 
