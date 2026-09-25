@@ -49,6 +49,14 @@ int main(int argc, char* argv[]) {
             set_limit();
         }
 
+        // show all presets avaiable
+        if (
+            check_words(argv[1], "--show-presets") or
+            check_words(argv[1], "-sp")
+        ) {
+            show_presets();
+        }
+
     }
 
     return 0;
