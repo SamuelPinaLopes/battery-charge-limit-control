@@ -1,11 +1,12 @@
+#include <fstream>
 #include <iostream>
+#include <string>
 #include "source/battery_set_functions.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
 
-    // get each parameter
     if (argc > 1) {
         //                        general help
         if ( // if you put one parameters name, you'll have to put for all
@@ -56,6 +57,43 @@ int main(int argc, char* argv[]) {
         ) {
             show_presets();
         }
+
+        // select a preset/setting file to use
+        if (
+            check_words(argv[1], "--select-preset") or
+            check_words(argv[1], "-se")
+        ) {
+            use_preset();
+        }
+
+    } else {
+        /* apply limit through settings */
+        /*
+         * open config file;
+         * get the name of the settings to use;
+         * close config file;
+         * open settings file to use;
+         * get the charge limit;
+         * close settings file;
+         * open .runtime.conf
+         * write the value from settings file;
+         * close runtime file;
+         * run worker program to apply that;
+         */
+
+        ifstream configuration("/etc/BatterYLimiT/config.conf");
+        string line;
+
+        // get each line
+        while (getline(configuration, line)) {
+            cout << line << endl;
+        }
+
+        configuration.close();
+        // check if the first character matches the size of "settings"
+        // get its value
+        // close the file
+
 
     }
 
