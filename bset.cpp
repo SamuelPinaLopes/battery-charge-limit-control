@@ -74,16 +74,15 @@ int main(int argc, char* argv[]) {
          * close config file; done
          * open settings file to use; done
          * get the charge limit; done
-         * close settings file;
-         * open .runtime.conf
-         * write the value from settings file;
-         * close runtime file;
-         * run worker program to apply that;
+         * close settings file; done
+         * open .runtime.conf; done
+         * write the value from settings file; done
+         * close runtime file; done
+         * run worker program to apply that; done
          */
 
         ifstream configuration("/etc/BatterYLimiT/config.conf");
-        string line;
-        string settings_path;
+        string line, settings_path, charge_limit;
 
         // get each line
         while (getline(configuration, line)) {
@@ -101,17 +100,29 @@ int main(int argc, char* argv[]) {
                 // get charge limit
                 if (line.substr(line.length()-2, line.length()-1) != "") {
                     // charge limit value
-                    cout << line.substr(line.length()-2, line.length()-1) << "%" << endl;
+                    charge_limit = line.substr(line.length()-2, line.length()-1);
                 }
 
                 // close file
                 setting.close();
+
+                // open runtime file
+                ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
+
+                // write charge limit
+                runtime << charge_limit;
+
+                // close file
+                runtime.close();
 
             }
         }
 
         // close the file
         configuration.close();
+
+        // apply changes
+        system("systemctl restart setlimit.service");
 
     }
 
