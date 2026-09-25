@@ -1,10 +1,10 @@
 - create a command to update and pass parameters to the main program;
     program's settings
     - show current settings; done
-    - save current settings as preset; started
-    - use default settings; 
-    - set a charge limit right now; 
-    - show all presets;
+    - save current settings as preset; done
+    - use default settings; done
+    - set a charge limit right now; done 
+    - show all presets; done
     - rename a preset;
     - select a preset to use;
 
