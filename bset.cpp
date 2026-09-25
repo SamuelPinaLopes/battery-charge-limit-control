@@ -83,19 +83,20 @@ int main(int argc, char* argv[]) {
 
         ifstream configuration("/etc/BatterYLimiT/config.conf");
         string line;
+        string limit;
 
         // get each line
         while (getline(configuration, line)) {
             // check if the first character matches the size of "settings"
             if (line.substr(0, 7) == "setting") {
-                cout << line << "\n this line has settings on it" << endl;
+                // get its value
+                limit = line.substr(8, line.length()-1);
+                cout << "preset name: " << limit << endl;
             }
         }
 
-        configuration.close();
-        // get its value
         // close the file
-
+        configuration.close();
 
     }
 
