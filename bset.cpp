@@ -86,11 +86,13 @@ int main(int argc, char* argv[]) {
 
         // get each line
         while (getline(configuration, line)) {
-            cout << line << endl;
+            // check if the first character matches the size of "settings"
+            if (line.substr(0, 7) == "setting") {
+                cout << line << "\n this line has settings on it" << endl;
+            }
         }
 
         configuration.close();
-        // check if the first character matches the size of "settings"
         // get its value
         // close the file
 
