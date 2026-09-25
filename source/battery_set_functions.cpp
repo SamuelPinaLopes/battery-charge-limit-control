@@ -178,11 +178,18 @@ void set_limit() {
 }
 
 void show_presets() {
-    cout << "presets list: \n\n";
-
+    cout << "presets list: \n";
+    // path to presets folder
     filesystem::path path("/etc/BatterYLimiT/presets/");
+    int count = 1;
+    // loop through each file inside the presets folder
     for (const auto entry : filesystem::directory_iterator(path)) {
-        cout << " 1 = " << entry.path() << endl;
+        // formated name of each file
+        cout << count
+             << " == "
+             << string( entry.path() ).substr(26, string( entry.path() ).length() - 1)
+             << endl;
+        count++;
     }
 }
 
