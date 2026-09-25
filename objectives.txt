@@ -1,10 +1,14 @@
 how is this going to work?
+systemctl will flag boot or hibernation and immidiately call setlimitmanager;
+setlimitmanager without any parameters, will find settings file path inside config.conf and load that into .runtime.conf;
+setlimitmanager will run setlimit (worker program) to apply that;
+
 
 main objective:
  - write a charge limit for my laptop battery;
 more thigns to do:
  - able to change that default charging value; ok
- - set a charge limit for current time; 
+ - set a charge limit for current time;
  - show information about battery from this program;
  - be able to use it as a command line tool;
 
