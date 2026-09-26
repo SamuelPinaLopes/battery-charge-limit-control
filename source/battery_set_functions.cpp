@@ -1,9 +1,9 @@
-#include <cstdio>
 #include <iostream>
 #include "battery_set_functions.h"
 #include <string>
 #include <fstream>
 #include <filesystem>
+#include <vector>
 
 using namespace std;
 
@@ -215,7 +215,7 @@ void define_limit() {
      * close config file; done
      * ask for new limit; done
      * open settings file in use; done
-     * write new limit on it;
+     * write new limit on it; done
      * close file;
      * show what's inside that file;
      */
@@ -227,29 +227,58 @@ void define_limit() {
          << ""
          << endl;
 
+    string line, settingpath, newlimit;
     ifstream config("/etc/BatterYLimiT/config.conf");
-
-    string line;
-
     while (getline(config, line)) {
         if (line.substr(0, 7) == "setting") {
             cout << line << "  -----  this line has setting file path on it." << endl;
             break;
         }
     }
-
     config.close();
 
-    int newlimit;
+    settingpath = line.substr(8, line.length()-1);
     string filename = line.substr(string("setting=/etc/BatterYLimiT/").length(), line.length()-1);
 
-    cout << "current using: " << filename << endl;
+    cout << "\ncurrent using: " << filename << endl;
     cout << "insert new battery charge limit: ";
     cin >> newlimit;
 
-    ifstream settingsfile( line.substr(8, line.length()-1) );
+    ifstream settingsfile(settingpath);
 
-    settingsfile.close();
+    if (settingsfile.is_open()) {
+
+        vector <string> array;
+        while (getline(settingsfile, line)) {
+            array.push_back(line);
+        }
+
+        settingsfile.close();
+
+        cout << "\nwhat's inside the array:" << endl;
+        cout << array[0].substr(
+                array[0].length()-2,
+                array[0].length()-1
+                )
+            << " <== battery charge limit in first line"
+            << endl;
+
+        array[0] = array[0].substr(
+            0,
+            array[0].length()-2
+        );
+
+        array[0].append(newlimit);
+
+        ofstream settingsfile2(settingpath);
+
+        for (int index = 0; index < array.size(); index++) {
+            settingsfile2 << array[index] << endl;
+        }
+
+        settingsfile2.close();
+
+    }
 
 }
 
