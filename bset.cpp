@@ -66,8 +66,16 @@ int main(int argc, char* argv[]) {
             use_preset();
         }
 
+        // define a battery charge limit for current settings
+        if (
+            check_words(argv[1], "--new-limit") or
+            check_words(argv[1], "-n")
+        ) {
+            define_limit();
+        }
+
     } else {
-        /* apply limit through settings */
+        // apply limit through settings
         /*
          * open config file; done
          * get the name of the settings to use; done

@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 #include "battery_set_functions.h"
 #include <string>
@@ -193,9 +194,54 @@ void show_presets() {
     }
 }
 
-void define_limit() {cout << "define charge limit to current setting/preset" << endl;}
+void use_preset() {
+    /*
+     * open config.conf file;
+     * write preset path to use;
+     * close file;
+     * open that preset;
+     * write its value to .runtime.conf
+     * close both files, preset and .runtime;
+     * call worker program to apply that;
+     * show chosen preset name;
+     */
+    cout << "preset chosen: " << endl;
+}
+
+void define_limit() {
+    /*
+     * open config file; done
+     * get path to current settings file in use;
+     * close config file;
+     * ask for new limit;
+     * open settings file in use;
+     * write new limit on it;
+     * close file;
+     * show what's inside that file;
+     */
+
+    cout << "define charge limit to current setting/preset."
+         << "\nold limit: "
+         << ""
+         << "\nnew limit: "
+         << ""
+         << endl;
+
+    ifstream config("/etc/BatterYLimiT/config.conf");
+
+    string line;
+
+    while (getline(config, line)) {
+        if (line.substr(0, 7) == "setting") {
+            cout << line << "this line has setting file path on it." << endl;
+        }
+    }
+
+    config.close();
+
+}
+
 void rename_preset(string preset) {cout << "renaming preset: " << preset << endl;}
-void use_preset(int index, string name) {cout << "preset choosen: " << name << endl;}
 
 /*
  #include <iostream>
