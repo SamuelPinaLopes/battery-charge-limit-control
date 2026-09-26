@@ -196,11 +196,13 @@ void show_presets() {
 
 void use_preset() {
     /*
-     * open config.conf file;
+     * show all presets avaiable;
+     * ask for what preset name/number to use;
+     * open config file;
      * write preset path to use;
      * close file;
-     * open that preset;
-     * write its value to .runtime.conf
+     * open that file and .runtime;
+     * write its value to .runtime;
      * close both files, preset and .runtime;
      * call worker program to apply that;
      * show chosen preset name;
@@ -219,73 +221,54 @@ void define_limit() {
      * close file; done
      * show what's inside that file; done
      */
-
-    cout << "define charge limit to current setting/preset."
-         << "\nold limit: "
-         << ""
-         << "\nnew limit: "
-         << ""
-         << endl;
-
-    string line, filepath, newlimit;
+    string line, filepath, newlimit, oldlimit;
+    vector <string> array;
+    // open config file
     ifstream config("/etc/BatterYLimiT/config.conf");
-    while (getline(config, line)) {
-        if (line.substr(0, 7) == "setting") {
-            cout << line << "  -----  this line has setting file path on it." << endl;
-            break;
+    if (config.is_open()) {
+        while (getline(config, line)) { // loop through each line
+            if (line.substr(0, 7) == "setting") { // check if is the correct line
+                break;
+            }
         }
     }
     config.close();
-
+    // extract just the path to the settings file
     filepath = line.substr(8, line.length()-1);
-    string filename = line.substr(string("setting=/etc/BatterYLimiT/").length(), line.length()-1);
-
-    cout << "\ncurrent using: " << filename << endl;
+    // ask for the new limit to insert on it
+    cout << "\nsettings currentely using: " << line.substr(string("setting=/etc/BatterYLimiT/").length(), line.length()-1) << endl;
     cout << "insert new battery charge limit: ";
     cin >> newlimit;
-
+    // open settings file
     ifstream settingsfile(filepath);
-
     if (settingsfile.is_open()) {
-
-        vector <string> array;
-        while (getline(settingsfile, line)) {
+        while (getline(settingsfile, line)) { // load each line of the file into an array
             array.push_back(line);
         }
-
-        settingsfile.close();
-
-        cout << "\nwhat's inside the array:" << endl;
-        cout << array[0].substr(
-                array[0].length()-2,
-                array[0].length()-1
-                )
-            << " <== battery charge limit in first line"
-            << endl;
-
-        array[0] = array[0].substr(
-            0,
-            array[0].length()-2
-        );
-
-        array[0].append(newlimit);
-
-        ofstream settingsfile2(filepath);
-
-        for (int index = 0; index < array.size(); index++) {
-            settingsfile2 << array[index] << endl;
-        }
-
-        settingsfile2.close();
-
-        cout << "----------------------" << "\n" << "new limit" << endl;
-        ifstream settingsfile(filepath);
-        while (getline(settingsfile, line)) {
-            cout << line << endl;
-        }
-        settingsfile.close();
-
     }
+    settingsfile.close();
+    // saving old limit
+    oldlimit = array[0].substr(array[0].length()-2, array[0].length()-1);
+    // remove the old value
+    array[0] = array[0].substr(0, array[0].length()-2);
+    // add the new value
+    array[0].append(newlimit);
+    // open settings file again
+    ofstream settingsfile2(filepath);
+    for (int index = 0; index < array.size(); index++) {
+        settingsfile2 << array[index] << endl; // write each line inside the array into the file
+    }
+    settingsfile2.close();
+
+    // show the full file
+    cout << "--------------------------------------\nold limit: " << oldlimit
+        << "\nnew limit: " << newlimit
+        << "\n\nfull settings:" << endl;
+    ifstream settingsfile3(filepath);
+    while (getline(settingsfile3, line)) {
+        cout << line << endl;
+    }
+    settingsfile3.close();
 
 }
 
