@@ -211,9 +211,9 @@ void use_preset() {
 void define_limit() {
     /*
      * open config file; done
-     * get path to current settings file in use;
-     * close config file;
-     * ask for new limit;
+     * get path to current settings file in use; done
+     * close config file; done
+     * ask for new limit; done
      * open settings file in use;
      * write new limit on it;
      * close file;
@@ -233,11 +233,21 @@ void define_limit() {
 
     while (getline(config, line)) {
         if (line.substr(0, 7) == "setting") {
-            cout << line << "this line has setting file path on it." << endl;
+            cout << line << "  -----  this line has setting file path on it." << endl;
+            break;
         }
     }
 
     config.close();
+
+    int newlimit;
+    string filename = line.substr(string("setting=/etc/BatterYLimiT/").length(), line.length()-1);
+
+    cout << "current using: " << filename << endl;
+    cout << "insert new battery charge limit: ";
+    cin >> newlimit;
+
+
 
 }
 
