@@ -214,7 +214,7 @@ void define_limit() {
      * get path to current settings file in use; done
      * close config file; done
      * ask for new limit; done
-     * open settings file in use;
+     * open settings file in use; done
      * write new limit on it;
      * close file;
      * show what's inside that file;
@@ -247,7 +247,9 @@ void define_limit() {
     cout << "insert new battery charge limit: ";
     cin >> newlimit;
 
+    ifstream settingsfile( line.substr(8, line.length()-1) );
 
+    settingsfile.close();
 
 }
 
