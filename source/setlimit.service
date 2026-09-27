@@ -1,12 +1,10 @@
 [Unit]
-Description=Service to define battery charge limit.
-After=multi-user.target hibernate.target
+Description=Apply battery charge limit.
+After=setlimitmanager.service
 
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/setlimit
 Restart=on-failure
-RestartSec=5
+RestartSec=6
 
-[Install]
-WantedBy=multi-user.target hibernate.target
