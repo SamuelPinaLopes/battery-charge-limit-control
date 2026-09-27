@@ -189,7 +189,10 @@ void show_presets(std::vector <std::filesystem::path>* array, bool arr) {
             // formated name of each file
             cout << count
                 << " == "
-                << string( entry.path() ).substr(26, string( entry.path() ).length() - 1)
+                << string( entry.path() ).substr(
+                    string("/etc/BatterYLimiT/presets/").length(),
+                    string( entry.path() ).length() - 1
+                )
                 << endl;
             count++;
         }
@@ -207,64 +210,80 @@ void use_preset() {
      * show all presets avaiable; done
      * ask for what preset name/number to use; done
      * open config file; done
-     * write preset path to use inside config file;
-     * close file;
-     * open that file and .runtime;
-     * write its value to .runtime;
-     * close both files, preset and .runtime;
-     * call worker program to apply that;
-     * show chosen preset name;
+     * write preset path to use inside config file; done
+     * close file; done
+     * open that preset and .runtime; done
+     * write its value to .runtime; done
+     * close both files, preset and .runtime; done
+     * call worker program to apply that; done
+     * show chosen preset name; done
      */
-    string selected, line, oldpath;
+    string selected, line, oldpath, presetpath;
     vector <string> array;
     vector <filesystem::path> presets_array;
 
     // show all avaiable presets to use
     show_presets();
     // input prest name/number
-    cout << "input preset name/number: ";
+    cout << "input preset number: ";
     cin >> selected;
 
     // open config file
     ifstream config("/etc/BatterYLimiT/config.conf");
-    // load each file line into an array
+    // load each line into an array
     while (getline(config, line)) {
         array.push_back(line);
     }
     config.close();
 
-    // get each preset path
+    // get each preset file path
     show_presets(&presets_array, true);
 
     // loop through each line load into array
     for (int index = 0; index < array.size(); index++) {
-        // check if is the line has settings file path on it
+        // check if is the line has the setting file path on it
         if (array[index].substr(0, 7) == "setting") {
-            // remove old path
+            // save that old path
             oldpath = array[index].substr(0, 8);
+            // remove old path
             array[index] = array[index].substr(0, 8);
-            // add new settings file path
-            array[index].append(presets_array[stoi(selected)]);
+            // add new setting file path
+            array[index].append(presets_array[stoi(selected)-1]);
+            // save preset path
+            presetpath = presets_array[stoi(selected)-1];
             break;
         }
     }
 
-    for (int index = 0; index < presets_array.size(); index++) {
-        cout << presets_array[index] << endl;
-    }
-
-    /*
     // rewrite all into config
     ofstream config2("/etc/BatterYLimiT/config.conf");
     // loop through each line inside array
     for (int index = 0; index < array.size(); index++) {
-        // write line into config file
+        // write each line into config file
         config2 << array[index] << endl;
     }
     config2.close();
-    */
 
-    // cout << "preset chosen: " << endl;
+    // open preset file
+    ifstream file(presetpath);
+    // get first line
+    getline(file, line);
+    // get value from line
+    line = line.substr(line.length()-2, line.length()-1);
+    file.close();
+
+    // open runtime file
+    ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
+    // write battery charge limit to it
+    runtime << line;
+    runtime.close();
+
+    // apply all this through "worker program"
+    system("systemctl restart setlimit.service");
+
+    cout << "preset chosen: "
+        << presetpath[stoi(selected)-1]
+        << endl;
 }
 
 void define_limit() {
