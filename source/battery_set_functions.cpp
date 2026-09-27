@@ -178,28 +178,36 @@ void set_limit() {
 
 }
 
-void show_presets() {
-    cout << "presets list: \n";
+void show_presets(std::vector <std::filesystem::path>* array, bool arr) {
     // path to presets folder
     filesystem::path path("/etc/BatterYLimiT/presets/");
     int count = 1;
-    // loop through each file inside the presets folder
-    for (const auto entry : filesystem::directory_iterator(path)) {
-        // formated name of each file
-        cout << count
-             << " == "
-             << string( entry.path() ).substr(26, string( entry.path() ).length() - 1)
-             << endl;
-        count++;
+    if (array == nullptr or arr == false) {
+        cout << "presets list: \n";
+        // loop through each file inside the presets folder
+        for (const auto entry : filesystem::directory_iterator(path)) {
+            // formated name of each file
+            cout << count
+                << " == "
+                << string( entry.path() ).substr(26, string( entry.path() ).length() - 1)
+                << endl;
+            count++;
+        }
+    } else {
+        for (const std::filesystem::path entry : filesystem::directory_iterator(path)) {
+           // add each preset path to array
+           array->push_back(entry);
+        }
     }
+
 }
 
 void use_preset() {
     /*
-     * show all presets avaiable;
-     * ask for what preset name/number to use;
-     * open config file;
-     * write preset path to use;
+     * show all presets avaiable; done
+     * ask for what preset name/number to use; done
+     * open config file; done
+     * write preset path to use inside config file;
      * close file;
      * open that file and .runtime;
      * write its value to .runtime;
@@ -207,7 +215,56 @@ void use_preset() {
      * call worker program to apply that;
      * show chosen preset name;
      */
-    cout << "preset chosen: " << endl;
+    string selected, line, oldpath;
+    vector <string> array;
+    vector <filesystem::path> presets_array;
+
+    // show all avaiable presets to use
+    show_presets();
+    // input prest name/number
+    cout << "input preset name/number: ";
+    cin >> selected;
+
+    // open config file
+    ifstream config("/etc/BatterYLimiT/config.conf");
+    // load each file line into an array
+    while (getline(config, line)) {
+        array.push_back(line);
+    }
+    config.close();
+
+    // get each preset path
+    show_presets(&presets_array, true);
+
+    // loop through each line load into array
+    for (int index = 0; index < array.size(); index++) {
+        // check if is the line has settings file path on it
+        if (array[index].substr(0, 7) == "setting") {
+            // remove old path
+            oldpath = array[index].substr(0, 8);
+            array[index] = array[index].substr(0, 8);
+            // add new settings file path
+            array[index].append(presets_array[stoi(selected)]);
+            break;
+        }
+    }
+
+    for (int index = 0; index < presets_array.size(); index++) {
+        cout << presets_array[index] << endl;
+    }
+
+    /*
+    // rewrite all into config
+    ofstream config2("/etc/BatterYLimiT/config.conf");
+    // loop through each line inside array
+    for (int index = 0; index < array.size(); index++) {
+        // write line into config file
+        config2 << array[index] << endl;
+    }
+    config2.close();
+    */
+
+    // cout << "preset chosen: " << endl;
 }
 
 void define_limit() {
