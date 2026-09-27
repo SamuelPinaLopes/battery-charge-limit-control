@@ -14,7 +14,17 @@ int main(int argc, char* argv[]) {
             check_words(argv[1], "-h", true) == true
         ) {
             // shows the help
-            cout << "yes it worked :O\n for general help" << endl;
+            cout<< "----battery charge limit general help----"
+                << "\n\n --help  prints this message\n -h"
+                << "\n\n\nchange settings"
+                << "\n\n --show-settings  show program settings\n -ss"
+                << "\n\n --create-preset  creates a new preset from current battery charge limit settings in use.\n -cp"
+                << "\n\n --default-settings  factory reset program's settings.\n -ds"
+                << "\n\n --set  change current battery charge limit. (its value will be reset after reboot or caming from hibernation.\n -s"
+                << "\n\n --show-presets  shows all battery charge limit presets avaiable to use.\n -sp"
+                << "\n\n --select-preset  select one battery charge limit preset to use.\n -se"
+                << "\n\n --new-limit  change current settings battery charge limit value.\n -n"
+                << endl;
         }
 
         //                      program's settings
