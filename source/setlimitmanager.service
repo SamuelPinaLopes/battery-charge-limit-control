@@ -1,5 +1,5 @@
 [Unit]
-Description=Service to define battery charge limit.
+Description=Service to control battery charge limit.
 After=multi-user.target hibernate.target
 
 [Service]
