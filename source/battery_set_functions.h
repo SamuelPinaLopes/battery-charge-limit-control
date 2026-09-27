@@ -15,6 +15,5 @@ void set_limit();
 void show_presets(std::vector <std::filesystem::path>* array=nullptr, bool arr=false);
 void use_preset();
 void define_limit();
-void rename_preset(std::string preset);
 
 #endif

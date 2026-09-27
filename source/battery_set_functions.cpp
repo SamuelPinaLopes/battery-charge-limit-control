@@ -1,5 +1,5 @@
-#include <iostream>
 #include "battery_set_functions.h"
+#include <iostream>
 #include <string>
 #include <fstream>
 #include <filesystem>
@@ -7,7 +7,7 @@
 
 using namespace std;
 
-bool check_words(char* word_passed, string expected, bool single_character) { // when you're passing a group of characters, make sure that you'll pass it as *, kinda array of characters
+bool check_words(char* word_passed, string expected, bool single_character) { // when you're passing a group of characters, make sure that you'll pass it as pointer, kinda array of characters
     // loop through each character position
     int index = 0;
 
@@ -109,31 +109,68 @@ void save_settings_preset() {
 
 void set_default_settings() {
     /*
-     * loads the config from config file into .runtime.conf file that "worker program" will read;
-     *      open config file; done
+     * loads the config from default config file into .runtime.conf file that "worker program" will read;
+     *      open default config file; done
      *      get battery charge battery value; done
      *      open .runtime.conf file; done
-     *      write the value inside config file; done
+     *      write value from default config file into runtime file; done
      *      close those files; done
+     *
+     *      open config file; done
+     *      change its battery charge limit to default; done
+     *      write default path to config file on it; done
+     *      close file; done
      *
      * tell systemd to reload "worker program";
      *      reload your "worker program" with systemd in background; done
      */
+    string line, charge_limit_value, configpath;
+    vector <string> array;
+
     // open default config file
-    string line, charge_limit_value;
-    ifstream config_file("/etc/BatterYLimiT/.default.conf");
+    ifstream defaultconfig("/etc/BatterYLimiT/.default.conf");
     // get charge limit value inside it and save it into line variable
-    while (getline(config_file, line)) {
-        if (line.length() > 2) {
-            charge_limit_value = line.substr(line.length() - 2, 2);
+    getline(defaultconfig, line);
+    // extract the value from first line
+    charge_limit_value = line.substr(line.length()-2, 2);
+    // extract default config file path
+    while (getline(defaultconfig, line)) {
+        if (line.substr(0, 7) == "setting") {
+            // get config file path
+            configpath = line.substr(8, line.length()-1);
         }
     }
-    // close default configuratoin file
-    config_file.close();
+    // close default configuratoin files
+    defaultconfig.close();
     // open runtime file and write the value from default config file
     ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
+    // write limit value into runtime file
     runtime << charge_limit_value;
     runtime.close();
+
+
+    // open config file
+    ifstream configfile(configpath);
+    // load each line into array
+    while (getline(configfile, line)) {
+        array.push_back(line);
+    }
+    configfile.close();
+    // remove battery charge limit on it
+    array[0] = array[0].substr( 0, array[0].length()-2 );
+    // remove settings file path on it
+    array[1] = array[1].substr(0, 8);
+    // add battery charge limit value
+    array[0].append(charge_limit_value);
+    // add settings file path
+    array[1].append(configpath);
+    // load each line into file
+    ofstream configfile2(configpath);
+    for (int index = 0; index < array.size(); index++) {
+        configfile2 << array[index] << endl;
+    }
+    configfile2.close();
+
     // reload charge limit with "worker program"
     system("systemctl restart setlimit.service");
 
@@ -347,8 +384,6 @@ void define_limit() {
     settingsfile3.close();
 
 }
-
-void rename_preset(string preset) {cout << "renaming preset: " << preset << endl;}
 
 /*
  #include <iostream>
