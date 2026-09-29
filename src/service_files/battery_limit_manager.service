@@ -4,7 +4,7 @@ After=multi-user.target hibernate.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/battery_limit_manager
+ExecStart=/usr/local/bin/battery_limit_manager
 Restart=on-failure
 RestartSec=4
 
