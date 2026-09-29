@@ -1,8 +1,7 @@
 how is this going to work?
 systemctl will flag boot or hibernation and immidiately call setlimitmanager;
 setlimitmanager without any parameters, will find settings file path inside config.conf and load that into .runtime.conf;
-setlimitmanager will run setlimit (worker program) to apply that;
-
+setlimitmanager will apply that value to the threshold file;
 
 main objective:
  - write a charge limit for my laptop battery;
@@ -16,7 +15,7 @@ more thigns to do:
 how it should work?
 
 laptop boots or just came from hibernation, systemd file calls the program:
-   main program writes the limit in the threshold_charge_limit file; (this will always write the value found in configuration file; can also receive a new limit passed as parameter)
+   write the limit in the threshold_charge_limit file;
       find limit to write in .runtime.conf file;
 
    command line program that can call that other program to set a new charge limit passed by parameter;
