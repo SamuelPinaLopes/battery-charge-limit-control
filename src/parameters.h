@@ -6,7 +6,6 @@
 #include <cstring>
 #include <vector>
 
-bool check_words(char* word_passed, std::string expected, bool single_character=false);
 
 void show_settings();
 void save_settings_preset();

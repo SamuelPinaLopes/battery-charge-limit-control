@@ -8,3 +8,5 @@ ExecStart=/usr/bin/setlimit
 Restart=on-failure
 RestartSec=6
 
+[Install]
+WantedBy=multi-user.target

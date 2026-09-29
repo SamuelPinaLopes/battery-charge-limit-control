@@ -1,7 +1,8 @@
+#include "utilities.h"
+#include "parameters.h"
 #include <fstream>
 #include <iostream>
 #include <string>
-#include "source/battery_set_functions.h"
 
 using namespace std;
 
@@ -140,7 +141,7 @@ int main(int argc, char* argv[]) {
         configuration.close();
 
         // apply changes
-        system("systemctl restart setlimit.service");
+        write_limit();
 
     }
 

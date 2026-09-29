@@ -1,8 +1,10 @@
 #include <fstream>
 #include <filesystem>
+#include <cstring>
 
 // path to battery charge threshold
 std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold");
+
 // path to runtime file, file containing limit for charge threshold
 std::filesystem::path runtime("/etc/BatterYLimiT/.runtime.conf");
 
@@ -31,5 +33,35 @@ void write_limit() {
         }
         // closing the file
         threshold_file.close();
+    }
+}
+
+// check if words are the same
+bool check_words(char* word_passed, std::string expected, bool single_character) {
+    // when you're passing a group of characters, make sure that you'll pass it as pointer, kinda array of characters
+    // loop through each character position
+    int index = 0;
+
+    // if the size are the same
+    if (strlen(word_passed) == expected.length()) {
+
+        while (true) {
+
+            // check each character
+            if (word_passed[index] != expected[index]) {
+                // the words aren't the same
+                return false;
+            }
+            // when it ends
+            if (word_passed[index] == '\0') {
+                return true;
+            }
+            // incrementing characters position
+            index++;
+
+        }
+
+    } else {
+        return false;
     }
 }
