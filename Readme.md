@@ -12,6 +12,5 @@ This works changing the value inside battery_charge_threshold file inside /sys f
 
 To define a charge threshold limit use the command called in terminal bset. Type bset --help
 to see all of its options such as:
-- make an update;
 - change default settings;
-- show current services or extra actions;
+- show current settings and extra actions;
