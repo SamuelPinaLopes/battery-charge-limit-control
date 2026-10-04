@@ -6,22 +6,23 @@
 // path to battery charge threshold
 std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold");
 
-// path to runtime file, file containing limit for charge threshold
+// path to runtime file
 std::filesystem::path runtime("/etc/BatterYLimiT/.runtime.conf");
 
 // function to first line of any file
 std::string get_value(std::filesystem::path file) {
-    // open file for reading
+    std::string line;
+
     std::fstream somefile( file , std::ios::in);
-    std::string line; // variable to store the first line
 
-    std::getline( somefile, line ); // get the first line
+    std::getline( somefile, line );
 
-    somefile.close(); // close the file
-    return line; // return the value
+    somefile.close();
+
+    return line;
 }
 
-// function to write the limit to charge threshold file
+// function to write battery limit to charge threshold file
 void write_limit() {
     // check if threshold and runtime charge limit value aren't matching
     if (get_value(threshold) != get_value(runtime)) {
@@ -67,6 +68,7 @@ bool check_words(char* word_passed, std::string expected, bool single_character)
     }
 }
 
+// loads a file into an array
 void load_array(std::vector <std::string> *array, std::filesystem::path file_path, bool from_file=true) {
     // to read file lines
     std::string line;
