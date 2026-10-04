@@ -5,8 +5,12 @@
 #include <fstream>
 #include <filesystem>
 #include <vector>
-
 using namespace std;
+
+// variables
+filesystem::path config_file = "/etc/BatterYLimiT/config.conf";
+filesystem::path presets_folder("/etc/BatterYLimiT/presets/");
+//
 
 void show_settings() {
     /*
@@ -39,13 +43,14 @@ void save_settings_preset() {
      * show if it worked or not; done
      */
 
-    string preset_name;
-    string config_file("/etc/BatterYLimiT/config.conf");
-    filesystem::path path = "/etc/BatterYLimiT/presets/";
+    string preset_name, limit;
 
     /* entering preset name */
     cout << "enter preset name: ";
-    cin >> preset_name;
+    getline(cin, preset_name);
+
+    cout << "enter limit value: ";
+    getline(cin, limit);
 
     /* checking if preset name has an extension */
     // if word has a size to have an extension
@@ -61,21 +66,32 @@ void save_settings_preset() {
 
     /* check if the name is already in use in preset folder */
     // for each file inside preset directory
-    for (auto const& entry : filesystem::directory_iterator(path)) {
+    for (auto const& entry : filesystem::directory_iterator(presets_folder)) {
         // if preset name is already in use
-        if ((path.string() + preset_name) == entry.path()) {
+        if ((presets_folder.string() + preset_name) == entry.path()) {
             // removing that file
             remove(entry.path().c_str());
         }
     }
 
     /* creating new preset from config file */
-    if (filesystem::copy_file(config_file, path.string() + preset_name)) {
-        cout << "preset created!" << endl;
+    ofstream preset(presets_folder.string() + preset_name);
+    // show confirmation output
+    if (preset.is_open()) {
+        // write battery charge limit into file
+        preset << "charge_limit="  << limit << endl;
+        // show info
+        cout<< endl
+            << "preset created!"
+            << endl
+            << "preset path: "
+            << presets_folder.string() + preset_name
+            << endl;
     } else {
         cout << "error creating new preset!" << endl;
     }
-
+    // close file
+    preset.close();
 }
 
 void set_default_settings() {
