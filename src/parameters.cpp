@@ -108,29 +108,25 @@ void set_default_settings() {
 }
 
 void set_limit() {
-    string new_battery_limit, line;
+    string new_battery_limit, old_battery_limit;
 
     cout << "new charge limit: ";
     getline(cin, new_battery_limit);
 
     /* get current battery limit */
-    line = get_value(runtime_file);
+    old_battery_limit = get_value(threshold_file);
 
     /* write new battery limit */
-    ofstream runtimefile2(runtime_file);
-    runtimefile2 << new_battery_limit;
-    runtimefile2.close();
+    write(runtime_file, new_battery_limit);
 
     /* apply new battery limit */
     write_limit();
 
     /* rewrite settings limit back to file */
-    ofstream runtimefile3(runtime_file);
-    runtimefile3 << line;
-    runtimefile3.close();
+    write(runtime_file, old_battery_limit);
 
     /* shows new battery charge limit */
-    cout << "old battery limit: "
+    cout << "\n\nold battery limit: " << old_battery_limit << endl
          << "current battery limit: " << get_value(threshold_file) << endl;
 }
 
