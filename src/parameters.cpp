@@ -138,7 +138,7 @@ void set_limit() {
     currentlimit.close();
 }
 
-void show_presets(std::vector <std::filesystem::path> *array, bool arr) {
+void show_presets(bool arr, std::vector <std::filesystem::path> *array) {
     int count = 1;
 
     filesystem::path path(presets_folder);
