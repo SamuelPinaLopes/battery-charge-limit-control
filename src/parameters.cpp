@@ -26,10 +26,9 @@ void show_settings() {
             // print that line
             cout << lines << endl;
         }
-        // close the file
-        read_settings.close();
-        // did fine
     }
+    // close the file
+    read_settings.close();
 }
 
 void save_settings_preset() {
