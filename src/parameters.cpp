@@ -116,16 +116,14 @@ void set_limit() {
     /* get current battery limit */
     old_battery_limit = get_value(threshold_file);
 
-    /* write new battery limit */
     write(runtime_file, new_battery_limit);
 
     /* apply new battery limit */
     write_limit();
 
-    /* rewrite settings limit back to file */
+    /* rewrite battery limit back to file */
     write(runtime_file, old_battery_limit);
 
-    /* shows new battery charge limit */
     cout << "\n\nold battery limit: " << old_battery_limit << endl
          << "current battery limit: " << get_value(threshold_file) << endl;
 }
