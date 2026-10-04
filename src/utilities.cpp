@@ -96,3 +96,13 @@ void load_array(std::vector <std::string> *array, std::filesystem::path file_pat
         file.close();
     }
 }
+
+// writes value into file
+void write(std::filesystem::path file, std::string content) {
+    std::ofstream somefile(file);
+
+    somefile << content << std::endl;
+
+    somefile.close();
+
+}
