@@ -8,9 +8,10 @@
 using namespace std;
 
 // variables
-filesystem::path config_file = "/etc/BatterYLimiT/config.conf";
-filesystem::path presets_folder("/etc/BatterYLimiT/presets/");
-//
+filesystem::path config_file = "/etc/BatterYLimiT/config.conf",
+presets_folder("/etc/BatterYLimiT/presets/"),
+runtime_file("/etc/BatterYLimiT/.runtime.conf"),
+default_config_file("/etc/BatterYLimiT/.default.conf");
 
 void show_settings() {
     /*
@@ -95,27 +96,12 @@ void save_settings_preset() {
 }
 
 void set_default_settings() {
-    /*
-     * loads the config from default config file into .runtime.conf file that "worker program" will read;
-     *      open default config file; done
-     *      get battery charge battery value; done
-     *      open .runtime.conf file; done
-     *      write value from default config file into runtime file; done
-     *      close those files; done
-     *
-     *      open config file; done
-     *      change its battery charge limit to default; done
-     *      write default path to config file on it; done
-     *      close file; done
-     *
-     * tell systemd to reload "worker program";
-     *      reload your "worker program" with systemd in background; done
-     */
+    // variables
     string line, charge_limit_value, configpath;
     vector <string> array;
 
     // open default config file
-    ifstream defaultconfig("/etc/BatterYLimiT/.default.conf");
+    ifstream defaultconfig(default_config_file);
     // get charge limit value inside it and save it into line variable
     getline(defaultconfig, line);
     // extract the value from first line
@@ -129,20 +115,16 @@ void set_default_settings() {
     }
     // close default configuratoin files
     defaultconfig.close();
+
     // open runtime file and write the value from default config file
-    ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
+    ofstream runtime(runtime_file);
     // write limit value into runtime file
     runtime << charge_limit_value;
     runtime.close();
 
+    // load each line from config file into array
+    load_array(&array, configpath);
 
-    // open config file
-    ifstream configfile(configpath);
-    // load each line into array
-    while (getline(configfile, line)) {
-        array.push_back(line);
-    }
-    configfile.close();
     // remove battery charge limit on it
     array[0] = array[0].substr( 0, array[0].length()-2 );
     // remove settings file path on it
@@ -151,14 +133,11 @@ void set_default_settings() {
     array[0].append(charge_limit_value);
     // add settings file path
     array[1].append(configpath);
-    // load each line into file
-    ofstream configfile2(configpath);
-    for (int index = 0; index < array.size(); index++) {
-        configfile2 << array[index] << endl;
-    }
-    configfile2.close();
 
-    // reload charge limit with "worker program"
+    // write each line inside array into file
+    load_array(&array, configpath, false);
+
+    // reload battery charge limit
     write_limit();
 
 }

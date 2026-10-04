@@ -1,6 +1,7 @@
 #include <fstream>
 #include <filesystem>
 #include <cstring>
+#include <vector>
 
 // path to battery charge threshold
 std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold");
@@ -63,5 +64,33 @@ bool check_words(char* word_passed, std::string expected, bool single_character)
 
     } else {
         return false;
+    }
+}
+
+void load_array(std::vector <std::string> *array, std::filesystem::path file_path, bool from_file=true) {
+    // to read file lines
+    std::string line;
+    //
+    if (from_file == true) {
+        // open file
+        std::ifstream file(file_path);
+        // check if the file is open
+        if (file.is_open()) {
+            // load each file line into array
+            while (getline(file, line)) {
+                array->push_back(line);
+            }
+        }
+        // close file
+        file.close();
+    } else {
+        // open file
+        std::ofstream file(file_path);
+        // loop through each line inside array
+        for (int index = 0; index < array->size(); index++) {
+            // write line into file
+            file << array->at(index) << std::endl;
+        }
+        file.close();
     }
 }
