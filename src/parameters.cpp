@@ -72,33 +72,18 @@ void set_default_settings() {
     string line, charge_limit_value, configpath;
     vector <string> array;
 
-    ifstream default_config(default_config_file);
-
-    getline(default_config, line);
-
-    charge_limit_value = line.substr(line.length()-2, 2);
-
-    while (getline(default_config, line)) {
-        if (line.substr(0, 7) == "setting") {
-            configpath = line.substr(8, line.length()-1);
-        }
-    }
-
-    default_config.close();
+    charge_limit_value = get_value(default_config_file).substr(line.length()-2, 2);
 
     /* write limit value into runtime file */
-    ofstream runtime(runtime_file);
-    runtime << charge_limit_value;
-    runtime.close();
+    write(runtime_file, charge_limit_value);
 
-    /* load each line from config file into array */
     load_array(&array, configpath);
 
     /* replace old value and path to new ones */
     array[0] = array[0].substr( 0, array[0].length()-2 );
     array[1] = array[1].substr(0, 8);
     array[0].append(charge_limit_value);
-    array[1].append(configpath);
+    array[1].append(config_file);
 
     /* write each line inside array into file */
     load_array(&array, configpath, false);
@@ -115,13 +100,13 @@ void set_limit() {
 
     old_battery_limit = get_value(threshold_file);
 
-    write(runtime_file, new_battery_limit);
+    write(new_battery_limit, runtime_file);
 
     /* apply new battery limit */
     write_limit();
 
     /* rewrite default battery limit back to file */
-    write(runtime_file, old_battery_limit);
+    write(old_battery_limit, runtime_file);
 
     cout << "\n\nold battery limit: " << old_battery_limit << endl
          << "current battery limit: " << get_value(threshold_file) << endl;
