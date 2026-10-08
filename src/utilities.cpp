@@ -81,7 +81,7 @@ void load_array(std::vector <std::string> *array, std::filesystem::path file_pat
 }
 
 // writes value into file
-void write(std::filesystem::path file, std::string content) {
+void write(std::string content, std::filesystem::path file) {
     std::ofstream somefile(file);
 
     somefile << content << std::endl;
