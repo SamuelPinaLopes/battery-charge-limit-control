@@ -3,6 +3,7 @@
 #include <cstring>
 #include <vector>
 #include <string>
+#include <optional>
 
 // battery charge threshold
 std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold");
@@ -92,7 +93,7 @@ void write(std::string content, std::filesystem::path file) {
 }
 
 // returns line with matching string
-std::string find_line(std::string word, std::filesystem::path file) {
+std::optional <std::string> find_line(std::string word, std::filesystem::path file) {
     std::string line;
 
     std::ifstream somefile(file);
@@ -106,7 +107,7 @@ std::string find_line(std::string word, std::filesystem::path file) {
 
     somefile.close();
 
-    return NULL;
+    return std::nullopt;
 }
 
 void load_preset_path(std::vector<std::filesystem::path> *array) {}
