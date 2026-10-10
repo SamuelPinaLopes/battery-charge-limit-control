@@ -89,29 +89,17 @@ int main(int argc, char* argv[]) {
         }
 
     } else {
-        // apply limit through settings
-        /*
-         * open config file; done
-         * get the name of the settings to use; done
-         * close config file; done
-         * open settings file to use; done
-         * get the charge limit; done
-         * close settings file; done
-         * open .runtime.conf; done
-         * write the value from settings file; done
-         * close runtime file; done
-         * run worker program to apply that; done
-         */
-
         string charge_limit, line;
         std::optional <string> settings_path;
 
         settings_path = find_line("setting", config_file);
 
+        // extract path to setting
         if (settings_path != nullopt) {
             *settings_path = settings_path->substr(8);
         }
 
+        // open setting and return first line
         charge_limit = first_line(settings_path.value_or(config_file));
 
         write_line(
