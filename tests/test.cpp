@@ -5,11 +5,16 @@
 
 std::filesystem::path config_file("/etc/BatterYLimiT/config.conf");
 
-int main() {
+int main(int argc, char **argv) {
    
-   std::string word("setting");
-
-   std::cout << find_line(word, config_file) << std::endl;
+   if (argc > 1) {
+      std::string word(argv[1]);
+      std::cout << find_line(word, config_file).value_or("I didn't find it...") << std::endl;
+   
+   } else {
+      std::cout << "no parameters passed!" << std::endl;
+   
+   }
 
    return 0;
    
