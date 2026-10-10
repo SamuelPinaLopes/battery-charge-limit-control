@@ -26,12 +26,12 @@ std::string first_line(std::filesystem::path file) {
 
 // function to write battery limit to charge threshold file
 void write_limit() {
-    if (get_value(threshold) != get_value(runtime)) {
+    if (first_line(threshold) != first_line(runtime)) {
         // write correct battery limit on file
         std::fstream threshold_file( threshold, std::ios::out );
 
         if (threshold_file.is_open()) {
-            threshold_file << get_value( runtime );
+            threshold_file << first_line( runtime );
         }
 
         threshold_file.close();
