@@ -12,7 +12,7 @@ std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end
 std::filesystem::path runtime("/etc/BatterYLimiT/.runtime.conf");
 
 // function to first line of any file
-std::string get_value(std::filesystem::path file) {
+std::string first_line(std::filesystem::path file) {
     std::string line;
 
     std::fstream somefile( file , std::ios::in);
@@ -83,7 +83,7 @@ void load_array(std::vector <std::string> *array, std::filesystem::path file_pat
 }
 
 // writes value into file
-void write(std::string content, std::filesystem::path file) {
+void write_line(std::string content, std::filesystem::path file) {
     std::ofstream somefile(file);
 
     somefile << content << std::endl;
