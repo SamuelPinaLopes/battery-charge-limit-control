@@ -140,7 +140,7 @@ void show_presets(bool arr, std::vector <std::filesystem::path> *array) {
 }
 
 void use_preset() {
-    string selected, line, oldpath, presetpath;
+    string selected, battery_limit, oldpath, presetpath;
     vector <string> array;
     vector <filesystem::path> presets_array;
 
@@ -149,11 +149,7 @@ void use_preset() {
     cout << "input preset number: ";
     cin >> selected;
 
-    ifstream config(config_file);
-    while (getline(config, line)) {
-        array.push_back(line);
-    }
-    config.close();
+    load_array(&array, config_file);
 
     /* get each preset file path */
     show_presets(true, &presets_array);
@@ -171,20 +167,11 @@ void use_preset() {
         }
     }
 
-    ofstream config2(config_file);
-    for (int index = 0; index < array.size(); index++) {
-        config2 << array[index] << endl;
-    }
-    config2.close();
+    load_array(&array, config_file, false);
 
-    ifstream file(presetpath);
-    getline(file, line);
-    line = line.substr(line.length()-2, line.length()-1);
-    file.close();
+    battery_limit = get_value(presetpath);
 
-    ofstream runtime(runtime_file);
-    runtime << line;
-    runtime.close();
+    write(battery_limit, runtime_file);
 
     /* apply battery limit */
     write_limit();
