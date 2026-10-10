@@ -90,8 +90,23 @@ void write(std::string content, std::filesystem::path file) {
 
 }
 
+// returns line with matching string
+std::string find_line(std::string word, std::filesystem::path file) {
+    std::string line;
+    std::ifstream somefile(file);
+
+    while (getline(somefile, line)) {
+        if (line.find(word) != std::string::npos) {
+            somefile.close();
+            return line;
+        }
+    }
+
+    somefile.close();
+
+    return line;
+}
+
 void load_preset_path(std::vector<std::filesystem::path> *array) {}
 
 void write_file(std::vector<std::string> *array, std::filesystem::path file_path) {}
-
-void find_line(std::string word, std::filesystem::path file) {}
