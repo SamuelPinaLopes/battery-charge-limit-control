@@ -1,10 +1,13 @@
 #include "utilities.h"
 #include "parameters.h"
-#include <fstream>
 #include <iostream>
 #include <string>
+#include <filesystem>
 
 using namespace std;
+
+filesystem::path config_file("/etc/BatterYLimiT/config.conf"),
+runtime_file("/etc/BatterYLimiT/.runtime.conf");
 
 int main(int argc, char* argv[]) {
 
@@ -100,45 +103,21 @@ int main(int argc, char* argv[]) {
          * run worker program to apply that; done
          */
 
-        ifstream configuration("/etc/BatterYLimiT/config.conf");
-        string line, settings_path, charge_limit;
+        string charge_limit, line;
+        std::optional <string> settings_path;
 
-        // get each line
-        while (getline(configuration, line)) {
-            // check if the first character matches the size of "settings"
-            if (line.substr(0, 7) == "setting") {
-                // get its name path
-                settings_path = line.substr(8, line.length()-1);
+        settings_path = find_line("setting", config_file);
 
-                // open settings file
-                ifstream setting(settings_path);
-
-                // get value
-                getline(setting, line);
-
-                // get charge limit
-                if (line.substr(line.length()-2, line.length()-1) != "") {
-                    // charge limit value
-                    charge_limit = line.substr(line.length()-2, line.length()-1);
-                }
-
-                // close file
-                setting.close();
-
-                // open runtime file
-                ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
-
-                // write charge limit
-                runtime << charge_limit;
-
-                // close file
-                runtime.close();
-
-            }
+        if (settings_path != nullopt) {
+            *settings_path = settings_path->substr(8);
         }
 
-        // close the file
-        configuration.close();
+        charge_limit = first_line(settings_path.value_or(config_file));
+
+        write_line(
+            charge_limit.substr( charge_limit.length()-2 ),
+            runtime_file
+        );
 
         // apply changes
         write_limit();
