@@ -11,4 +11,7 @@ void write_limit();
 void load_array(std::vector <std::string> *array, std::filesystem::path file_path, bool from_file=true);
 void write(std::string content, std::filesystem::path file);
 
+void load_preset_paths(std::vector <std::filesystem::path> *array);
+void write_file(std::vector <std::string> *array, std::filesystem::path file_path);
+
 #endif
