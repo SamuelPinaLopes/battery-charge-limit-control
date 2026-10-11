@@ -5,8 +5,7 @@
 #include <string>
 #include <optional>
 
-std::filesystem::path presets_folder("/etc/BatterYLimiT/presets/"),
-threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold"),
+std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold"),
 runtime("/etc/BatterYLimiT/.runtime.conf");
 
 // function to first line of any file
@@ -108,8 +107,8 @@ std::optional <std::string> find_line(std::string word, std::filesystem::path fi
     return std::nullopt;
 }
 
-void load_preset_path(std::vector<std::filesystem::path> *array) {
-    for (const std::filesystem::path entry : std::filesystem::directory_iterator(presets_folder)) {
+void file_path(std::vector<std::filesystem::path> *array, std::filesystem::path folder) {
+    for (const std::filesystem::path entry : std::filesystem::directory_iterator(folder)) {
         array->push_back(entry);
     }
 }
