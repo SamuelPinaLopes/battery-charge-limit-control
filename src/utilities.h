@@ -12,7 +12,6 @@ void write_limit();
 void load_array(std::vector <std::string> *array, std::filesystem::path file_path, bool from_file=true);
 void write_line(std::string content, std::filesystem::path file);
 std::optional<std::string> find_line(std::string word, std::filesystem::path file);
-
 void load_preset_path(std::vector <std::filesystem::path> *array);
 void write_file(std::vector <std::string> *array, std::filesystem::path file_path);
 

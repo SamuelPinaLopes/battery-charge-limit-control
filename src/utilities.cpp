@@ -5,6 +5,8 @@
 #include <string>
 #include <optional>
 
+std::filesystem::path presets_folder("/etc/BatterYLimiT/presets/");
+
 // battery charge threshold
 std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold");
 
@@ -110,6 +112,10 @@ std::optional <std::string> find_line(std::string word, std::filesystem::path fi
     return std::nullopt;
 }
 
-void load_preset_path(std::vector<std::filesystem::path> *array) {}
+void load_preset_path(std::vector<std::filesystem::path> *array) {
+    for (const std::filesystem::path entry : std::filesystem::directory_iterator(presets_folder)) {
+        array->push_back(entry);
+    }
+}
 
 void write_file(std::vector<std::string> *array, std::filesystem::path file_path) {}
