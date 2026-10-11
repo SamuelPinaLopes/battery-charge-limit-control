@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
         }
 
     } else {
-        string charge_limit, line;
+        string charge_limit;
         std::optional <string> settings_path;
 
         settings_path = find_line("setting", config_file);
