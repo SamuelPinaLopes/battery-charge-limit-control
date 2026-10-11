@@ -100,12 +100,14 @@ std::optional <std::string> find_line(std::string word, std::filesystem::path fi
     return std::nullopt;
 }
 
+// loads an array with all files inside a folder
 void file_path(std::vector<std::filesystem::path> *array, std::filesystem::path folder) {
     for (const std::filesystem::path entry : std::filesystem::directory_iterator(folder)) {
         array->push_back(entry);
     }
 }
 
+// writes all contents inside an array into a file
 void write_file(std::vector<std::string> *array, std::filesystem::path file_path) {
     std::ofstream file(file_path);
 
