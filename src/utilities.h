@@ -12,7 +12,7 @@ bool check_words(char* word_passed, std::string expected, bool single_character=
 
 void write_limit();
 
-void load_array(std::vector <std::string> *array, std::filesystem::path file_path, bool from_file=true);
+void load_file_in_array(std::vector <std::string> *array, std::filesystem::path file_path);
 
 void write_line(std::string content, std::filesystem::path file);
 

@@ -57,26 +57,19 @@ bool check_words(char* word_passed, std::string expected, bool single_character)
 }
 
 // loads a file into an array
-void load_array(std::vector <std::string> *array, std::filesystem::path file_path, bool from_file=true) {
+void load_file_in_array(std::vector <std::string> *array, std::filesystem::path file_path) {
+    // loads each file line into array
     std::string line;
-    // this has two sides, one for reading and loading an array and another to write the array into the file
-    // true:    loads an array with the file
-    // false:   writes everything inside array into file
-    if (from_file == true) {
-        std::ifstream file(file_path);
-        if (file.is_open()) {
-            while (getline(file, line)) {
-                array->push_back(line);
-            }
+    std::ifstream file(file_path);
+
+    if (file.is_open()) {
+        while (getline(file, line)) {
+            array->push_back(line);
         }
-        file.close();
-    } else {
-        std::ofstream file(file_path);
-        for (int index = 0; index < array->size(); index++) {
-            file << array->at(index) << std::endl;
-        }
-        file.close();
     }
+
+    file.close();
+
 }
 
 // writes value into file
@@ -113,4 +106,11 @@ void file_path(std::vector<std::filesystem::path> *array, std::filesystem::path 
     }
 }
 
-void write_file(std::vector<std::string> *array, std::filesystem::path file_path) {}
+void write_file(std::vector<std::string> *array, std::filesystem::path file_path) {
+    std::ofstream file(file_path);
+
+    for (int index = 0; index < array->size(); index++) {
+        file << array->at(index) << std::endl;
+    }
+    file.close();
+}
