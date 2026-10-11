@@ -1,5 +1,5 @@
-#include "utilities.h"
-#include "parameters.h"
+#include "util/utilities.h"
+#include "param/parameters.h"
 #include <fstream>
 #include <iostream>
 #include <string>
