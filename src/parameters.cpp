@@ -8,7 +8,7 @@
 
 using namespace std;
 
-filesystem::path config_file = "/etc/BatterYLimiT/config.conf",
+filesystem::path config_file("/etc/BatterYLimiT/config.conf"),
 presets_folder("/etc/BatterYLimiT/presets/"),
 runtime_file("/etc/BatterYLimiT/.runtime.conf"),
 default_config_file("/etc/BatterYLimiT/.default.conf"),
@@ -112,31 +112,17 @@ void set_limit() {
          << "current battery limit: " << get_value(threshold_file) << endl;
 }
 
-void show_presets(bool arr, std::vector <std::filesystem::path> *array) {
+void show_presets() {
     int count = 1;
 
-    filesystem::path path(presets_folder);
-    // if array or true: fill array with avaiable presets
-    // else empty array or false: show all presets avaiable
-    if (array == nullptr or arr == false) {
-        cout << "presets list: \n";
-
-        for (const auto entry : filesystem::directory_iterator(path)) {
-            cout << count
-                 << " == "
-                 << string( entry.path() ).substr(
-                    string(presets_folder).length(),
-                    string( entry.path() ).length() - 1
-                 )
+    for (const auto entry : filesystem::directory_iterator(presets_folder)) {
+        cout    << count
+                << " == "
+                << string( entry.path() ).substr( string(presets_folder).length() )
                 << endl;
-
-            count++;
-        }
-    } else {
-        for (const std::filesystem::path entry : filesystem::directory_iterator(path)) {
-           array->push_back(entry);
-        }
+        count++;
     }
+
 }
 
 void use_preset() {
