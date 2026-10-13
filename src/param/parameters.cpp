@@ -61,7 +61,7 @@ void save_settings_preset() {
 }
 
 void set_default_settings() {
-    string line, charge_limit_value, configpath;
+    string line, charge_limit_value;
     vector <string> array;
 
     charge_limit_value = first_line(default_config_file).substr(line.length()-2);
@@ -69,7 +69,7 @@ void set_default_settings() {
     /* write limit value into runtime file */
     write_line(runtime_file, charge_limit_value);
 
-    load_file_in_array(&array, configpath);
+    load_file_in_array(&array, config_file);
 
     /* replace old value and path to new ones */
     array[0] = array[0].substr( 0, array[0].length()-2 );
@@ -78,7 +78,7 @@ void set_default_settings() {
     array[1].append(config_file);
 
     /* write each line inside array into file */
-    write_file(&array, configpath);
+    write_file(&array, config_file);
 
     /* reload battery charge limit */
     write_limit();
