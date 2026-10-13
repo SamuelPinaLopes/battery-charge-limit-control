@@ -1,5 +1,6 @@
 #include "parameters.h"
 #include "../util/utilities.h"
+#include "param_util/header.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -167,7 +168,7 @@ void use_preset() {
 }
 
 void define_limit() {
-    string line, configpath, newlimit, oldlimit;
+    string newlimit, oldlimit;
     vector <string> array;
 
     cout << "insert new battery limit: ";
@@ -190,9 +191,5 @@ void define_limit() {
          << "\nnew limit: " << newlimit
          << "\n\nfull settings:" << endl;
 
-    ifstream file(config_file);
-    while (getline(file, line)) {
-        cout << line << endl;
-    }
-    file.close();
+    show_file(config_file);
 }
