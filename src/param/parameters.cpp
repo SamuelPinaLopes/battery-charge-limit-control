@@ -16,17 +16,8 @@ default_config_file("/etc/BatterYLimiT/.default.conf"),
 threshold_file("/sys/class/power_supply/BAT0/charge_control_end_threshold");
 
 void show_settings() {
-    string lines;
-    ifstream read_settings(config_file);
-
-    if (read_settings.is_open() == true) {
-        cout << "Current Settings:\n\n";
-
-        while (getline(read_settings, lines)) {
-            cout << lines << endl;
-        }
-    }
-    read_settings.close();
+    cout << "Current Settings:\n\n";
+    show_file(config_file);
 }
 
 void save_settings_preset() {
