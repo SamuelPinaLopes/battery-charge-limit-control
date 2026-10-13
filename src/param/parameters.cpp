@@ -101,7 +101,7 @@ void set_limit() {
     write_line(old_battery_limit, runtime_file);
 
     cout << "\n\nold battery limit: " << old_battery_limit << endl
-         << "current battery limit: " << get_value(threshold_file) << endl;
+         << "current battery limit: " << first_line(threshold_file) << endl;
 }
 
 void show_presets() {
