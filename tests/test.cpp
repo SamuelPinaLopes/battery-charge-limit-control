@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <filesystem>
-//#include "../src/util/utilities.h"
+#include "../src/util/utilities.h"
 //#include <vector>
 #include "../src/param/param_util/header.h"
 
@@ -12,8 +12,12 @@ filesystem::path presets_folder("/etc/BatterYLimiT/presets/"),
 
 int main(int argc, char **argv) {
     
-    show_file(config_file);
-
+    // show_file(config_file);
+    
+    if (create_file("/tmp/somefile.txt")) {
+        cout << "the file was created!";
+    }
+    
     return 0;
 
 }
