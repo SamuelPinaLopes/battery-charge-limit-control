@@ -116,3 +116,14 @@ void write_file(std::vector<std::string> *array, std::filesystem::path file_path
     }
     file.close();
 }
+
+bool create_file(std::filesystem::path name) {
+    bool result;
+    std::ofstream somefile(name);
+
+    if (somefile.is_open()) {result = true;}
+
+    somefile.close();
+
+    return result;
+}

@@ -3,7 +3,6 @@
 #include "param_util/header.h"
 #include <iostream>
 #include <string>
-#include <fstream>
 #include <filesystem>
 #include <vector>
 
@@ -21,7 +20,7 @@ void show_settings() {
 }
 
 void save_settings_preset() {
-    string preset_name, limit;
+    string preset_name, limit, full_path;
 
     cout << "enter preset name: ";
     getline(cin, preset_name);
@@ -38,6 +37,8 @@ void save_settings_preset() {
         preset_name = preset_name + ".conf";
     }
 
+    full_path = presets_folder.string() + preset_name;
+
     /* remove preset with same name */
     for (auto const& entry : filesystem::directory_iterator(presets_folder)) {
         if ((presets_folder.string() + preset_name) == entry.path()) {
@@ -45,19 +46,14 @@ void save_settings_preset() {
         }
     }
 
-    /* creating new preset from config file */
-    ofstream preset(presets_folder.string() + preset_name);
-    if (preset.is_open()) {
-        preset << "charge_limit="  << limit << endl;
-        // show info
-        cout << "\n"
-             << "preset created!" << endl
-             << "preset path: "
-             <<  presets_folder.string() + preset_name << endl;
+    if (create_file(full_path)) {
+        write_line("charge_limit=" + limit, full_path);
+        cout << preset_name << " created!" << endl;
+
     } else {
         cout << "error creating new preset!" << endl;
+
     }
-    preset.close();
 }
 
 void set_default_settings() {

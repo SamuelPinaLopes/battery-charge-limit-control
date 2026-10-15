@@ -22,4 +22,6 @@ void file_path(std::vector <std::filesystem::path> *array, std::filesystem::path
 
 void write_file(std::vector <std::string> *array, std::filesystem::path file_path);
 
+bool create_file(std::filesystem::path name);
+
 #endif
