@@ -197,13 +197,12 @@ void delete_preset() {
     cout << "which file: ";
     cin >> file;
 
-    if ( remove(presets[file].c_str()) ) {
+    if ( remove(presets[file-1].c_str()) ) {
         cout << "file removed:"
             << "\n"
             << presets[file]
             << endl;
     }
-
 }
 
 void create_preset() {
