@@ -103,10 +103,10 @@ void set_limit() {
 void show_presets() {
     int count = 1;
     for (const auto entry : filesystem::directory_iterator(presets_folder)) {
-        cout    << count
-                << " == "
-                << string( entry.path() ).substr( string(presets_folder).length() )
-                << endl;
+        cout << count
+            << " == "
+            << string( entry.path() ).substr( string(presets_folder).length() )
+            << endl;
         count++;
     }
 }
@@ -219,4 +219,28 @@ void create_preset() {
     create_file(name);
 
     write_line(limit, name);
+}
+
+void rename_preset() {
+    string selected, name;
+    vector <filesystem::path> presets;
+
+    get_file_in_folder(&presets, presets_folder);
+
+    show_presets();
+
+    cout << "select preset to rename: ";
+    cin >> selected;
+
+    cout << "enter new name: ";
+    cin >> name;
+
+    filesystem::rename(
+        presets.at(stoi(selected)-1),
+        presets_folder.string() + name
+    );
+
+    cout << "\npresets avaiable: ";
+
+    show_presets();
 }

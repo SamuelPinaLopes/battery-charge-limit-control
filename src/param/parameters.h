@@ -15,5 +15,6 @@ void use_preset();
 void define_limit();
 void delete_preset();
 void create_preset();
+void rename_preset();
 
 #endif
