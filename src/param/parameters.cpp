@@ -182,8 +182,42 @@ void define_limit() {
 }
 
 void delete_preset() {
+    vector <filesystem::path> presets;
+    int file;
 
+    get_file_in_folder(&presets, presets_folder);
 
+    for (int index = 0; index < presets.size(); index++) {
+        cout << index + 1
+            << " == "
+            << presets[index]
+            << endl;
+    }
 
+    cout << "which file: ";
+    cin >> file;
 
+    if ( remove(presets[file].c_str()) ) {
+        cout << "file removed:"
+            << "\n"
+            << presets[file]
+            << endl;
+    }
+
+}
+
+void create_preset() {
+    string name, limit;
+    filesystem::path path;
+
+    cout << "preset name: ";
+    cin >> name;
+    cout << "battery limit: ";
+    cin >> limit;
+
+    name = presets_folder.string() + name;
+
+    create_file(name);
+
+    write_line(limit, name);
 }
