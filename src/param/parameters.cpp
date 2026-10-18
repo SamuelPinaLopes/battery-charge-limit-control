@@ -122,7 +122,7 @@ void use_preset() {
     load_file_in_array(&array, config_file);
 
     /* get each preset file path */
-    file_path(&presets_array, presets_folder);
+    get_file_in_folder(&presets_array, presets_folder);
 
     presetpath = presets_array[stoi(selected)-1];
 
@@ -179,4 +179,11 @@ void define_limit() {
          << "\n\nfull settings:" << endl;
 
     show_file(config_file);
+}
+
+void delete_preset() {
+
+
+
+
 }

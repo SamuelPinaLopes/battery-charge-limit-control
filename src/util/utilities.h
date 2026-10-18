@@ -18,7 +18,7 @@ void write_line(std::string content, std::filesystem::path file);
 
 std::optional<std::string> find_line(std::string word, std::filesystem::path file);
 
-void file_path(std::vector <std::filesystem::path> *array, std::filesystem::path folder);
+void get_file_in_folder(std::vector <std::filesystem::path> *array, std::filesystem::path folder);
 
 void write_file(std::vector <std::string> *array, std::filesystem::path file_path);
 
