@@ -8,9 +8,9 @@
     - show all presets; done
     - select a preset to use; done
     - rename a preset;
-    - create new preset;
-    - delete preset;
-    - change battery limit value in settings;
+    - create new preset; done
+    - delete preset; done
+    - change battery limit value in settings file;
 
     possible actions or extra actions
     - apply used battery limit value;
