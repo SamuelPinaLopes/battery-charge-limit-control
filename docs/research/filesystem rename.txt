@@ -1,0 +1,112 @@
+how to rename a file with filesystem?
+// Source - https://stackoverflow.com/a/68627403
+// Posted by JeJo
+// Retrieved 2026-10-18, License - CC BY-SA 4.0
+
+#include <filesystem>  // std::filesystem::rename
+#include <string_view> // std::string_view
+using namespace std::literals;
+
+int main()
+{
+    const std::filesystem::path path{ "D:/...complete directory" };
+    std::filesystem::rename(path / "foo.txt"sv, path / "bar.txt"sv);
+}
+
+
+
+
+What if we need to rename a group of files in a directory under some conditions or for a specific extension. Let's wrap the logic into a class, then.
+// Source - https://stackoverflow.com/a/68627403
+// Posted by JeJo
+// Retrieved 2026-10-18, License - CC BY-SA 4.0
+
+#include <filesystem>  // std::filesystem::rename
+#include <regex>       // std::regex_replace
+#include <iostream>
+#include <string>
+using namespace std::string_literals;
+namespace fs = std::filesystem;
+
+class FileRenamer /* final */
+{
+private:
+    const fs::path mPath;
+    const fs::path mExtension;
+
+private:
+    template<typename LogicFunc>
+    bool renameImpli(const LogicFunc& func, const fs::path& extension = {}) noexcept
+    {
+        bool result = true;
+        const fs::path extToCheck = extension.empty() ? this->mExtension : extension;
+
+        // iterate through all the files in the given directory
+        for (const auto& dirEntry : fs::directory_iterator(mPath))
+        {
+            if (fs::is_regular_file(dirEntry)  && dirEntry.path().extension() == extToCheck)
+            {
+                const std::string currentFileName = dirEntry.path().filename().string();
+                const std::string newFileName = std::invoke(func, currentFileName);
+                try
+                {
+                    fs::rename(mPath / currentFileName, mPath / newFileName);
+                }
+                catch (fs::filesystem_error& error) // if the renaming was unsuccessful
+                {
+                    std::cout << error.code() << "\n" << error.what() << "\n";
+                    result = false; // at least one of the renaming was unsuccessful!
+                }
+            }
+        }
+        return result;
+    }
+
+public:
+    explicit FileRenamer(fs::path path, fs::path extension = { ".txt" }) noexcept
+        : mPath{ std::move(path) }
+        , mExtension{ std::move(extension) }
+    {}
+    // other constructors as per!
+
+    bool findAndReplace(const std::string& findWhat, const std::string& replaceWith, const fs::path& extension = {})
+    {
+        const auto logic = [&](const std::string& currentFileName) noexcept {
+            return std::regex_replace(currentFileName, std::regex{ findWhat }, replaceWith);
+        };
+        return renameImpli(logic, extension);
+    }
+
+    bool renameAll(const std::string& fileName, fs::path extension = {})
+    {
+        auto index{ 1u };
+        const auto logic = [&](const std::string&) noexcept { 
+            return std::to_string(index++) + " - "s + fileName + extension.string(); 
+        };
+        return renameImpli(logic, extension);
+    }
+};
+
+int main()
+{
+    FileRenamer fileRenamer{  "D:/"}; // ...complete directory
+
+    /*! Rename the files in the given directory with specific extension (.txt by default)
+     * in such a way that, filename contained the passed string (i.e. here "foo") will be
+     * replaced to what mentioned (i.e. here "bar").
+     * Ex:    foo.txt           -->  bar.txt
+     *        pre_foo_post.txt  -->  File of bar.txt
+     *        File of foo.txt   -->  pre_bar_post.txt
+     */
+    fileRenamer.findAndReplace("foo"s, "bar"s);
+
+    /*! All the files in the given directory with specific extension (.txt by default)
+     * will be replaced to specific filename provided, additional with an index.
+     * Ex:    foo.txt           -->  1 - foo.txt
+     *        pre_foo_post.txt  -->  2 - foo.txt
+     *        File of foo.txt   -->  3 - foo.txt
+     */
+    fileRenamer.renameAll("foo", ".txt");
+}
+
+
