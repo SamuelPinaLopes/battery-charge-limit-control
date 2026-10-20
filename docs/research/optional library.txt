@@ -1,0 +1,36 @@
+1. Handling "Not Found" in C++
+    You cannot return NULL or nullptr from a function returning std::string (it causes a compilation error).
+
+    The modern C++ (C++17+) solution: Return std::optional<std::string>.
+
+        Return a value normally: return "Alice";
+
+        Return "not found": return std::nullopt; (or {})
+
+2. Declaring and Checking an Optional
+    Receiving type: Use std::optional<std::string> or auto.
+
+    Checking if it has a value:
+
+        if (opt) (most common / pointer-like)
+
+        if (opt.has_value()) (explicit, returns a bool)
+
+3. Assigning and Updating Values
+    To assign a value (empty or not): Use direct assignment (opt = "New Value";). This is always safe.
+
+    To clear it (make it empty): opt.reset(); or opt = std::nullopt;.
+
+    Avoid opt.value() = "New Value"—if the optional is empty, it throws an exception and crashes.
+
+
+4. Accessing Stored Values:
+method                     safety                     what it does
+
+*opt                       unsafe if empty            dereferences like a pointer (fastest, requires prior check).
+
+opt->member                unsafe if empty            accesses member functions/variables directly
+
+opt.value()                throws exception if empty  safe from slinet crashes; throws std::bad_optional_access.
+
+opt.value_or("fallback")   100% safe                  returns the value if present, or your fallback default if empty
