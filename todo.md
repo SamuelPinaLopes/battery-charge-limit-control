@@ -7,14 +7,13 @@
     - set a charge limit right now; done 
     - show all presets; done
     - select a preset to use; done
-    - rename a preset; donw
+    - rename a preset; done
     - create new preset; done
     - delete preset; done
-    - change battery limit value in any settings file;
+    - change battery limit value in any settings file; done
     - show in use battery limit value;
 
     possible actions or extra actions
-    - apply used battery limit value;
     - check battery current level;
     - check battery health;
     - check current voltage;
