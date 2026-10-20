@@ -3,9 +3,9 @@
 #include <filesystem>
 #include <vector>
 #include "../src/util/utilities.h"
-//#include "../src/param/param_util/header.h"
-//#include "../src/param/parameters.h"
-#include <stdlib.h>
+#include "../src/param/parameters.h"
+#include "../src/param/param_util/header.h"
+//#include <stdlib.h>
 
 using namespace std;
 
@@ -14,9 +14,11 @@ using namespace std;
 int main(int argc, char **argv) {
     
     if (argc > 1) {
-        write_limit();
-        cout << first_line("/sys/class/power_supply/BAT0/charge_control_end_threshold") << endl << endl;
-        cout << system("cat /sys/class/power_supply/BAT0/charge_control_end_threshold");
+        //write_limit();
+        //cout << first_line("/sys/class/power_supply/BAT0/charge_control_end_threshold") << endl << endl;
+        //cout << system("cat /sys/class/power_supply/BAT0/charge_control_end_threshold");
+        
+        show_current_limit();
 
     } else {
         cout << "no parameters passed!" << endl;
