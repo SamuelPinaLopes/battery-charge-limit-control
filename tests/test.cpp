@@ -13,16 +13,17 @@ using namespace std;
 int main(int argc, char **argv) {
     
     if (argc > 1) {
-        for (int index = 0; index < argc; index++) {
-            cout << argv[index] << endl;
+       
+        if (check_words(argv[1], "r")) {
+            rename_preset();
         }
 
         if (check_words(argv[1], "c")) {
             create_preset();
-        } else if (check_words(argv[1], "d")) { 
+        }
+
+        if (check_words(argv[1], "d")) { 
             delete_preset();
-        } else {
-            cout << "value is not an option" << endl;
         }
 
     } else {
