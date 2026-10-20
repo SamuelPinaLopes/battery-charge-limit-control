@@ -10,7 +10,7 @@ std::string first_line(std::filesystem::path file);
 
 bool check_words(char* word_passed, std::string expected, bool single_character=false);
 
-void write_limit();
+void write_limit(std::string value="80");
 
 void load_file_in_array(std::vector <std::string> *array, std::filesystem::path file_path);
 

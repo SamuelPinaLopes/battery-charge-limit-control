@@ -5,8 +5,7 @@
 #include <string>
 #include <optional>
 
-std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold"),
-runtime("/etc/BatterYLimiT/.runtime.conf");
+std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold");
 
 // function to first line of any file
 std::string first_line(std::filesystem::path file) {
@@ -22,13 +21,12 @@ std::string first_line(std::filesystem::path file) {
 }
 
 // function to write battery limit to charge threshold file
-void write_limit() {
-    if (first_line(threshold) != first_line(runtime)) {
-        // write correct battery limit on file
-        std::fstream threshold_file( threshold, std::ios::out );
+void write_limit(std::string value="80") {
+    if (first_line(threshold) != value) {
+        std::ofstream threshold_file( threshold );
 
         if (threshold_file.is_open()) {
-            threshold_file << first_line( runtime );
+            threshold_file << value << std::endl;
         }
 
         threshold_file.close();
