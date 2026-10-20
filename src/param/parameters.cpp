@@ -23,10 +23,10 @@ void save_settings_preset() {
     string preset_name, limit, full_path;
 
     cout << "enter preset name: ";
-    getline(cin, preset_name);
+    cin >> preset_name;
 
     cout << "enter limit value: ";
-    getline(cin, limit);
+    cin >> limit;
 
     /* check if preset name has an extension, if not add */
     if (preset_name.length() >= 5) {
@@ -41,13 +41,14 @@ void save_settings_preset() {
 
     /* remove preset with same name */
     for (auto const& entry : filesystem::directory_iterator(presets_folder)) {
-        if ((presets_folder.string() + preset_name) == entry.path()) {
+        if (full_path == entry.path()) {
             remove(entry.path().c_str());
         }
     }
 
     if (create_file(full_path)) {
         write_line("charge_limit=" + limit, full_path);
+
         cout << preset_name << " created!" << endl;
 
     } else {
