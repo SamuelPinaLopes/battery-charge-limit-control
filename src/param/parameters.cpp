@@ -1,35 +1,26 @@
 #include "parameters.h"
-#include "utilities.h"
+#include "../util/utilities.h"
+#include "param_util/header.h"
 #include <iostream>
 #include <string>
-#include <fstream>
 #include <filesystem>
 #include <vector>
 
 using namespace std;
 
-filesystem::path config_file = "/etc/BatterYLimiT/config.conf",
+filesystem::path config_file("/etc/BatterYLimiT/config.conf"),
 presets_folder("/etc/BatterYLimiT/presets/"),
 runtime_file("/etc/BatterYLimiT/.runtime.conf"),
 default_config_file("/etc/BatterYLimiT/.default.conf"),
 threshold_file("/sys/class/power_supply/BAT0/charge_control_end_threshold");
 
 void show_settings() {
-    string lines;
-    ifstream read_settings(config_file);
-
-    if (read_settings.is_open() == true) {
-        cout << "Current Settings:\n\n";
-
-        while (getline(read_settings, lines)) {
-            cout << lines << endl;
-        }
-    }
-    read_settings.close();
+    cout << "Current Settings:\n\n";
+    show_file(config_file);
 }
 
 void save_settings_preset() {
-    string preset_name, limit;
+    string preset_name, limit, full_path;
 
     cout << "enter preset name: ";
     getline(cin, preset_name);
@@ -46,6 +37,8 @@ void save_settings_preset() {
         preset_name = preset_name + ".conf";
     }
 
+    full_path = presets_folder.string() + preset_name;
+
     /* remove preset with same name */
     for (auto const& entry : filesystem::directory_iterator(presets_folder)) {
         if ((presets_folder.string() + preset_name) == entry.path()) {
@@ -53,31 +46,26 @@ void save_settings_preset() {
         }
     }
 
-    /* creating new preset from config file */
-    ofstream preset(presets_folder.string() + preset_name);
-    if (preset.is_open()) {
-        preset << "charge_limit="  << limit << endl;
-        // show info
-        cout << "\n"
-             << "preset created!" << endl
-             << "preset path: "
-             <<  presets_folder.string() + preset_name << endl;
+    if (create_file(full_path)) {
+        write_line("charge_limit=" + limit, full_path);
+        cout << preset_name << " created!" << endl;
+
     } else {
         cout << "error creating new preset!" << endl;
+
     }
-    preset.close();
 }
 
 void set_default_settings() {
-    string line, charge_limit_value, configpath;
+    string line, charge_limit_value;
     vector <string> array;
 
-    charge_limit_value = get_value(default_config_file).substr(line.length()-2, 2);
+    charge_limit_value = first_line(default_config_file).substr(line.length()-2);
 
     /* write limit value into runtime file */
-    write(runtime_file, charge_limit_value);
+    write_line(runtime_file, charge_limit_value);
 
-    load_array(&array, configpath);
+    load_file_in_array(&array, config_file);
 
     /* replace old value and path to new ones */
     array[0] = array[0].substr( 0, array[0].length()-2 );
@@ -86,7 +74,7 @@ void set_default_settings() {
     array[1].append(config_file);
 
     /* write each line inside array into file */
-    load_array(&array, configpath, false);
+    write_file(&array, config_file);
 
     /* reload battery charge limit */
     write_limit();
@@ -98,44 +86,28 @@ void set_limit() {
     cout << "new charge limit: ";
     getline(cin, new_battery_limit);
 
-    old_battery_limit = get_value(threshold_file);
+    old_battery_limit = first_line(threshold_file);
 
-    write(new_battery_limit, runtime_file);
+    write_line(new_battery_limit, runtime_file);
 
     /* apply new battery limit */
     write_limit();
 
     /* rewrite default battery limit back to file */
-    write(old_battery_limit, runtime_file);
+    write_line(old_battery_limit, runtime_file);
 
     cout << "\n\nold battery limit: " << old_battery_limit << endl
-         << "current battery limit: " << get_value(threshold_file) << endl;
+         << "current battery limit: " << first_line(threshold_file) << endl;
 }
 
-void show_presets(bool arr, std::vector <std::filesystem::path> *array) {
+void show_presets() {
     int count = 1;
-
-    filesystem::path path(presets_folder);
-    // if array or true: fill array with avaiable presets
-    // else empty array or false: show all presets avaiable
-    if (array == nullptr or arr == false) {
-        cout << "presets list: \n";
-
-        for (const auto entry : filesystem::directory_iterator(path)) {
-            cout << count
-                 << " == "
-                 << string( entry.path() ).substr(
-                    string(presets_folder).length(),
-                    string( entry.path() ).length() - 1
-                 )
+    for (const auto entry : filesystem::directory_iterator(presets_folder)) {
+        cout    << count
+                << " == "
+                << string( entry.path() ).substr( string(presets_folder).length() )
                 << endl;
-
-            count++;
-        }
-    } else {
-        for (const std::filesystem::path entry : filesystem::directory_iterator(path)) {
-           array->push_back(entry);
-        }
+        count++;
     }
 }
 
@@ -144,15 +116,15 @@ void use_preset() {
     vector <string> array;
     vector <filesystem::path> presets_array;
 
-    show_presets();
-
     cout << "input preset number: ";
     cin >> selected;
 
-    load_array(&array, config_file);
+    load_file_in_array(&array, config_file);
 
     /* get each preset file path */
-    show_presets(true, &presets_array);
+    get_file_in_folder(&presets_array, presets_folder);
+
+    presetpath = presets_array[stoi(selected)-1];
 
     for (int index = 0; index < array.size(); index++) {
         if (array[index].substr(0, 7) == "setting") {
@@ -161,17 +133,19 @@ void use_preset() {
             // remove old path
             array[index] = array[index].substr(0, 8);
 
-            presetpath = presets_array[stoi(selected)-1];
             array[index].append(presetpath);
             break;
         }
     }
 
-    load_array(&array, config_file, false);
+    write_file(&array, config_file);
 
-    battery_limit = get_value(presetpath);
+    battery_limit = first_line(presetpath);
 
-    write(battery_limit, runtime_file);
+    write_line(
+        battery_limit.substr(battery_limit.length()-2),
+        runtime_file
+    );
 
     /* apply battery limit */
     write_limit();
@@ -181,22 +155,22 @@ void use_preset() {
 }
 
 void define_limit() {
-    string line, configpath, newlimit, oldlimit;
+    string newlimit, oldlimit;
     vector <string> array;
 
     cout << "insert new battery limit: ";
     cin >> newlimit;
 
-    oldlimit = get_value(config_file);
+    oldlimit = first_line(config_file);
 
-    load_array(&array, config_file);
+    load_file_in_array(&array, config_file);
 
     /* remove old battery limit */
     array[0] = array[0].substr(0, array[0].length()-2);
     array[0].append(newlimit);
 
     /* write array back to file */
-    load_array(&array, config_file, false);
+    write_file(&array, config_file);
 
     /* show the full file */
     cout << "--------------------------------------"
@@ -204,9 +178,12 @@ void define_limit() {
          << "\nnew limit: " << newlimit
          << "\n\nfull settings:" << endl;
 
-    ifstream file(config_file);
-    while (getline(file, line)) {
-        cout << line << endl;
-    }
-    file.close();
+    show_file(config_file);
+}
+
+void delete_preset() {
+
+
+
+
 }

@@ -6,12 +6,11 @@
 #include <cstring>
 #include <vector>
 
-
 void show_settings();
 void save_settings_preset();
 void set_default_settings();
 void set_limit();
-void show_presets(bool arr=false, std::vector <std::filesystem::path> *array=nullptr);
+void show_presets();
 void use_preset();
 void define_limit();
 

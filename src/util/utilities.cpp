@@ -5,11 +5,8 @@
 #include <string>
 #include <optional>
 
-// battery charge threshold
-std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold");
-
-// runtime file
-std::filesystem::path runtime("/etc/BatterYLimiT/.runtime.conf");
+std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold"),
+runtime("/etc/BatterYLimiT/.runtime.conf");
 
 // function to first line of any file
 std::string first_line(std::filesystem::path file) {
@@ -60,26 +57,19 @@ bool check_words(char* word_passed, std::string expected, bool single_character)
 }
 
 // loads a file into an array
-void load_array(std::vector <std::string> *array, std::filesystem::path file_path, bool from_file=true) {
+void load_file_in_array(std::vector <std::string> *array, std::filesystem::path file_path) {
+    // loads each file line into array
     std::string line;
-    // this has two sides, one for reading and loading an array and another to write the array into the file
-    // true:    loads an array with the file
-    // false:   writes everything inside array into file
-    if (from_file == true) {
-        std::ifstream file(file_path);
-        if (file.is_open()) {
-            while (getline(file, line)) {
-                array->push_back(line);
-            }
+    std::ifstream file(file_path);
+
+    if (file.is_open()) {
+        while (getline(file, line)) {
+            array->push_back(line);
         }
-        file.close();
-    } else {
-        std::ofstream file(file_path);
-        for (int index = 0; index < array->size(); index++) {
-            file << array->at(index) << std::endl;
-        }
-        file.close();
     }
+
+    file.close();
+
 }
 
 // writes value into file
@@ -110,6 +100,30 @@ std::optional <std::string> find_line(std::string word, std::filesystem::path fi
     return std::nullopt;
 }
 
-void load_preset_path(std::vector<std::filesystem::path> *array) {}
+// loads an array with all files inside a folder
+void get_file_in_folder(std::vector<std::filesystem::path> *array, std::filesystem::path folder) {
+    for (const std::filesystem::path entry : std::filesystem::directory_iterator(folder)) {
+        array->push_back(entry);
+    }
+}
 
-void write_file(std::vector<std::string> *array, std::filesystem::path file_path) {}
+// writes all contents inside an array into a file
+void write_file(std::vector<std::string> *array, std::filesystem::path file_path) {
+    std::ofstream file(file_path);
+
+    for (int index = 0; index < array->size(); index++) {
+        file << array->at(index) << std::endl;
+    }
+    file.close();
+}
+
+bool create_file(std::filesystem::path name) {
+    bool result;
+    std::ofstream somefile(name);
+
+    if (somefile.is_open()) {result = true;}
+
+    somefile.close();
+
+    return result;
+}
