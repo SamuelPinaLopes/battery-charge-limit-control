@@ -231,3 +231,9 @@ void rename_preset() {
 
     show_presets();
 }
+
+void show_current_limit() {
+    cout << "Battery Limit Currently in use:\n"
+        << first_line(threshold_file)
+        << endl;
+}
