@@ -13,5 +13,8 @@ void set_limit();
 void show_presets();
 void use_preset();
 void define_limit();
+void delete_preset();
+void create_preset();
+void rename_preset();
 
 #endif

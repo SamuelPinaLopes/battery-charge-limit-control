@@ -103,10 +103,10 @@ void set_limit() {
 void show_presets() {
     int count = 1;
     for (const auto entry : filesystem::directory_iterator(presets_folder)) {
-        cout    << count
-                << " == "
-                << string( entry.path() ).substr( string(presets_folder).length() )
-                << endl;
+        cout << count
+            << " == "
+            << string( entry.path() ).substr( string(presets_folder).length() )
+            << endl;
         count++;
     }
 }
@@ -182,8 +182,65 @@ void define_limit() {
 }
 
 void delete_preset() {
+    vector <filesystem::path> presets;
+    int file;
 
+    get_file_in_folder(&presets, presets_folder);
 
+    for (int index = 0; index < presets.size(); index++) {
+        cout << index + 1
+            << " == "
+            << presets[index]
+            << endl;
+    }
 
+    cout << "which file: ";
+    cin >> file;
 
+    if ( remove(presets[file-1].c_str()) ) {
+        cout << "file removed:"
+            << "\n"
+            << presets[file]
+            << endl;
+    }
+}
+
+void create_preset() {
+    string name, limit;
+    filesystem::path path;
+
+    cout << "preset name: ";
+    cin >> name;
+    cout << "battery limit: ";
+    cin >> limit;
+
+    name = presets_folder.string() + name;
+
+    create_file(name);
+
+    write_line(limit, name);
+}
+
+void rename_preset() {
+    string selected, name;
+    vector <filesystem::path> presets;
+
+    get_file_in_folder(&presets, presets_folder);
+
+    show_presets();
+
+    cout << "select preset to rename: ";
+    cin >> selected;
+
+    cout << "enter new name: ";
+    cin >> name;
+
+    filesystem::rename(
+        presets.at(stoi(selected)-1),
+        presets_folder.string() + name
+    );
+
+    cout << "\npresets avaiable: " << endl;
+
+    show_presets();
 }

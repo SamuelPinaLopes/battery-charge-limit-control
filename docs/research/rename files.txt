@@ -1,0 +1,8 @@
+to rename a file, include this libraries:
+    - stdio.h or cstdio (#include <stdio.h> | #include <cstdio>;
+
+then call rename() function. syntax:
+    - rename("old name", "new name");
+
+parameters type:
+    - rename(const char *old, const char *new)
