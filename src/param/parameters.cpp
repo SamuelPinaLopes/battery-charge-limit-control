@@ -58,7 +58,6 @@ void save_settings_preset() {
 }
 
 void set_default_settings() {
-    string line, charge_limit_value;
     vector <string> array;
 
     load_file_in_array(&array, config_file);
