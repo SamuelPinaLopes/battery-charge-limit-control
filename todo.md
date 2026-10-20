@@ -1,4 +1,4 @@
-- create a command to update and pass parameters to the main program;
+- program functionalities;
     
     program's settings
     - show current settings; done
@@ -12,6 +12,12 @@
     - delete preset; done
     - change battery limit value in any settings file; done
     - show in use battery limit value;
+    
+    improvement
+    - error handler;
+    - format (to format parameter help msg);
+    - input (check and validates user inputs);
+    - list file (list all files name inside folder; full path or not);
 
     possible actions or extra actions
     - check battery current level;
