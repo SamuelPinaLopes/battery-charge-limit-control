@@ -1,10 +1,13 @@
 #include "utilities.h"
 #include "parameters.h"
-#include <fstream>
 #include <iostream>
 #include <string>
+#include <filesystem>
 
 using namespace std;
+
+filesystem::path config_file("/etc/BatterYLimiT/config.conf"),
+runtime_file("/etc/BatterYLimiT/.runtime.conf");
 
 int main(int argc, char* argv[]) {
 
@@ -86,59 +89,23 @@ int main(int argc, char* argv[]) {
         }
 
     } else {
-        // apply limit through settings
-        /*
-         * open config file; done
-         * get the name of the settings to use; done
-         * close config file; done
-         * open settings file to use; done
-         * get the charge limit; done
-         * close settings file; done
-         * open .runtime.conf; done
-         * write the value from settings file; done
-         * close runtime file; done
-         * run worker program to apply that; done
-         */
+        string charge_limit;
+        std::optional <string> settings_path;
 
-        ifstream configuration("/etc/BatterYLimiT/config.conf");
-        string line, settings_path, charge_limit;
+        settings_path = find_line("setting", config_file);
 
-        // get each line
-        while (getline(configuration, line)) {
-            // check if the first character matches the size of "settings"
-            if (line.substr(0, 7) == "setting") {
-                // get its name path
-                settings_path = line.substr(8, line.length()-1);
-
-                // open settings file
-                ifstream setting(settings_path);
-
-                // get value
-                getline(setting, line);
-
-                // get charge limit
-                if (line.substr(line.length()-2, line.length()-1) != "") {
-                    // charge limit value
-                    charge_limit = line.substr(line.length()-2, line.length()-1);
-                }
-
-                // close file
-                setting.close();
-
-                // open runtime file
-                ofstream runtime("/etc/BatterYLimiT/.runtime.conf");
-
-                // write charge limit
-                runtime << charge_limit;
-
-                // close file
-                runtime.close();
-
-            }
+        // extract path to setting
+        if (settings_path != nullopt) {
+            *settings_path = settings_path->substr(8);
         }
 
-        // close the file
-        configuration.close();
+        // open setting and return first line
+        charge_limit = first_line(settings_path.value_or(config_file));
+
+        write_line(
+            charge_limit.substr( charge_limit.length()-2 ),
+            runtime_file
+        );
 
         // apply changes
         write_limit();
