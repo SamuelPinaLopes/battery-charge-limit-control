@@ -240,7 +240,7 @@ void rename_preset() {
         presets_folder.string() + name
     );
 
-    cout << "\npresets avaiable: ";
+    cout << "\npresets avaiable: " << endl;
 
     show_presets();
 }
