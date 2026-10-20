@@ -99,16 +99,13 @@ int main(int argc, char* argv[]) {
             *settings_path = settings_path->substr(8);
         }
 
-        // open setting and return first line
+        // open setting and return battery limit value
         charge_limit = first_line(settings_path.value_or(config_file));
 
-        write_line(
-            charge_limit.substr( charge_limit.length()-2 ),
-            runtime_file
+        // write limit
+        write_limit(
+            charge_limit.substr( charge_limit.length()-2 )
         );
-
-        // apply changes
-        write_limit();
 
     }
 
