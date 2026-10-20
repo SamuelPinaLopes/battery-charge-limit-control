@@ -11,7 +11,7 @@
     - create new preset; done
     - delete preset; done
     - change battery limit value in any settings file; done
-    - show in use battery limit value;
+    - show in use battery limit value; done
     
     improvement
     - error handler;
