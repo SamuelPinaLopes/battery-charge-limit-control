@@ -17,3 +17,13 @@ catch (std::exception& e) {
     handler_error(e);
 }
 
+
+types of error:
+    - runtime errors;
+    - logic errors;
+    - Memory and Resources errors;
+
+You only write a specific catch block (like catch (const std::out_of_range& e)) if your program
+needs to take a unique action for that exact error (e.g., resizing an array if it goes out of
+bounds).
+Otherwise, a single const std::exception& catch block handles all standard library errors neatly.
