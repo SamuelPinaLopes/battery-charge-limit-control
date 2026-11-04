@@ -22,6 +22,6 @@ void get_file_in_folder(std::vector <std::filesystem::path> *array, std::filesys
 
 void write_file(std::vector <std::string> *array, std::filesystem::path file_path);
 
-bool create_file(std::filesystem::path name);
+void create_file(std::filesystem::path name);
 
 #endif
