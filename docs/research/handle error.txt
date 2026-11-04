@@ -77,3 +77,15 @@ int main() {
 
     return 0;
 }
+
+How "throw" works?
+throw is for throwing an error to try/catch block, so you can catch it.
+throwing an error is like creating a new variable but that variable is only for error firing.
+
+syntax:
+    -- conceptually
+    MyCustomErrorType templateError("msg to be delivered about what happen");
+    throw templateError;
+    
+    -- one line
+    throw MyCustomErrorType("msg to be delivered about what happen");
