@@ -10,7 +10,7 @@
     - rename a preset; donw
     - create new preset; done
     - delete preset; done
-    - change battery limit value in any settings file;
+    - change battery limit value in any settings file; done
     - show battery limit value in use;
 
     possible actions or extra actions
