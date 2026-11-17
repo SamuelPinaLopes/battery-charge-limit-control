@@ -1,6 +1,6 @@
-- program functionalities;
+## program functionalities;
     
-    program's settings
+    ### program's settings
     - show current settings; done
     - save current settings as preset; done
     - use default settings; done
@@ -13,13 +13,13 @@
     - change battery limit value in any settings file; done
     - show current battery limit; done
    
-    improvement
+    ### improvement
     - error handler;
     - format (to format parameter help msg);
     - input (check and validates user inputs);
     - list file (list all files name inside folder; full path or not);
 
-    possible actions or extra actions
+    ### possible actions or extra actions
     - check battery current level;
     - check battery health;
     - check current voltage;
