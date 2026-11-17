@@ -59,23 +59,18 @@ void set_default_settings() {
     string line, charge_limit_value;
     vector <string> array;
 
-    charge_limit_value = first_line(default_config_file).substr(line.length()-2);
-
-    /* write limit value into runtime file */
-    write_line(runtime_file, charge_limit_value);
-
     load_file_in_array(&array, config_file);
 
     /* replace old value and path to new ones */
     array[0] = array[0].substr( 0, array[0].length()-2 );
     array[1] = array[1].substr(0, 8);
-    array[0].append(charge_limit_value);
+    array[0].append("80");
     array[1].append(config_file);
 
     /* write each line inside array into file */
     write_file(&array, config_file);
 
-    /* reload battery charge limit */
+    /* write default battery limit */
     write_limit();
 }
 
@@ -88,13 +83,8 @@ void set_limit() {
 
     old_battery_limit = first_line(threshold_file);
 
-    write_line(new_battery_limit, runtime_file);
-
     /* apply new battery limit */
-    write_limit();
-
-    /* rewrite default battery limit back to file */
-    write_line(old_battery_limit, runtime_file);
+    write_limit(new_battery_limit);
 
     cout << "\n\nold battery limit: " << old_battery_limit << endl
          << "current battery limit: " << first_line(threshold_file) << endl;
@@ -143,17 +133,13 @@ void use_preset() {
 
     battery_limit = first_line(presetpath);
 
-    write_line(
-        battery_limit.substr(battery_limit.length()-2),
-        runtime_file
+    /* apply new battery limit */
+    write_limit(
+        battery_limit.substr( battery_limit.length()-2 )
     );
 
-    /* apply battery limit */
-    write_limit();
-
-    // create a function to check user inputs AND through its execptions!
     cout << "used: " << oldpath << endl
-         << "preset chosen: " << presetpath[stoi(selected)-1] << endl;
+         << "now in use: " << presetpath[stoi(selected)-1] << endl;
 }
 
 void define_limit() {

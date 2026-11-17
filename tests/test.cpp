@@ -3,8 +3,9 @@
 // #include <filesystem>
 // #include <vector>
 #include "../src/util/utilities.h"
-#include "../src/param/parameters.h"
-// #include "../src/param/param_util/util.h"
+//#include "../src/param/param_util/header.h"
+//#include "../src/param/parameters.h"
+#include <stdlib.h>
 
 using namespace std;
 
@@ -13,21 +14,13 @@ using namespace std;
 int main(int argc, char **argv) {
 
     if (argc > 1) {
-
-        if (check_words(argv[1], "r")) {
-            rename_preset();
-        }
-
-        if (check_words(argv[1], "c")) {
-            create_preset();
-        }
-
-        if (check_words(argv[1], "d")) {
-            delete_preset();
-        }
+        write_limit();
+        cout << first_line("/sys/class/power_supply/BAT0/charge_control_end_threshold") << endl << endl;
+        cout << system("cat /sys/class/power_supply/BAT0/charge_control_end_threshold");
 
     } else {
         cout << "no parameters passed!" << endl;
+
     }
 
     return 0;

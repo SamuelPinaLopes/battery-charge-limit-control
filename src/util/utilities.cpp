@@ -6,8 +6,7 @@
 #include <optional>
 #include <stdexcept>
 
-std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold"),
-runtime("/etc/BatterYLimiT/.runtime.conf");
+std::filesystem::path threshold("/sys/class/power_supply/BAT0/charge_control_end_threshold");
 
 // function to first line of any file
 std::string first_line(std::filesystem::path file) {

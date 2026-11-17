@@ -11,10 +11,9 @@
     - create new preset; done
     - delete preset; done
     - change battery limit value in any settings file; done
-    - show battery limit value in use;
+    - show current battery limit;
 
     possible actions or extra actions
-    - apply used battery limit value;
     - check battery current level;
     - check battery health;
     - check current voltage;
