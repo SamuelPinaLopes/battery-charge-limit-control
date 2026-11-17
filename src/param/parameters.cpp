@@ -24,11 +24,11 @@ void save_settings_preset() {
 
     // create a function to check user inputs AND through its execptions!
     cout << "enter preset name: ";
-    getline(cin, preset_name);
+    cin >> preset_name;
 
     // create a function to check user inputs AND through its execptions!
     cout << "enter limit value: ";
-    getline(cin, limit);
+    cin >> limit;
 
     /* check if preset name has an extension, if not add */
     if (preset_name.length() >= 5) {
@@ -43,20 +43,19 @@ void save_settings_preset() {
 
     /* remove preset with same name */
     for (auto const& entry : filesystem::directory_iterator(presets_folder)) {
-        if ((presets_folder.string() + preset_name) == entry.path()) {
+        if (full_path == entry.path()) {
             remove(entry.path().c_str());
         }
     }
 
     create_file(full_path);
-
+    
     write_line("charge_limit=" + limit, full_path);
 
     cout << preset_name << " created!" << endl;
 }
 
 void set_default_settings() {
-    string line, charge_limit_value;
     vector <string> array;
 
     load_file_in_array(&array, config_file);
@@ -235,4 +234,10 @@ void rename_preset() {
     cout << "\npresets avaiable: " << endl;
 
     show_presets();
+}
+
+void show_current_limit() {
+    cout << "Battery Limit Currently in use:\n"
+        << first_line(threshold_file)
+        << endl;
 }
