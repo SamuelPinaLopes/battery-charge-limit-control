@@ -22,9 +22,11 @@ void show_settings() {
 void save_settings_preset() {
     string preset_name, limit, full_path;
 
+    // create a function to check user inputs AND through its execptions!
     cout << "enter preset name: ";
     getline(cin, preset_name);
 
+    // create a function to check user inputs AND through its execptions!
     cout << "enter limit value: ";
     getline(cin, limit);
 
@@ -46,14 +48,11 @@ void save_settings_preset() {
         }
     }
 
-    if (create_file(full_path)) {
-        write_line("charge_limit=" + limit, full_path);
-        cout << preset_name << " created!" << endl;
+    create_file(full_path);
 
-    } else {
-        cout << "error creating new preset!" << endl;
+    write_line("charge_limit=" + limit, full_path);
 
-    }
+    cout << preset_name << " created!" << endl;
 }
 
 void set_default_settings() {
@@ -83,8 +82,9 @@ void set_default_settings() {
 void set_limit() {
     string new_battery_limit, old_battery_limit;
 
+    // create a function to check user inputs AND through its execptions!
     cout << "new charge limit: ";
-    getline(cin, new_battery_limit);
+    cin >> new_battery_limit;
 
     old_battery_limit = first_line(threshold_file);
 
@@ -116,6 +116,7 @@ void use_preset() {
     vector <string> array;
     vector <filesystem::path> presets_array;
 
+    // create a function to check user inputs AND through its execptions!
     cout << "input preset number: ";
     cin >> selected;
 
@@ -150,6 +151,7 @@ void use_preset() {
     /* apply battery limit */
     write_limit();
 
+    // create a function to check user inputs AND through its execptions!
     cout << "used: " << oldpath << endl
          << "preset chosen: " << presetpath[stoi(selected)-1] << endl;
 }
@@ -158,6 +160,7 @@ void define_limit() {
     string newlimit, oldlimit;
     vector <string> array;
 
+    // create a function to check user inputs AND through its execptions!
     cout << "insert new battery limit: ";
     cin >> newlimit;
 
@@ -194,6 +197,7 @@ void delete_preset() {
             << endl;
     }
 
+    // create a function to check user inputs AND through its execptions!
     cout << "which file: ";
     cin >> file;
 
@@ -209,6 +213,7 @@ void create_preset() {
     string name, limit;
     filesystem::path path;
 
+    // create a function to check user inputs AND through its execptions!
     cout << "preset name: ";
     cin >> name;
     cout << "battery limit: ";
@@ -229,6 +234,7 @@ void rename_preset() {
 
     show_presets();
 
+    // create a function to check user inputs AND through its execptions!
     cout << "select preset to rename: ";
     cin >> selected;
 

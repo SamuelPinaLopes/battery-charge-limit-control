@@ -1,0 +1,91 @@
+how do errors travel between functions?
+
+considering you have: int main(), ask_name() function, write_name() function and open_file() function.
+
+if some error happen in open_file(), cpp will search for a catch block, if didn't find it, it will go back to write_name() and search for a catch block again, if didn't find it again, it will go to ask_name() and search for a catch block again and again until it gets to main.
+
+why always use exception variable as reference?
+basically that isn't a variable, is a memory address that holds the exception occurred.
+if you didn't use as reference (e.g: std::exception e) it will work, but something called "slice" will happen, it's when cpp receives an exception type, and it converts it into the standart cpp exception type, so, if that happens you will lose meaningfull data that exceptions was caring because the standart exception library does not have that exact structure.
+
+
+syntax:
+try {
+    // some code here
+}
+catch (std::exception& e) {
+    handler_error(e);
+}
+
+TYPES OF ERRORS:
+    - runtime errors;
+    - logic errors;
+    - Memory and Resources errors;
+
+HANDLE RUNTIME ERRORS {
+    1. Specific custom errors first (e.g., your preset file-not-found or parsing errors).
+
+    2. General standard library errors second (e.g., const std::exception& to catch everything else standard).
+
+    3. The ultimate catch-all last (catch (...) to catch literal unknowns, like a third-party library throwing an unexpected integer or raw pointer).
+}
+
+
+You only write a specific catch block (like catch (const std::out_of_range& e)) if your program
+needs to take a unique action for that exact error (e.g., resizing an array if it goes out of
+bounds).
+Otherwise, a single const std::exception& catch block handles all standard library errors neatly.
+
+Example:
+int main() {
+    // Change this to match your actual presets folder path
+    fs::path presetsDir = "./presets"; 
+
+    try {
+        // Step A: Scan the directory contents
+        scanPresetsFolder(presetsDir);
+        std::cout << "\n------------------------------------\n\n";
+
+        // Step B: Attempt to load a specific preset file
+        fs::path targetPreset = presetsDir / "bass_synth.txt";
+        std::cout << "Attempting to load: " << targetPreset << "\n";
+
+        std::vector<std::string> presetContent = loadPresetFile(targetPreset);
+
+        // Step C: Print out the successfully loaded contents
+        std::cout << "Successfully loaded " << presetContent.size() << " lines:\n";
+        for (const auto& line : presetContent) {
+            std::cout << "   | " << line << "\n";
+        }
+    }
+    // Specific custom error #1: Missing files
+    catch (const FileNotFoundError& e) {
+        std::cerr << "[User Notice - Missing File]: " << e.what() << "\n";
+    }
+    // Specific custom error #2: General preset logic errors
+    catch (const PresetError& e) {
+        std::cerr << "[Preset Error]: " << e.what() << "\n";
+    }
+    // General standard library exceptions (e.g., memory allocation issues)
+    catch (const std::exception& e) {
+        std::cerr << "[Standard System Error]: " << e.what() << "\n";
+    }
+    // Ultimate universal fallback for unexpected throws
+    catch (...) {
+        std::cerr << "[Critical Error]: An unknown non-standard exception occurred!\n";
+    }
+
+    return 0;
+}
+
+How "throw" works?
+throw is for throwing an error to try/catch block, so you can catch it.
+throwing an error is like creating a new variable but that variable is only for error firing.
+
+syntax:
+    -- conceptually
+    MyCustomErrorType templateError("msg to be delivered about what happen");
+    throw templateError;
+    
+    -- one line
+    throw MyCustomErrorType("msg to be delivered about what happen");

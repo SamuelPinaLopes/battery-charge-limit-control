@@ -2,3 +2,5 @@
 *.env
 .vscode*
 tmp
+note.md
+scratchpad.md
