@@ -42,8 +42,8 @@ int main(int argc, char* argv[]) {
 
         // save settings as preset on file
         if (
-            check_words(argv[1], "--create-preset") or
-            check_words(argv[1], "-cp")
+            check_words(argv[1], "--save-preset") or
+            check_words(argv[1], "-sp")
         ) {
             save_settings_preset();
         }
@@ -86,6 +86,30 @@ int main(int argc, char* argv[]) {
             check_words(argv[1], "-n")
         ) {
             define_limit();
+        }
+
+        // delete preset
+        if (
+            check_words(argv[1], "--delete-preset") or
+            check_words(argv[1], "-d")
+        ) {
+            delete_preset();
+        }
+
+        // create a new preset
+        if (
+            check_words(argv[1], "--create_preset") or
+            check_words(argv[1], "-c")
+        ) {
+            create_preset();
+        }
+
+        // rename preset
+        if (
+            check_words(argv[1], "--rename-preset") or
+            check_words(argv[1], "-r")
+        ) {
+            rename_preset();
         }
 
     } else {
