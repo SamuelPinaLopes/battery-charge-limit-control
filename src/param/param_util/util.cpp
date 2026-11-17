@@ -11,6 +11,8 @@ void show_file(std::filesystem::path file) {
         while (std::getline(somefile, line)) {
             std::cout << line << std::endl;
         }
+    } else {
+        throw std::runtime_error("cannot show file!\nfile path: " + file.string());
     }
 
     somefile.close();
