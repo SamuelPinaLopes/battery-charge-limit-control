@@ -4,7 +4,7 @@
 // #include <vector>
 #include "../src/util/utilities.h"
 #include "../src/param/parameters.h"
-#include "../src/param/param_util/header.h"
+#include "../src/param/param_util/util.h"
 //#include <stdlib.h>
 
 using namespace std;
@@ -13,15 +13,18 @@ using namespace std;
 
 int main(int argc, char **argv) {
 
+    rename_preset(argc, argv);
+    
     if (argc > 1) {
         //write_limit();
         //cout << first_line("/sys/class/power_supply/BAT0/charge_control_end_threshold") << endl << endl;
         //cout << system("cat /sys/class/power_supply/BAT0/charge_control_end_threshold");
         
-        show_current_limit();
+        //show_current_limit();
+        
 
     } else {
-        cout << "no parameters passed!" << endl;
+        std::cout << "no parameters passed!" << std::endl;
 
     }
 

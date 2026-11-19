@@ -49,7 +49,7 @@ void save_settings_preset() {
     }
 
     create_file(full_path);
-    
+
     write_line("charge_limit=" + limit, full_path);
 
     cout << preset_name << " created!" << endl;
@@ -211,7 +211,13 @@ void create_preset() {
     write_line(limit, name);
 }
 
-void rename_preset() {
+void rename_preset(int argc, char **argv) {
+    if (argc > 1) {
+        cout << "catch usr input through here!" << endl;
+    } else {
+        cout << "ask usr for input!" << endl;
+    }
+
     string selected, name;
     vector <filesystem::path> presets;
 
