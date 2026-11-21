@@ -213,7 +213,25 @@ void create_preset() {
 
 void rename_preset(int argc, char **argv) {
     if (argc > 1) {
-        cout << "catch usr input through here!" << endl;
+        /*
+         * e.g:
+         * bat --set 80
+         * bat --rename-preset presetToRrename newname
+         * bat --delete name
+         * and so on...
+         *
+         * just catch the two next arguments after the desired command;
+         */
+        cout << "this were the usr_inputs for this command: " << endl;
+        for (int index = 0; index < argc; index++) {
+            if (index > 1) {
+                // if return is std::string::npos, it means not found
+                if (string(argv[index]).find("file") != std::string::npos or string(argv[index]).find("path") != std::string::npos)
+                    cout << argv[index] << endl;
+                else
+                    cout << "not found!!" << endl;
+            }
+        }
     } else {
         cout << "ask usr for input!" << endl;
     }
