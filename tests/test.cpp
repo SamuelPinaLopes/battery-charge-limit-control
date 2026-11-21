@@ -13,6 +13,8 @@ using namespace std;
 
 int main(int argc, char **argv) {
 
+    show_presets();
+
     rename_preset(argc, argv);
     
     if (argc > 1) {

@@ -222,42 +222,54 @@ void rename_preset(int argc, char **argv) {
          *
          * just catch the two next arguments after the desired command;
          */
+        bool oldname, newname;
+        string oname, nname;
+
         cout << "this were the usr_inputs for this command: " << endl;
         for (int index = 0; index < argc; index++) {
             if (index > 1) {
                 // if return is std::string::npos, it means not found
-                if (string(argv[index]).find("file") != std::string::npos or string(argv[index]).find("path") != std::string::npos)
-                    cout << argv[index] << endl;
-                else
-                    cout << "not found!!" << endl;
+                if (string(argv[index]).find("newname=") != std::string::npos) {
+                    newname = true;
+                    nname = string(argv[index]).substr(string("newname=").size());
+                }
+                if (string(argv[index]).find("oldname=") != std::string::npos) {
+                    oldname = true;
+                    oname = string(argv[index]).substr(string("oldname=").size());
+                }
             }
         }
+        if (oldname and newname) {
+            // get the old and new names
+            cout << "new name to use: " << nname << endl;
+            cout << "old name to rename: " << oname << endl;
+            // filesystem::rename(string(presets_folder) + oname, string(presets_folder) + nname);
+        }
     } else {
-        cout << "ask usr for input!" << endl;
+        string selected, name;
+        vector <filesystem::path> presets;
+
+        get_file_in_folder(&presets, presets_folder);
+
+        show_presets();
+
+        // create a function to check user inputs AND through its execptions!
+        cout << "select preset to rename: ";
+        cin >> selected;
+
+        cout << "enter new name: ";
+        cin >> name;
+
+        filesystem::rename(
+            presets.at(stoi(selected)-1),
+            presets_folder.string() + name
+        );
+
+        cout << "\npresets avaiable: " << endl;
+
+        show_presets();
+
     }
-
-    string selected, name;
-    vector <filesystem::path> presets;
-
-    get_file_in_folder(&presets, presets_folder);
-
-    show_presets();
-
-    // create a function to check user inputs AND through its execptions!
-    cout << "select preset to rename: ";
-    cin >> selected;
-
-    cout << "enter new name: ";
-    cin >> name;
-
-    filesystem::rename(
-        presets.at(stoi(selected)-1),
-        presets_folder.string() + name
-    );
-
-    cout << "\npresets avaiable: " << endl;
-
-    show_presets();
 }
 
 void show_current_limit() {
