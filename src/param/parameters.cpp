@@ -169,28 +169,45 @@ void define_limit() {
     show_file(config_file);
 }
 
-void delete_preset() {
-    vector <filesystem::path> presets;
-    int file;
+void delete_preset(int argc, char **argv) {
+    if (argc > 2) {
+        bool arg1;
+        string name;
 
-    get_file_in_folder(&presets, presets_folder);
+        for (int index = 0; index < argc; index++) {
+            if (index > 1) {
+                // if return is std::string::npos, it means not found
+                if (string(argv[index]).find("name=") != std::string::npos) {
+                    name = string(argv[index]).substr(string("name=").size());
+                    filesystem::remove(string(presets_folder) + name);
+                    break;
+                }
+            }
+        }
 
-    for (int index = 0; index < presets.size(); index++) {
-        cout << index + 1
-            << " == "
-            << presets[index]
-            << endl;
-    }
+    } else {
+        vector <filesystem::path> presets;
+        int file;
 
-    // create a function to check user inputs AND through its execptions!
-    cout << "which file: ";
-    cin >> file;
+        get_file_in_folder(&presets, presets_folder);
 
-    if ( remove(presets[file-1].c_str()) ) {
-        cout << "file removed:"
-            << "\n"
-            << presets[file]
-            << endl;
+        for (int index = 0; index < presets.size(); index++) {
+            cout << index + 1
+                << " == "
+                << presets[index]
+                << endl;
+        }
+
+        // create a function to check user inputs AND through its execptions!
+        cout << "which file: ";
+        cin >> file;
+
+        if ( remove(presets[file-1].c_str()) ) {
+            cout << "file removed:"
+                << "\n"
+                << presets[file]
+                << endl;
+        }
     }
 }
 
