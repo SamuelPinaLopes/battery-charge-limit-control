@@ -14,7 +14,7 @@ void show_presets();
 void use_preset();
 void define_limit();
 void delete_preset();
-void create_preset();
+void create_preset(int argc=0, char **argv=nullptr);
 void rename_preset(int argc=0, char **argv=nullptr);
 void show_current_limit();
 

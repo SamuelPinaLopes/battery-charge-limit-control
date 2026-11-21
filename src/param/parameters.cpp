@@ -194,21 +194,54 @@ void delete_preset() {
     }
 }
 
-void create_preset() {
-    string name, limit;
-    filesystem::path path;
+void create_preset(int argc, char **argv) {
+    if (argc > 2) {
+        bool arg1, arg2;
+        string name, limit;
 
-    // create a function to check user inputs AND through its execptions!
-    cout << "preset name: ";
-    cin >> name;
-    cout << "battery limit: ";
-    cin >> limit;
+        for (int index = 0; index < argc; index++) {
+            if (index > 1) {
+                // if return is std::string::npos, it means not found
+                if (string(argv[index]).find("name=") != std::string::npos) {
+                    arg1 = true;
+                    name = string(argv[index]).substr(string("name=").size());
+                }
+                if (string(argv[index]).find("limit=") != std::string::npos) {
+                    arg2 = true;
+                    limit = string(argv[index]).substr(string("limit=").size());
+                }
+            }
+        }
 
-    name = presets_folder.string() + name;
+        if (arg1 and arg2) {
+            name = presets_folder.string() + name;
 
-    create_file(name);
+            create_file(name);
 
-    write_line(limit, name);
+            write_line(limit, name);
+
+            show_presets();
+        }
+
+    } else {
+        string name, limit;
+        filesystem::path path;
+
+        // create a function to check user inputs AND through its execptions!
+        cout << "preset name: ";
+        cin >> name;
+        cout << "battery limit: ";
+        cin >> limit;
+
+        name = presets_folder.string() + name;
+
+        create_file(name);
+
+        write_line(limit, name);
+
+        cout << "\npreset list:" << endl;
+        show_presets();
+    }
 }
 
 void rename_preset(int argc, char **argv) {
@@ -229,11 +262,13 @@ void rename_preset(int argc, char **argv) {
                 }
             }
         }
+
         if (arg1 and arg2) {
             cout << "old name to rename: " << newname << endl;
             cout << "new name to use: " << oldname << endl;
             filesystem::rename(string(presets_folder) + oldname, string(presets_folder) + newname);
         }
+
     } else {
         string selected, name;
         vector <filesystem::path> presets;
