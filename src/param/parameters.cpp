@@ -243,7 +243,7 @@ void rename_preset(int argc, char **argv) {
             // get the old and new names
             cout << "new name to use: " << nname << endl;
             cout << "old name to rename: " << oname << endl;
-            // filesystem::rename(string(presets_folder) + oname, string(presets_folder) + nname);
+            filesystem::rename(string(presets_folder) + oname, string(presets_folder) + nname);
         }
     } else {
         string selected, name;
