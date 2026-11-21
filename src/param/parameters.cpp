@@ -213,28 +213,26 @@ void create_preset() {
 
 void rename_preset(int argc, char **argv) {
     if (argc > 1) {
-        bool oldname, newname;
-        string oname, nname;
+        bool arg1, arg2;
+        string oldname, newname;
 
-        cout << "this were the usr_inputs for this command: " << endl;
         for (int index = 0; index < argc; index++) {
             if (index > 1) {
                 // if return is std::string::npos, it means not found
                 if (string(argv[index]).find("newname=") != std::string::npos) {
-                    newname = true;
-                    nname = string(argv[index]).substr(string("newname=").size());
+                    arg1 = true;
+                    newname = string(argv[index]).substr(string("newname=").size());
                 }
                 if (string(argv[index]).find("oldname=") != std::string::npos) {
-                    oldname = true;
-                    oname = string(argv[index]).substr(string("oldname=").size());
+                    arg2 = true;
+                    oldname = string(argv[index]).substr(string("oldname=").size());
                 }
             }
         }
-        if (oldname and newname) {
-            // get the old and new names
-            cout << "new name to use: " << nname << endl;
-            cout << "old name to rename: " << oname << endl;
-            filesystem::rename(string(presets_folder) + oname, string(presets_folder) + nname);
+        if (arg1 and arg2) {
+            cout << "old name to rename: " << newname << endl;
+            cout << "new name to use: " << oldname << endl;
+            filesystem::rename(string(presets_folder) + oldname, string(presets_folder) + newname);
         }
     } else {
         string selected, name;
@@ -257,9 +255,7 @@ void rename_preset(int argc, char **argv) {
         );
 
         cout << "\npresets avaiable: " << endl;
-
         show_presets();
-
     }
 }
 
