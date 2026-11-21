@@ -13,10 +13,26 @@ using namespace std;
 
 int main(int argc, char **argv) {
 
-    show_presets();
+    // show_presets();
 
-    rename_preset(argc, argv);
+    // rename_preset(argc, argv);
     
+    // create_preset(argc, argv);
+
+    if (check_words(argv[1], "--create-preset") == true) {
+        create_preset(argc, argv);
+    }
+    if (check_words(argv[1], "--rename")) {
+        rename_preset(argc, argv);
+    }
+    if (check_words(argv[1], "--delete")) {
+        // delete_preset(argc, argv);
+    }
+    if (check_words(argv[1], "--show-preset")) {
+        show_presets();
+    }
+
+
     if (argc > 1) {
         //write_limit();
         //cout << first_line("/sys/class/power_supply/BAT0/charge_control_end_threshold") << endl << endl;
