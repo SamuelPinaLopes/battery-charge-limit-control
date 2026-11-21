@@ -13,25 +13,6 @@ using namespace std;
 
 int main(int argc, char **argv) {
 
-    // show_presets();
-
-    // rename_preset(argc, argv);
-    
-    // create_preset(argc, argv);
-
-    if (check_words(argv[1], "--create-preset") == true) {
-        create_preset(argc, argv);
-    }
-    if (check_words(argv[1], "--rename")) {
-        rename_preset(argc, argv);
-    }
-    if (check_words(argv[1], "--delete")) {
-        // delete_preset(argc, argv);
-    }
-    if (check_words(argv[1], "--show-preset")) {
-        show_presets();
-    }
-
 
     if (argc > 1) {
         //write_limit();
@@ -39,7 +20,24 @@ int main(int argc, char **argv) {
         //cout << system("cat /sys/class/power_supply/BAT0/charge_control_end_threshold");
         
         //show_current_limit();
-        
+        // show_presets();
+
+        // rename_preset(argc, argv);
+    
+        // create_preset(argc, argv);
+
+        if (check_words(argv[1], "--create-preset") == true) {
+            create_preset(argc, argv);
+        }
+        if (check_words(argv[1], "--rename")) {
+            rename_preset(argc, argv);
+        }
+        if (check_words(argv[1], "--delete"))
+            delete_preset(argc, argv);
+
+        if (check_words(argv[1], "--show-preset")) {
+            show_presets();
+        }
 
     } else {
         std::cout << "no parameters passed!" << std::endl;
