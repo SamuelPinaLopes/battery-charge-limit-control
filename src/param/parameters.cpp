@@ -213,15 +213,6 @@ void create_preset() {
 
 void rename_preset(int argc, char **argv) {
     if (argc > 1) {
-        /*
-         * e.g:
-         * bat --set 80
-         * bat --rename-preset presetToRrename newname
-         * bat --delete name
-         * and so on...
-         *
-         * just catch the two next arguments after the desired command;
-         */
         bool oldname, newname;
         string oname, nname;
 
