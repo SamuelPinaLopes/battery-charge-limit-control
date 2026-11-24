@@ -9,14 +9,16 @@
 
 using namespace std;
 
-//filesystem::path presets_folder("/etc/BatterYLimiT/presets/"), config_file("/etc/BatterYLimiT/config.conf");
+//filesystem::path presets_folder("/etc/BatterYLimiT/presets/"),
+//config_file("/etc/BatterYLimiT/config.conf");
 
 int main(int argc, char **argv) {
 
 
     if (argc > 1) {
         //write_limit();
-        //cout << first_line("/sys/class/power_supply/BAT0/charge_control_end_threshold") << endl << endl;
+        //cout << first_line("/sys/class/power_supply/BAT0/charge_control_end_threshold")
+        //<< endl << endl;
         //cout << system("cat /sys/class/power_supply/BAT0/charge_control_end_threshold");
         
         //show_current_limit();
@@ -34,9 +36,14 @@ int main(int argc, char **argv) {
         }
         if (check_words(argv[1], "--delete"))
             delete_preset(argc, argv);
+
         if (check_words(argv[1], "--new-limit"))
             define_limit(argc, argv);
+        
+        if (check_words(argv[1], "--select-preset"))
+            use_preset(argc, argv);
 
+        
         if (check_words(argv[1], "--show-preset")) {
             show_presets();
         }
