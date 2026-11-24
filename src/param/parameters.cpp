@@ -100,45 +100,81 @@ void show_presets() {
     }
 }
 
-void use_preset() {
-    string selected, battery_limit, oldpath, presetpath;
-    vector <string> array;
-    vector <filesystem::path> presets_array;
+void use_preset(int argc, char **argv) {
+    string preset, preset_path;
+    vector<string> array;
+    vector<std::filesystem::path> preset_array;
 
-    // create a function to check user inputs AND through its execptions!
-    cout << "input preset number: ";
-    cin >> selected;
-
-    load_file_in_array(&array, config_file);
-
-    /* get each preset file path */
-    get_file_in_folder(&presets_array, presets_folder);
-
-    presetpath = presets_array[stoi(selected)-1];
-
-    for (int index = 0; index < array.size(); index++) {
-        if (array[index].substr(0, 7) == "setting") {
-            oldpath = array[index].substr(0, 8);
-
-            // remove old path
-            array[index] = array[index].substr(0, 8);
-
-            array[index].append(presetpath);
-            break;
+    if (argc > 2) {
+        for (int index = 0; index < argc; index++) {
+            if (index > 1) {
+                // if return is std::string::npos, it means not found
+                if (string(argv[index]).find("name=") != std::string::npos) {
+                    preset = string(argv[index]).substr(string("name=").size());
+                }
+                cout << "this is the input: " << preset << endl;
+                break;
+            }
         }
+
+
+        load_file_in_array(&array, config_file);
+
+        /* get each preset file path */
+        get_file_in_folder(&preset_array, presets_folder);
+
+        for (auto ps : preset_array) {
+            if (string(ps).find(preset) != string::npos) {
+                cout << "preset path found!!\n-> " << ps << endl;
+            } else {
+                cout << "didn't match..." << endl;
+            }
+        }
+
+
+
+    } else {
+        string selected, battery_limit, oldpath, presetpath;
+        vector <string> array;
+        vector <filesystem::path> presets_array;
+
+        show_presets();
+
+        // create a function to check user inputs AND through its execptions!
+        cout << "input preset number: ";
+        cin >> selected;
+
+        load_file_in_array(&array, config_file);
+
+        /* get each preset file path */
+        get_file_in_folder(&presets_array, presets_folder);
+
+        presetpath = presets_array[stoi(selected)-1];
+
+        for (int index = 0; index < array.size(); index++) {
+            if (array[index].substr(0, 7) == "setting") {
+                oldpath = array[index].substr(0, 8);
+
+                // remove old path
+                array[index] = array[index].substr(0, 8);
+
+                array[index].append(presetpath);
+                break;
+            }
+        }
+
+        write_file(&array, config_file);
+
+        battery_limit = first_line(presetpath);
+
+        /* apply new battery limit */
+        write_limit(
+            battery_limit.substr( battery_limit.length()-2 )
+        );
+
+        cout << "used: " << oldpath << endl
+             << "now in use: " << presetpath[stoi(selected)-1] << endl;
     }
-
-    write_file(&array, config_file);
-
-    battery_limit = first_line(presetpath);
-
-    /* apply new battery limit */
-    write_limit(
-        battery_limit.substr( battery_limit.length()-2 )
-    );
-
-    cout << "used: " << oldpath << endl
-         << "now in use: " << presetpath[stoi(selected)-1] << endl;
 }
 
 void define_limit(int argc, char **argv) {
