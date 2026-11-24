@@ -34,6 +34,8 @@ int main(int argc, char **argv) {
         }
         if (check_words(argv[1], "--delete"))
             delete_preset(argc, argv);
+        if (check_words(argv[1], "--new-limit"))
+            define_limit(argc, argv);
 
         if (check_words(argv[1], "--show-preset")) {
             show_presets();
