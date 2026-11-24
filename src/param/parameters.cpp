@@ -141,32 +141,65 @@ void use_preset() {
          << "now in use: " << presetpath[stoi(selected)-1] << endl;
 }
 
-void define_limit() {
-    string newlimit, oldlimit;
-    vector <string> array;
+void define_limit(int argc, char **argv) {
+    if (argc > 2) {
+        string newlimit, oldlimit;
+        vector<string> array;
 
-    // create a function to check user inputs AND through its execptions!
-    cout << "insert new battery limit: ";
-    cin >> newlimit;
+        for (int index = 0; index < argc; index++) {
+            if (index > 1) {
+                // if return is std::string::npos, it means not found
+                if (string(argv[index]).find("limit=") != std::string::npos) {
+                    newlimit = string(argv[index]).substr(string("limit=").size());
+                }
+            }
+        }
+        cout << "this is the value to put as new limit: " << newlimit << endl;
 
-    oldlimit = first_line(config_file);
+        oldlimit = first_line(config_file);
 
-    load_file_in_array(&array, config_file);
+        load_file_in_array(&array, config_file);
 
-    /* remove old battery limit */
-    array[0] = array[0].substr(0, array[0].length()-2);
-    array[0].append(newlimit);
+        //array[0] = array[0].substr(0, array[0].rfind("=")+1);
+        array[0] = array[0].erase(array[0].rfind("=")+1);
+        cout << "\n line file cutted:\n" << array[0] << endl;
+        array[0].append(newlimit);
 
-    /* write array back to file */
-    write_file(&array, config_file);
+        write_file(&array, config_file);
 
-    /* show the full file */
-    cout << "--------------------------------------"
-         << "\nold limit: " << oldlimit
-         << "\nnew limit: " << newlimit
-         << "\n\nfull settings:" << endl;
+        cout << "--------------------------------------"
+        << "\nold limit: " << oldlimit.substr(oldlimit.rfind("=")+1)
+        << "\nnew limit: " << newlimit
+        << "\n\nfull settings:" << endl;
 
-    show_file(config_file);
+        show_file(config_file);
+    } else {
+        string newlimit, oldlimit;
+        vector <string> array;
+
+        // create a function to check user inputs AND through its execptions!
+        cout << "insert new battery limit: ";
+        cin >> newlimit;
+
+        oldlimit = first_line(config_file);
+
+        load_file_in_array(&array, config_file);
+
+        /* remove old battery limit */
+        array[0] = array[0].substr(0, array[0].length()-2);
+        array[0].append(newlimit);
+
+        /* write array back to file */
+        write_file(&array, config_file);
+
+        /* show the full file */
+        cout << "--------------------------------------"
+        << "\nold limit: " << oldlimit
+        << "\nnew limit: " << newlimit
+        << "\n\nfull settings:" << endl;
+
+        show_file(config_file);
+    }
 }
 
 void delete_preset(int argc, char **argv) {

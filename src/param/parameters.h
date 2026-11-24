@@ -12,7 +12,7 @@ void set_default_settings();
 void set_limit();
 void show_presets();
 void use_preset();
-void define_limit();
+void define_limit(int argc=0, char **argv=nullptr);
 void delete_preset(int argc=0, char **argv=nullptr);
 void create_preset(int argc=0, char **argv=nullptr);
 void rename_preset(int argc=0, char **argv=nullptr);
