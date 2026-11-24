@@ -1,3 +1,0 @@
-/home/samuel/coding/battery_limit/tests/CMakeFiles/test.dir
-/home/samuel/coding/battery_limit/tests/CMakeFiles/edit_cache.dir
-/home/samuel/coding/battery_limit/tests/CMakeFiles/rebuild_cache.dir

@@ -5,6 +5,6 @@ tmp
 note*.md
 scratchpad.md
 CMakeCache.txt
-CMakeFiles/*
+CMakeFile*
 cmake_install.cmake
 MakeFile
