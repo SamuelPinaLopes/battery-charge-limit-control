@@ -295,7 +295,7 @@ void create_preset(int argc, char **argv) {
 }
 
 void rename_preset(int argc, char **argv) {
-    if (argc > 1) {
+    if (argc > 2) {
         bool arg1, arg2;
         string oldname, newname;
 
