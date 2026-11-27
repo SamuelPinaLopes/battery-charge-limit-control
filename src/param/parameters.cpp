@@ -101,7 +101,7 @@ void show_presets() {
 }
 
 void use_preset(int argc, char **argv) {
-    string preset, presetpath, oldpath;
+    string preset, presetpath, oldpath, battery_limit;
     vector<string> config;
     vector<std::filesystem::path> preset_array;
 
@@ -124,7 +124,8 @@ void use_preset(int argc, char **argv) {
 
         for (auto ps : preset_array) {
             if (string(ps).find(preset) != string::npos) {
-               cout << "preset exists!" << endl;
+                presetpath = ps;
+                cout << "preset exists!" << endl;
             }
         }
 
@@ -134,24 +135,19 @@ void use_preset(int argc, char **argv) {
 
                 config[index].erase(config[index].find("=")+1);
                 cout << "this is the line to be written in file:\n" << config[index] << endl;
-
                 cout << "full new line: " << config[index] + presets_folder.string() + preset << endl;
-                // remove old path
-                //array[index] = array[index].substr(0, 8);
-
-                //array[index].append(presetpath);
+                config[index].append(presets_folder.string() + preset);
                 break;
             }
         }
 
-        //write_file(&array, config_file);
+        write_file(&config, config_file);
 
-        //battery_limit = first_line(presetpath);
+        battery_limit = first_line(presetpath);
 
-        /* apply new battery limit */
-        //write_limit(battery_limit.substr(battery_limit.length()-2));
+        //write_limit(battery_limit); extra parameter, apply it now
 
-        //cout << "used: " << oldpath << endl << "now in use: " << presetpath[stoi(selected)-1] << endl;
+        cout << "used: " << oldpath.substr(oldpath.rfind("/")+1) << endl << "now in use: " << preset << endl;
     } else {
         string selected, battery_limit, oldpath, presetpath;
         vector <string> array;
