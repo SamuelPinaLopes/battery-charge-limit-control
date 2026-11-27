@@ -73,20 +73,36 @@ void set_default_settings() {
     write_limit();
 }
 
-void set_limit() {
+void set_limit(int argc, char **argv) {
     string new_battery_limit, old_battery_limit;
+    if (argc > 2) {
+        for (int index = 0; index < argc; index++) {
+            if (index > 1) {
+                // if return is std::string::npos, it means not found
+                if (string(argv[index]).find("limit=") != std::string::npos) {
+                    new_battery_limit = string(argv[index]).substr(string("limit=").size());
+                    cout << "new limit: " << new_battery_limit << endl;
+                }
+                old_battery_limit = first_line(threshold_file);
+                write_limit(new_battery_limit);
+                cout << "\n\nold battery limit: " << old_battery_limit << endl
+                     << "current battery limit: " << first_line(threshold_file) << endl;
+                break;
+            }
+        }
+    } else {
+        // create a function to check user inputs AND through its execptions!
+        cout << "new charge limit: ";
+        cin >> new_battery_limit;
 
-    // create a function to check user inputs AND through its execptions!
-    cout << "new charge limit: ";
-    cin >> new_battery_limit;
+        old_battery_limit = first_line(threshold_file);
 
-    old_battery_limit = first_line(threshold_file);
+        /* apply new battery limit */
+        write_limit(new_battery_limit);
 
-    /* apply new battery limit */
-    write_limit(new_battery_limit);
-
-    cout << "\n\nold battery limit: " << old_battery_limit << endl
-         << "current battery limit: " << first_line(threshold_file) << endl;
+        cout << "\n\nold battery limit: " << old_battery_limit << endl
+             << "current battery limit: " << first_line(threshold_file) << endl;
+    }
 }
 
 void show_presets() {

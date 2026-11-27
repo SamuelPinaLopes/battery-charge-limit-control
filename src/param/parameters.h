@@ -9,7 +9,7 @@
 void show_settings();
 void save_settings_preset();
 void set_default_settings();
-void set_limit();
+void set_limit(int argc=0, char **argv=nullptr);
 void show_presets();
 void use_preset(int argc=0, char **argv=nullptr);
 void define_limit(int argc=0, char **argv=nullptr);
