@@ -42,6 +42,9 @@ int main(int argc, char **argv) {
         
         if (check_words(argv[1], "--select-preset"))
             use_preset(argc, argv);
+        if (check_words(argv[1], "--set")) {
+            set_limit(argc, argv);
+        }
 
         
         if (check_words(argv[1], "--show-preset")) {
