@@ -9,7 +9,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 # tell cmake what is the EXECUTABLE NAME FIRST, then FILES INVOLVED in compilation
 add_executable(test
-    test.cpp
+    ../src/bset.cpp
+    #test.cpp
     ../src/param/parameters.cpp
     ../src/param/param_util/util.cpp
     ../src/util/utilities.cpp
