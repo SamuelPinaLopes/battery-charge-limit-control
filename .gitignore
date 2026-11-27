@@ -6,5 +6,6 @@ note*.md
 scratchpad.md
 CMakeCache.txt
 CMakeFile*
+MakeFile*
+Makefile*
 cmake_install.cmake
-MakeFile
