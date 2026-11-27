@@ -1,11 +1,10 @@
 *.log
 *.env
-.vscode*
+*.vscode
 tmp
-note*.md
+note*
 scratchpad.md
-CMakeCache.txt
 CMakeFile*
-MakeFile*
-Makefile*
+CMakeCache*
+Makefil*
 cmake_install.cmake
