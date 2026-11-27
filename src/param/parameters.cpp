@@ -214,9 +214,7 @@ void use_preset(int argc, char **argv) {
         battery_limit = first_line(presetpath);
 
         /* apply new battery limit */
-        write_limit(
-            battery_limit.substr( battery_limit.length()-2 )
-        );
+        write_limit(battery_limit.substr( battery_limit.length()-2 ));
 
         cout << "used: " << oldpath << endl
              << "now in use: " << presetpath[stoi(selected)-1] << endl;
