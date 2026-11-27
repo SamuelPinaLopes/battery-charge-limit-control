@@ -7,8 +7,7 @@
 
 using namespace std;
 
-filesystem::path config_file("/etc/BatterYLimiT/config.conf"),
-runtime_file("/etc/BatterYLimiT/.runtime.conf");
+filesystem::path config_file("/etc/BatterYLimiT/config.conf");
 
 int main(int argc, char* argv[]) {
     try {
@@ -117,24 +116,20 @@ int main(int argc, char* argv[]) {
             string charge_limit;
             std::optional <string> settings_path;
 
+            // get line with settings on it
             settings_path = find_line("setting", config_file);
 
             // extract path to setting
             if (settings_path != nullopt) {
-                *settings_path = settings_path->substr(8);
+                *settings_path = settings_path->substr(settings_path->find("=")+1);
+                cout << "this settings path: " << *settings_path << endl;
             }
 
             // open setting and return first line
             charge_limit = first_line(settings_path.value_or(config_file));
 
-            write_line(
-                charge_limit.substr( charge_limit.length()-2 ),
-                runtime_file
-            );
-
             // apply changes
-            write_limit();
-
+            write_limit(charge_limit);
         }
     }
     catch (const runtime_error &error) {

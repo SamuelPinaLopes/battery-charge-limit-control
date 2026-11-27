@@ -10,7 +10,6 @@ using namespace std;
 
 filesystem::path config_file("/etc/BatterYLimiT/config.conf"),
 presets_folder("/etc/BatterYLimiT/presets/"),
-runtime_file("/etc/BatterYLimiT/.runtime.conf"),
 default_config_file("/etc/BatterYLimiT/.default.conf"),
 threshold_file("/sys/class/power_supply/BAT0/charge_control_end_threshold");
 
