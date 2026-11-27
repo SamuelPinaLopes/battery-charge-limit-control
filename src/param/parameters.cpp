@@ -25,7 +25,17 @@ void save_settings_preset(int argc, char **argv) {
         for (int index = 0; index < argc; index++) {
             if (string(argv[index]).find("name=") != string::npos) {
                 preset_name = string(argv[index]).substr(string("name=").size());
-                cout << "preset name: " << preset_name << endl;
+
+                limit = first_line(threshold_file);
+
+                full_path = presets_folder.string() + preset_name;
+
+                create_file(full_path);
+
+                //write_line("charge_limit=" + limit, full_path); add extra parameter for this!
+
+                cout << preset_name << " created!" << endl;
+
                 break;
             }
         }
