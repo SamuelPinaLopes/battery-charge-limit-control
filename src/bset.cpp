@@ -7,10 +7,10 @@
 
 using namespace std;
 
-filesystem::path config_file("/etc/BatterYLimiT/config.conf");
 
 int main(int argc, char* argv[]) {
     try {
+        filesystem::path config_file("/etc/BatterYLimiT/config.conf");
         if (argc > 1) {
             //                        general help
             if ( // if you put one parameters name, you'll have to put for all
@@ -35,9 +35,16 @@ int main(int argc, char* argv[]) {
             // show current settings
             if (
                 check_words(argv[1], "--show-settings") or
-                check_words(argv[1], "-ss", true)
+                check_words(argv[1], "-s", true)
             ) {
                 show_settings();
+            }
+
+            if (
+                check_words(argv[1], "--current-limit") or
+                check_words(argv[1], "-L")
+            ) {
+                show_current_limit();
             }
 
             // save settings as preset on file
@@ -45,7 +52,7 @@ int main(int argc, char* argv[]) {
                 check_words(argv[1], "--save-preset") or
                 check_words(argv[1], "-sp")
             ) {
-                save_settings_preset();
+                save_settings_preset(argc, argv);
             }
 
             // use default settings
@@ -59,9 +66,9 @@ int main(int argc, char* argv[]) {
             // set a new charge limit on current time
             if  (
                 check_words(argv[1], "--set") or
-                check_words(argv[1], "-s")
+                check_words(argv[1], "-S")
             ) {
-                set_limit();
+                set_limit(argc, argv);
             }
 
             // show all presets avaiable
@@ -77,7 +84,7 @@ int main(int argc, char* argv[]) {
                 check_words(argv[1], "--select-preset") or
                 check_words(argv[1], "-se")
             ) {
-                use_preset();
+                use_preset(argc, argv);
             }
 
             // define a battery charge limit for current settings
@@ -85,7 +92,7 @@ int main(int argc, char* argv[]) {
                 check_words(argv[1], "--new-limit") or
                 check_words(argv[1], "-n")
             ) {
-                define_limit();
+                define_limit(argc, argv);
             }
 
             // delete preset
@@ -93,7 +100,7 @@ int main(int argc, char* argv[]) {
                 check_words(argv[1], "--delete-preset") or
                 check_words(argv[1], "-d")
             ) {
-                delete_preset();
+                delete_preset(argc, argv);
             }
 
             // create a new preset
@@ -101,7 +108,7 @@ int main(int argc, char* argv[]) {
                 check_words(argv[1], "--create_preset") or
                 check_words(argv[1], "-c")
             ) {
-                create_preset();
+                create_preset(argc, argv);
             }
 
             // rename preset
@@ -109,7 +116,7 @@ int main(int argc, char* argv[]) {
                 check_words(argv[1], "--rename-preset") or
                 check_words(argv[1], "-r")
             ) {
-                rename_preset();
+                rename_preset(argc, argv);
             }
 
         } else {

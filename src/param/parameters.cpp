@@ -236,7 +236,6 @@ void define_limit(int argc, char **argv) {
                 }
             }
         }
-        cout << "this is the value to put as new limit: " << newlimit << endl;
 
         oldlimit = first_line(config_file);
 
@@ -244,7 +243,6 @@ void define_limit(int argc, char **argv) {
 
         //array[0] = array[0].substr(0, array[0].rfind("=")+1);
         array[0] = array[0].erase(array[0].rfind("=")+1);
-        cout << "\n line file cutted:\n" << array[0] << endl;
         array[0].append(newlimit);
 
         write_file(&array, config_file);
@@ -427,7 +425,7 @@ void rename_preset(int argc, char **argv) {
 }
 
 void show_current_limit() {
-    cout << "Battery Limit Currently in use:\n"
+    cout << "Battery Limit Currently in use: "
         << first_line(threshold_file)
         << endl;
 }
