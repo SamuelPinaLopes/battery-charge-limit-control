@@ -135,6 +135,7 @@ void use_preset(int argc, char **argv) {
                 config[index].erase(config[index].find("=")+1);
                 cout << "this is the line to be written in file:\n" << config[index] << endl;
 
+                cout << "full new line: " << config[index] + presets_folder.string() + preset << endl;
                 // remove old path
                 //array[index] = array[index].substr(0, 8);
 
