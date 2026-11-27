@@ -7,7 +7,7 @@
 #include <vector>
 
 void show_settings();
-void save_settings_preset();
+void save_settings_preset(int argc=0, char **argv=nullptr);
 void set_default_settings();
 void set_limit(int argc=0, char **argv=nullptr);
 void show_presets();

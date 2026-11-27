@@ -19,40 +19,49 @@ void show_settings() {
     show_file(config_file);
 }
 
-void save_settings_preset() {
+void save_settings_preset(int argc, char **argv) {
     string preset_name, limit, full_path;
-
-    // create a function to check user inputs AND through its execptions!
-    cout << "enter preset name: ";
-    cin >> preset_name;
-
-    // create a function to check user inputs AND through its execptions!
-    cout << "enter limit value: ";
-    cin >> limit;
-
-    /* check if preset name has an extension, if not add */
-    if (preset_name.length() >= 5) {
-        if (preset_name.substr(preset_name.length() - 5, 5) != ".conf") {
-            preset_name = preset_name + ".conf";
+    if (argc > 2) {
+        for (int index = 0; index < argc; index++) {
+            if (string(argv[index]).find("name=") != string::npos) {
+                preset_name = string(argv[index]).substr(string("name=").size());
+                cout << "preset name: " << preset_name << endl;
+                break;
+            }
         }
     } else {
-        preset_name = preset_name + ".conf";
-    }
+        // create a function to check user inputs AND through its execptions!
+        cout << "enter preset name: ";
+        cin >> preset_name;
 
-    full_path = presets_folder.string() + preset_name;
+        // create a function to check user inputs AND through its execptions!
+        cout << "enter limit value: ";
+        cin >> limit;
 
-    /* remove preset with same name */
-    for (auto const& entry : filesystem::directory_iterator(presets_folder)) {
-        if (full_path == entry.path()) {
-            remove(entry.path().c_str());
+        /* check if preset name has an extension, if not add */
+        if (preset_name.length() >= 5) {
+            if (preset_name.substr(preset_name.length() - 5, 5) != ".conf") {
+                preset_name = preset_name + ".conf";
+            }
+        } else {
+            preset_name = preset_name + ".conf";
         }
+
+        full_path = presets_folder.string() + preset_name;
+
+        /* remove preset with same name */
+        for (auto const& entry : filesystem::directory_iterator(presets_folder)) {
+            if (full_path == entry.path()) {
+                remove(entry.path().c_str());
+            }
+        }
+
+        create_file(full_path);
+
+        write_line("charge_limit=" + limit, full_path);
+
+        cout << preset_name << " created!" << endl;
     }
-
-    create_file(full_path);
-
-    write_line("charge_limit=" + limit, full_path);
-
-    cout << preset_name << " created!" << endl;
 }
 
 void set_default_settings() {
