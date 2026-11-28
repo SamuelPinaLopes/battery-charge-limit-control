@@ -35,7 +35,7 @@ void write_limit(std::string value="80") {
         }
 
         if (threshold_file.is_open()) {
-            threshold_file << value << std::endl;
+            threshold_file << value;
         }
 
         threshold_file.close();
