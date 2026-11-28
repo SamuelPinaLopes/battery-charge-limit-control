@@ -15,12 +15,12 @@ To use this program you MUST run it as sudo! sudo is required due linux filesyst
 ***Note:***
 "bat" is the default name used to call this program.
 You can change this name to anything else, but **do not forget the name you gave it** if you create your own name because **it will not autocomplete**.
-If you ***do want autocomplete***, add an alias to your .bashrc file and run `source ~/.bashrc` to reload the terminal.
+If you ***do want autocomplete***, add an alias to your .bashrc file and run `source ~/.bashrc` to reload your terminal.
 
 Type --help to display info:
 `sudo bat --help`
 
-## Installation
+## Install
 ### Step 1:
 First copy the compile program from builds folder to /usr folder.
 
