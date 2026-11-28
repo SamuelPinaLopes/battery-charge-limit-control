@@ -1,5 +1,4 @@
 ## program functionalities;
-    
     ### program's settings
     - show current settings; done
     - save current settings as preset; done
@@ -13,12 +12,6 @@
     - change battery limit value in any settings file; done
     - show current battery limit; done
    
-    ### improvement
-    - error handler;
-    - format (to format parameter help msg);
-    - input (check and validates user inputs);
-    - list file (list all files name inside folder; full path or not);
-
     ### possible actions or extra actions
     - check battery current level;
     - check battery health;
@@ -27,3 +20,8 @@
     - check original voltage;
     - check original charge limit;
     - activate the program (creating and activating systemctl service);
+
+## improvement
+    - error handler; done
+    - format (to format parameter help msg);
+    - new input method (check and validates user inputs);
