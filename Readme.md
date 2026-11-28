@@ -6,14 +6,16 @@ Setups a battery limit automatically when booting or rebooting a laptop.
 Is a program that uses linux filesystem to control battery charge limit, after boot or reboot a laptop. It replaces default battery charge limit to your own custom battery limit.
 
 ### How it works?
-This works changing the value inside battery_charge_threshold file inside /sys/ folder.
+This works changing the value inside charge_control_end_threshold file inside /sys folder.
+Is meant to be used in terminal as a CLI (command line interface) program.
 
 ### How to use it?
 To use this program you MUST run it as sudo! sudo is required due linux filesystem security permissions.
 
 ***Note:***
 "bat" is the default name used to call this program.
-If you want, you can change this name to anything else. **Do not forget the name you gave it** if you create your own name or add to your .bashrc file as an alias.
+You can change this name to anything else, but **do not forget the name you gave it** if you create your own name because **it will not autocomplete**.
+If you ***do want autocomplete***, add an alias to your .bashrc file and run `source ~/.bashrc` to reload the terminal.
 
 Type --help to display info:
 `sudo bat --help`
