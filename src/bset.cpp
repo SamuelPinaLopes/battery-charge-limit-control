@@ -129,11 +129,9 @@ int main(int argc, char* argv[]) {
             // extract path to setting
             if (settings_path != nullopt) {
                 *settings_path = settings_path->substr(settings_path->find("=")+1);
-                cout << "this settings path: " << *settings_path << endl;
             }
 
-            // open setting and return first line
-            charge_limit = first_line(settings_path.value_or(config_file));
+            charge_limit = first_line(*settings_path);
 
             // apply changes
             write_limit(charge_limit);
